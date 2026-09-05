@@ -1,0 +1,48 @@
+# Xcode
+#
+build/
+DerivedData/
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+
+# Xcode automatically generates this directory in workspaces that contain
+# multiple projects sharing a scheme, and it can be safely removed.
+*.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+
+# Obj-C/Swift specific
+*.hmap
+
+# App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.swiftpm/
+.build/
+
+# CocoaPods (not currently used, but harmless to ignore)
+Pods/
+
+# Carthage (not currently used, but harmless to ignore)
+Carthage/Build/
+Carthage/Checkouts/
+
+# fastlane (not currently used, but harmless to ignore)
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# macOS
+.DS_Store
