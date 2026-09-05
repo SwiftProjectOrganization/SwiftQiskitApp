@@ -28,6 +28,9 @@ run. No `SwiftQiskitCore` changes were needed for this feature.
 | `ParameterPopover.swift` | θ slider for `.p/.rx/.ry/.rz` tiles |
 | `ResultsView.swift` | Live state vector + shots/Measure/histogram |
 | `HistogramView.swift` | Bar chart of `SimulationResult` counts |
+| `BlochVector.swift` | Single-qubit Bloch coordinates (`x`/`y`/`z`/`theta`/`phi`) from a `StateVector`; `init(_:qubit:)` reduces a multi-qubit state to one qubit's vector |
+| `BlochSphereView.swift` | 2D oblique-projection `Canvas` drawing of one `BlochVector` |
+| `BlochDisplayView.swift` | Final/Steps segmented view: a grid of every qubit's sphere, or a column-by-column row for one chosen qubit |
 | `ContentView.swift` | Owns the `CircuitBuilder` and `armedGate` state; picks `CircuitBuilderView` vs. `CompactBuilderView` by size class on iOS |
 | `SwiftQiskitAppApp.swift` | `@main App`; sets a minimum/default window size on macOS |
 
@@ -58,6 +61,7 @@ public struct PlacedGate: Identifiable, Equatable {
     public func updateTheta(id: UUID, theta: Double)
     public func clear()
     public func buildCircuit() -> QuantumCircuit   // sorts by column, replays onto a fresh circuit
+    public func buildCircuit(throughColumn: Int) -> QuantumCircuit   // prefix replay; -1 = empty circuit
 }
 ```
 
@@ -120,6 +124,30 @@ API: `center(column:qubit:) -> CGPoint`, `wireY(_:) -> CGFloat`,
 - `HistogramView` scales each bar to `maxBarHeight` proportional to the largest count in the
   `SimulationResult`.
 
+## Bloch sphere display (`BlochVector.swift`, `BlochSphereView.swift`, `BlochDisplayView.swift`)
+
+Opened via the **Display** button (next to Clear on macOS/iPad, next to Results in the
+iPhone bottom bar), mirroring how `ResultsView` is presented as a sheet.
+
+- `BlochVector` maps a single-qubit state to Bloch coordinates: `x = 2·Re(ᾱβ)`,
+  `y = 2·Im(ᾱβ)`, `z = |α|² − |β|²`, with `theta = acos(z)`, `phi = atan2(y, x)`.
+- `init(_ state:, qubit:)` handles the multi-qubit case: since `BlochVector(_ state:)` alone
+  `precondition`s `state.dimension == 2` (and would crash otherwise), this overload sums over
+  every basis configuration of the *other* qubits — a partial trace — to get qubit `k`'s
+  reduced vector. Entangled qubits have `|r| < 1` (a shorter arrow, drawn inside the sphere,
+  not on its surface); `BlochSphereView`'s readout appends `|r|` whenever it's not ≈1 so a
+  short arrow reads as entanglement, not a bug.
+- `BlochSphereView` is a pure `Canvas`/`Path` drawing (no data access) — an oblique orthographic
+  projection with `x` foreshortened toward the viewer, `y` right, `z` up.
+- `BlochDisplayView` has two modes: **Final** shows a `LazyVGrid` of every qubit's sphere from
+  `builder.buildCircuit().run()`; **Steps** shows one chosen qubit across every column, via
+  `builder.buildCircuit(throughColumn:)` for each prefix (index `-1` is "Start", the initial
+  `|0…0⟩` state). Sphere cards use `.glassEffect(in:)`/`GlassEffectContainer`, guarded by
+  `#if os(visionOS)` since those APIs are unavailable on that platform.
+- **Origin of the code:** `BlochVector`/`BlochSphereView` are ported from
+  `SwiftQiskit/Playgrounds.playground/Sources/`, which is not an importable SwiftPM target —
+  see "Relationship to SwiftQiskitGUI" below for why this creates a third copy of the type.
+
 ## Extending
 
 **Adding a new gate kind:**
@@ -143,7 +171,8 @@ This app's 13 source files are a near-identical copy of
 the same UI (documented in `../SwiftQiskit/SwiftQiskitDocs/GUIHELP.md`). The two copies exist
 independently and can drift out of sync; there is currently no shared module between them.
 When changing behavior here, consider whether the same change should apply to
-`SwiftQiskitGUI`.
+`SwiftQiskitGUI`. The Bloch-sphere Display button is a known, deliberate divergence:
+`SwiftQiskitGUI` does not have it yet.
 
 ## Not implemented (v1 scope)
 
@@ -162,9 +191,13 @@ tests — SwiftUI views aren't unit-testable here): Bell-state replay via `build
 occupied/out-of-range placement rejection, qubit-count clamping and gate-dropping on shrink,
 `updateTheta`, and `clear`. `CircuitLayoutTests.swift` covers the pure `CircuitLayout`
 geometry: center spacing, `wireY` agreement with `center`, and `canvasSize` growth in each
-dimension independently. Run via ⌘U or `RunAllTests` under the `SwiftQiskitApp` scheme — all
-10 tests are included in its test plan (unlike the package's plain `SwiftQiskit` scheme,
-whose test plan has no test targets — a pre-existing gotcha over there, not here).
+dimension independently. `BlochVectorTests.swift` covers `BlochVector`'s math: single-qubit
+coordinates for `H`/`X`/`H+S`, the Bell state's reduced vectors collapsing to the origin on
+both qubits (`|r| == 0`, the entanglement signature), reduced-vector isolation between
+independent qubits, and `buildCircuit(throughColumn:)` prefix replay. Run via ⌘U or
+`RunAllTests` under the `SwiftQiskitApp` scheme — all 17 tests are included in its test plan
+(unlike the package's plain `SwiftQiskit` scheme, whose test plan has no test targets — a
+pre-existing gotcha over there, not here).
 
 ## Troubleshooting
 

@@ -147,8 +147,14 @@ public final class CircuitBuilder {
 
     /// Replays the placed gates, in column order, onto a fresh QuantumCircuit.
     public func buildCircuit() -> QuantumCircuit {
+        buildCircuit(throughColumn: columnCount())
+    }
+
+    /// Replays only the gates in columns `0...throughColumn`. Pass -1 for the
+    /// initial (empty) circuit.
+    public func buildCircuit(throughColumn: Int) -> QuantumCircuit {
         let circuit = QuantumCircuit(qubits: qubitCount)
-        for gate in gates.sorted(by: { $0.column < $1.column }) {
+        for gate in gates.filter({ $0.column <= throughColumn }).sorted(by: { $0.column < $1.column }) {
             apply(gate, to: circuit)
         }
         return circuit

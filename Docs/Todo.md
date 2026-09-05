@@ -22,7 +22,10 @@ Project status and roadmap for SwiftQiskitApp.
 - Live state vector (amplitudes + probabilities), recomputed on every change.
 - Shot-based `measure(shots:)` with a bar-chart histogram.
 - Two layouts: 3-pane regular (macOS/iPad) and compact full-bleed (iPhone).
-- 10 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`) covering the model and geometry.
+- 2D Bloch-sphere display (`BlochDisplayView`, opened via a **Display** button): a grid of
+  every qubit's final-state sphere, or a column-by-column row for one chosen qubit.
+- 17 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`) covering the
+  model, geometry, and Bloch-vector math.
 
 ## Roadmap
 
@@ -34,9 +37,12 @@ Project status and roadmap for SwiftQiskitApp.
 - [ ] More gates once `SwiftQiskitCore` supports them (CZ, SWAP, Toffoli) — see the package's
       own `STATUSandTODO.md` for its roadmap.
 - [ ] Gate-count / circuit-depth readout alongside the state vector.
-- [ ] A Bloch-sphere view for single-qubit circuits, reusing the package playground's
-      `BlochSphereView` (would need to either depend on the playground's `Sources/` module or
-      port the relevant type).
+- [x] A Bloch-sphere view, covering multi-qubit circuits — `BlochVector`/`BlochSphereView`
+      were ported from the package playground's `Sources/` folder (not importable as-is) into
+      the app, plus a new reduced (partial-trace) `BlochVector` init for qubits beyond the
+      first. Promoting these into a shared `SwiftQiskitViews` package target instead of
+      vendoring them remains open — see "De-duplicate" below.
+- [ ] 3D Bloch sphere / rotatable view, following the package playground's `Bloch3DView`.
 - [ ] iPad-specific layout polish (currently shares the macOS 3-pane layout as-is).
 - [ ] Verify visionOS support — currently builds (`xros`/`xrsimulator` are in
       `SUPPORTED_PLATFORMS`) but has never been run or tested on that platform.
@@ -46,7 +52,8 @@ Project status and roadmap for SwiftQiskitApp.
       package's Core is not performance-optimized — see its own roadmap).
 - [ ] De-duplicate against `SwiftQiskitGUI` in the `SwiftQiskit` package, whose UI this app's
       source closely mirrors — consider extracting a shared module if the drift becomes a
-      maintenance problem.
+      maintenance problem. `SwiftQiskitGUI` does not yet have the Bloch-sphere Display button
+      that this app has, a deliberate divergence so far.
 
 ## Known limitations
 

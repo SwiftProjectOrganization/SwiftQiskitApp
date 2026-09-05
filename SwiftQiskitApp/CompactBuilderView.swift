@@ -17,6 +17,7 @@ struct CompactBuilderView: View {
     @Binding var armedGate: GateKind?
 
     @State private var showingResults = false
+    @State private var showingDisplay = false
 
     var body: some View {
         NavigationStack {
@@ -53,6 +54,9 @@ struct CompactBuilderView: View {
                 ToolbarItem(placement: .bottomBar) {
                     Button("Results") { showingResults = true }
                 }
+                ToolbarItem(placement: .bottomBar) {
+                    Button("Display") { showingDisplay = true }
+                }
             }
             .sheet(isPresented: $showingResults) {
                 NavigationStack {
@@ -62,6 +66,18 @@ struct CompactBuilderView: View {
                         .toolbar {
                             ToolbarItem(placement: .confirmationAction) {
                                 Button("Done") { showingResults = false }
+                            }
+                        }
+                }
+            }
+            .sheet(isPresented: $showingDisplay) {
+                NavigationStack {
+                    BlochDisplayView(builder: builder)
+                        .padding()
+                        .navigationTitle("Bloch Spheres")
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Done") { showingDisplay = false }
                             }
                         }
                 }

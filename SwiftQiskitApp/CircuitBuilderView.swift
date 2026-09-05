@@ -15,6 +15,8 @@ struct CircuitBuilderView: View {
     var builder: CircuitBuilder
     @Binding var armedGate: GateKind?
 
+    @State private var showingDisplay = false
+
     var body: some View {
         HStack(spacing: 16) {
             GatePaletteView(armedGate: $armedGate)
@@ -40,6 +42,8 @@ struct CircuitBuilderView: View {
                     .frame(width: 160)
 
                     Button("Clear") { builder.clear() }
+
+                    Button("Display") { showingDisplay = true }
                 }
 
                 CircuitGridView(builder: builder, armedGate: $armedGate)
@@ -50,6 +54,18 @@ struct CircuitBuilderView: View {
             ResultsView(builder: builder)
                 .frame(width: 320)
                 .padding()
+        }
+        .sheet(isPresented: $showingDisplay) {
+            NavigationStack {
+                BlochDisplayView(builder: builder)
+                    .padding()
+                    .navigationTitle("Bloch Spheres")
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") { showingDisplay = false }
+                        }
+                    }
+            }
         }
     }
 }

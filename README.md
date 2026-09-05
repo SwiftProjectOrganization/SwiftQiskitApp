@@ -38,6 +38,8 @@ Bell state.
 - **Measure** — choose a shot count (1–10,000) and see a bar-chart histogram of the results.
 - **1–8 qubits**, adjustable with a stepper; shrinking the count drops gates that no longer fit.
 - **θ editor** — tap a placed parameterized gate to open a popover with a 0–2π slider.
+- **Bloch sphere display** — a **Display** button opens a 2D Bloch-sphere view: either every
+  qubit's final state at once, or one chosen qubit's state after each column.
 
 ## Layouts
 
@@ -63,13 +65,17 @@ SwiftQiskitApp/
 │   ├── ParameterPopover.swift
 │   ├── ResultsView.swift
 │   ├── HistogramView.swift
+│   ├── BlochVector.swift
+│   ├── BlochSphereView.swift
+│   ├── BlochDisplayView.swift
 │   ├── CircuitBuilderView.swift
 │   ├── CompactBuilderView.swift
 │   ├── ContentView.swift
 │   └── SwiftQiskitAppApp.swift
 ├── SwiftQiskitAppTests/
 │   ├── CircuitBuilderTests.swift
-│   └── CircuitLayoutTests.swift
+│   ├── CircuitLayoutTests.swift
+│   └── BlochVectorTests.swift
 ├── Docs/
 │   ├── Tutorial.md
 │   ├── Help.md
@@ -80,7 +86,7 @@ SwiftQiskitApp/
 
 ## Testing
 
-Run via ⌘U or the `RunAllTests` MCP tool under the `SwiftQiskitApp` scheme — 10 tests total,
+Run via ⌘U or the `RunAllTests` MCP tool under the `SwiftQiskitApp` scheme — 17 tests total,
 using the Swift `Testing` framework (not XCTest).
 
 ---

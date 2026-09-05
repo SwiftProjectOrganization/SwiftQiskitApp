@@ -41,7 +41,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 | Target | Product type | Notes |
 |---|---|---|
 | `SwiftQiskitApp` | Application | `com.robertgoedman.SwiftQiskitApp`; App Sandbox enabled, read-only user-selected file access |
-| `SwiftQiskitAppTests` | Unit Test Bundle | Swift `Testing` framework; 10 tests across 2 files |
+| `SwiftQiskitAppTests` | Unit Test Bundle | Swift `Testing` framework; 17 tests across 3 files |
 
 ## File map (`SwiftQiskitApp/`)
 
@@ -58,6 +58,9 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 | `ParameterPopover.swift` | θ slider for `.p/.rx/.ry/.rz` tiles |
 | `ResultsView.swift` | Live state vector + shots/Measure/histogram |
 | `HistogramView.swift` | Bar chart of `SimulationResult` counts |
+| `BlochVector.swift` | Single-qubit Bloch coordinates from a `StateVector`; `init(_:qubit:)` computes a reduced (partial-trace) vector for one qubit of a multi-qubit state |
+| `BlochSphereView.swift` | 2D oblique-projection `Canvas` drawing of one `BlochVector` |
+| `BlochDisplayView.swift` | Final/Steps segmented view showing a grid or column-by-column row of `BlochSphereView`s; opened via the "Display" button |
 | `ContentView.swift` | Owns the `CircuitBuilder` and `armedGate` state; picks `CircuitBuilderView` vs. `CompactBuilderView` by size class on iOS |
 | `SwiftQiskitAppApp.swift` | `@main App`; sets a minimum/default window size on macOS |
 
@@ -70,12 +73,21 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   package's `QuantumCircuit` only stores the resulting full-dimension matrices, with no gate
   identity or column metadata, so there's nothing to inspect or redraw from it directly.
   `buildCircuit()` sorts placed gates by column and replays them onto a fresh `QuantumCircuit`.
+  `buildCircuit(throughColumn:)` replays only a prefix (columns `0...throughColumn`, or none
+  for `-1`) — the only way to get intermediate states, since `QuantumCircuit`'s own operation
+  list is private and can't be stepped.
 - `ResultsView.body` calls `builder.buildCircuit().run()` on **every render** — the state
   vector shown is always fresh, not cached.
 - `CircuitLayout` is the single geometry source (`center(column:qubit:)`, `wireY(_:)`,
   `wireXRange(columns:)`, `canvasSize(columns:qubits:)`) shared by `CircuitWiresView` (drawn
   first, behind everything) and `CircuitGridView` (interactive cells on top) — so the two
   layers can't drift apart.
+- **"Display" button** (`CircuitBuilderView`/`CompactBuilderView`) opens `BlochDisplayView` in
+  a sheet, mirroring how Results is presented. `BlochVector(_ state:, qubit:)` produces a
+  reduced Bloch vector by summing over the other qubits' basis configurations (a partial
+  trace) — entangled qubits render with `|r| < 1`, a shorter arrow inside the sphere. This is
+  vendored from `SwiftQiskit/Playgrounds.playground/Sources/BlochVector.swift` /
+  `BlochSphereView.swift`, which aren't importable (playground `Sources/` isn't an SPM target).
 
 ## Conventions & gotchas
 
@@ -94,6 +106,11 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   not land on an exact ratio.
 - **No persistence, no undo, no drag-and-drop** — see `Docs/Todo.md` for the roadmap.
 - Style: 4-space indent, PascalCase types, camelCase members, no force unwrapping.
+- **Liquid Glass:** favor Liquid Glass materials wherever the UI supports them — e.g.
+  `.glassEffect()`/`GlassEffectContainer` on floating or interactive surfaces (gate palette,
+  tiles, popovers, toolbars) instead of plain materials or opaque backgrounds. Consult the
+  `xcode-integration:swiftui-whats-new-27` skill or `DocumentationSearch` for current API
+  names before using them, since Liquid Glass is newer than training data for older models.
 
 ## Testing
 
@@ -102,8 +119,12 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   gate-dropping on shrink, `updateTheta`, `clear`.
 - `SwiftQiskitAppTests/CircuitLayoutTests.swift` (3 tests) — pure `CircuitLayout` geometry:
   center spacing, `wireY` agreement with `center`, `canvasSize` growth in each dimension.
+- `SwiftQiskitAppTests/BlochVectorTests.swift` (7 tests) — single-qubit Bloch coordinates for
+  `H`/`X`/`H+S`, the Bell state's maximally-entangled reduced vectors (`|r| == 0` on both
+  qubits), reduced-vector isolation between qubits, and `buildCircuit(throughColumn:)` prefix
+  replay.
 - Swift **`Testing`** framework (`import Testing`, `@Test`, `#expect`), not XCTest.
-- Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 10 tests are in its
+- Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 17 tests are in its
   test plan (no scheme-switching gotcha, unlike the package).
 
 ## Documentation index
