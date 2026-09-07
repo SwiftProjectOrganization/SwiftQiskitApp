@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D4094D2F304AA06200DAB212 /* SwiftQiskit in Frameworks */ = {isa = PBXBuildFile; productRef = D4094D2E304AA06200DAB212 /* SwiftQiskit */; };
+		D4959350304EE8E6004855D2 /* INTRODUCTION.md in Resources */ = {isa = PBXBuildFile; fileRef = D495934F304EE8E6004855D2 /* INTRODUCTION.md */; };
 		D4AF3DA7304BE7630078D4DF /* CLAUDE.md in Resources */ = {isa = PBXBuildFile; fileRef = D4AF3DA6304BE7630078D4DF /* CLAUDE.md */; };
 		D4AF3DA9304BE7760078D4DF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D4AF3DA8304BE7760078D4DF /* README.md */; };
 /* End PBXBuildFile section */
@@ -25,6 +26,34 @@
 /* Begin PBXFileReference section */
 		000000000000000000000120 /* SwiftQiskitApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftQiskitApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4094D08304A924500DAB212 /* SwiftQiskitAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftQiskitAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D495934F304EE8E6004855D2 /* INTRODUCTION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = INTRODUCTION.md; sourceTree = "<group>"; };
+		D495936E304EEBAA004855D2 /* AUTHORING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AUTHORING.md; sourceTree = "<group>"; };
+		D495936F304EEBB0004855D2 /* 01-Setup.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "01-Setup.md"; sourceTree = "<group>"; };
+		D4959370304EEBB7004855D2 /* 02-ComplexAndMatrices.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "02-ComplexAndMatrices.md"; sourceTree = "<group>"; };
+		D4959371304EEBBD004855D2 /* 03-Qubits.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "03-Qubits.md"; sourceTree = "<group>"; };
+		D4959372304EEBC4004855D2 /* 04-DiracNotation.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "04-DiracNotation.md"; sourceTree = "<group>"; };
+		D4959373304EEBCA004855D2 /* 05-BlochSphere2D.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "05-BlochSphere2D.md"; sourceTree = "<group>"; };
+		D4959374304EEBD0004855D2 /* 06-BlochSphere3D.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "06-BlochSphere3D.md"; sourceTree = "<group>"; };
+		D4959375304EEBD8004855D2 /* 07-SingleQubitGates.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "07-SingleQubitGates.md"; sourceTree = "<group>"; };
+		D4959376304EEBDE004855D2 /* 08-Interference.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "08-Interference.md"; sourceTree = "<group>"; };
+		D4959377304EEBE4004855D2 /* 09-Measurement.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "09-Measurement.md"; sourceTree = "<group>"; };
+		D4959378304EEBE9004855D2 /* 10-Superposition.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "10-Superposition.md"; sourceTree = "<group>"; };
+		D4959379304EEBF0004855D2 /* 11-TensorProducts.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "11-TensorProducts.md"; sourceTree = "<group>"; };
+		D495937A304EEBF5004855D2 /* 12-Entanglement.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "12-Entanglement.md"; sourceTree = "<group>"; };
+		D495937B304EEBFB004855D2 /* 13-Deutsch.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "13-Deutsch.md"; sourceTree = "<group>"; };
+		D495937C304EEC01004855D2 /* 14-DeutschJozsa.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "14-DeutschJozsa.md"; sourceTree = "<group>"; };
+		D495937D304EEC09004855D2 /* 15-Grover.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "15-Grover.md"; sourceTree = "<group>"; };
+		D495937E304EEC10004855D2 /* 16-QFT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "16-QFT.md"; sourceTree = "<group>"; };
+		D495937F304EEC16004855D2 /* 17-Shor.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "17-Shor.md"; sourceTree = "<group>"; };
+		D4959380304EEC1D004855D2 /* 18-Teleportation.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "18-Teleportation.md"; sourceTree = "<group>"; };
+		D4959381304EEC23004855D2 /* 19-ErrorCorrection.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "19-ErrorCorrection.md"; sourceTree = "<group>"; };
+		D4959382304EEC29004855D2 /* 20-CHSH.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "20-CHSH.md"; sourceTree = "<group>"; };
+		D4959383304EEC32004855D2 /* 21-Noise.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "21-Noise.md"; sourceTree = "<group>"; };
+		D4959384304EEC38004855D2 /* 22-Tomography.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "22-Tomography.md"; sourceTree = "<group>"; };
+		D4959385304EEC3E004855D2 /* 23-VQE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "23-VQE.md"; sourceTree = "<group>"; };
+		D4959386304EEC45004855D2 /* 24-Trotter.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "24-Trotter.md"; sourceTree = "<group>"; };
+		D4959387304EEC4C004855D2 /* 25-QuantumWalks.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "25-QuantumWalks.md"; sourceTree = "<group>"; };
+		D4959388304EEC52004855D2 /* 26-Epilogue.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "26-Epilogue.md"; sourceTree = "<group>"; };
 		D4AF3DA6304BE7630078D4DF /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
 		D4AF3DA8304BE7760078D4DF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D4AF3DAD304BE7E70078D4DF /* Tutorial.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Tutorial.md; sourceTree = "<group>"; };
@@ -63,6 +92,7 @@
 		000000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
+				D495934F304EE8E6004855D2 /* INTRODUCTION.md */,
 				000000000000000000000010 /* SwiftQiskitApp */,
 				D4094D09304A924500DAB212 /* SwiftQiskitAppTests */,
 				D4AF3DA6304BE7630078D4DF /* CLAUDE.md */,
@@ -81,12 +111,47 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D495936D304EEB92004855D2 /* Introduction */ = {
+			isa = PBXGroup;
+			children = (
+				D495936E304EEBAA004855D2 /* AUTHORING.md */,
+				D495936F304EEBB0004855D2 /* 01-Setup.md */,
+				D4959370304EEBB7004855D2 /* 02-ComplexAndMatrices.md */,
+				D4959371304EEBBD004855D2 /* 03-Qubits.md */,
+				D4959372304EEBC4004855D2 /* 04-DiracNotation.md */,
+				D4959373304EEBCA004855D2 /* 05-BlochSphere2D.md */,
+				D4959374304EEBD0004855D2 /* 06-BlochSphere3D.md */,
+				D4959375304EEBD8004855D2 /* 07-SingleQubitGates.md */,
+				D4959376304EEBDE004855D2 /* 08-Interference.md */,
+				D4959377304EEBE4004855D2 /* 09-Measurement.md */,
+				D4959378304EEBE9004855D2 /* 10-Superposition.md */,
+				D4959379304EEBF0004855D2 /* 11-TensorProducts.md */,
+				D495937A304EEBF5004855D2 /* 12-Entanglement.md */,
+				D495937B304EEBFB004855D2 /* 13-Deutsch.md */,
+				D495937C304EEC01004855D2 /* 14-DeutschJozsa.md */,
+				D495937D304EEC09004855D2 /* 15-Grover.md */,
+				D495937E304EEC10004855D2 /* 16-QFT.md */,
+				D495937F304EEC16004855D2 /* 17-Shor.md */,
+				D4959380304EEC1D004855D2 /* 18-Teleportation.md */,
+				D4959381304EEC23004855D2 /* 19-ErrorCorrection.md */,
+				D4959382304EEC29004855D2 /* 20-CHSH.md */,
+				D4959383304EEC32004855D2 /* 21-Noise.md */,
+				D4959384304EEC38004855D2 /* 22-Tomography.md */,
+				D4959385304EEC3E004855D2 /* 23-VQE.md */,
+				D4959386304EEC45004855D2 /* 24-Trotter.md */,
+				D4959387304EEC4C004855D2 /* 25-QuantumWalks.md */,
+				D4959388304EEC52004855D2 /* 26-Epilogue.md */,
+			);
+			path = Introduction;
+			sourceTree = "<group>";
+		};
 		D4AF3DAC304BE7D50078D4DF /* Docs */ = {
 			isa = PBXGroup;
 			children = (
 				D4AF3DAD304BE7E70078D4DF /* Tutorial.md */,
 				D4AF3DAE304BE80B0078D4DF /* Help.md */,
 				D4AF3DAF304BE81B0078D4DF /* Todo.md */,
+				D495936D304EEB92004855D2 /* Introduction */,
 			);
 			path = Docs;
 			sourceTree = "<group>";
@@ -182,6 +247,7 @@
 		000000000000000140000000 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
+				D4959350304EE8E6004855D2 /* INTRODUCTION.md in Resources */,
 				D4AF3DA9304BE7760078D4DF /* README.md in Resources */,
 				D4AF3DA7304BE7630078D4DF /* CLAUDE.md in Resources */,
 			);
