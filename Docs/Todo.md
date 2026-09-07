@@ -29,6 +29,9 @@ Project status and roadmap for SwiftQiskitApp.
 
 ## Roadmap
 
+- [ ] `INTRODUCTION.md` — 26-chapter introduction to quantum computing; chapters are scaffolded
+      as stubs in `Docs/Introduction/`, with progress tracked in the Status column of
+      `INTRODUCTION.md`'s chapter table, not duplicated here.
 - [ ] Persistence — save/load a built circuit between launches.
 - [ ] Export — as Swift source (`circuit.h(0); circuit.cx(0,1)`, etc.), JSON, or an image of
       the diagram.
