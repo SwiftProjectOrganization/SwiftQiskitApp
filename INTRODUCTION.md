@@ -9,6 +9,10 @@ This is not a reference manual — [Docs/Tutorial.md](Docs/Tutorial.md) and
 [Docs/Help.md](Docs/Help.md) already cover *how to use the app*. This is *what quantum
 computing is*, using the app and the package as the running example.
 
+> **Work in progress.** Most chapters below are still stubs (summary and section headings only,
+> no prose yet) — see the Status column in the chapter table. Completion is targeted,
+> optimistically, for late 2027.
+
 ## Who this is for
 
 Anyone comfortable reading Swift who wants to understand qubits, gates, entanglement, and the
