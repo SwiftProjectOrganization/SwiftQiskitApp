@@ -31,10 +31,8 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 
 - One shared scheme: **`SwiftQiskitApp`**. Its test plan includes all tests (unlike the
   package's `SwiftQiskit` scheme, which has an empty test plan) — no scheme-switching needed.
-- Eligible run destinations: **My Mac**, iOS devices/simulators. visionOS is a supported
-  build platform (`SUPPORTED_PLATFORMS` includes `xros`/`xrsimulator`) but is **untested** —
-  treat it as build-only until someone verifies it on-device.
-- Deployment target 27.0 across macOS/iOS/visionOS; `SWIFT_VERSION = 5.0`.
+- Eligible run destinations: **My Mac**, iOS devices/simulators.
+- Deployment target 27.0 across macOS/iOS; `SWIFT_VERSION = 5.0`.
 
 ## Targets
 

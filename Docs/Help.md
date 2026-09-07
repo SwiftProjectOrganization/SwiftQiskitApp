@@ -142,8 +142,7 @@ iPhone bottom bar), mirroring how `ResultsView` is presented as a sheet.
 - `BlochDisplayView` has two modes: **Final** shows a `LazyVGrid` of every qubit's sphere from
   `builder.buildCircuit().run()`; **Steps** shows one chosen qubit across every column, via
   `builder.buildCircuit(throughColumn:)` for each prefix (index `-1` is "Start", the initial
-  `|0…0⟩` state). Sphere cards use `.glassEffect(in:)`/`GlassEffectContainer`, guarded by
-  `#if os(visionOS)` since those APIs are unavailable on that platform.
+  `|0…0⟩` state). Sphere cards use `.glassEffect(in:)`/`GlassEffectContainer`.
 - **Origin of the code:** `BlochVector`/`BlochSphereView` are ported from
   `SwiftQiskit/Playgrounds.playground/Sources/`, which is not an importable SwiftPM target —
   see "Relationship to SwiftQiskitGUI" below for why this creates a third copy of the type.
@@ -218,5 +217,3 @@ pre-existing gotcha over there, not here).
 - **Measure gives a different split every time.** Expected; `measure(shots:)` is
   probabilistic, same as everywhere in the `SwiftQiskit` package — re-run or raise the shot
   count for a tighter distribution.
-- **visionOS.** The app builds for visionOS (it's in `SUPPORTED_PLATFORMS`) but this has not
-  been verified on-device or in the simulator — treat it as unsupported until checked.

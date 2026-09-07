@@ -48,9 +48,6 @@ Bell state.
 | Regular | macOS, iPad | Three-pane: gate palette, circuit grid, and live results side by side |
 | Compact | iPhone | Full-bleed circuit grid with a horizontal gate strip below; results open in a sheet |
 
-visionOS is a supported build platform but is currently **untested** — treat it as build-only
-until verified on-device.
-
 ## Project structure
 
 ```text

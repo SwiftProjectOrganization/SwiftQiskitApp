@@ -49,7 +49,7 @@ struct BlochDisplayView: View {
     private var finalGrid: some View {
         let state = builder.buildCircuit().run()
         let columns = [GridItem(.adaptive(minimum: 160), spacing: 20)]
-        return glassContainer(spacing: 20) {
+        return GlassEffectContainer(spacing: 20) {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(0..<builder.qubitCount, id: \.self) { qubit in
                     sphereCard(label: "q\(qubit)", bloch: BlochVector(state, qubit: qubit))
@@ -69,7 +69,7 @@ struct BlochDisplayView: View {
                 .pickerStyle(.segmented)
             }
 
-            glassContainer(spacing: 20) {
+            GlassEffectContainer(spacing: 20) {
                 LazyHStack(spacing: 20) {
                     sphereCard(
                         label: "Start",
@@ -86,27 +86,10 @@ struct BlochDisplayView: View {
         }
     }
 
-    /// `GlassEffectContainer` is unavailable on visionOS, which this app
-    /// supports as a build-only target — fall back to no container there.
-    @ViewBuilder
-    private func glassContainer<Content: View>(
-        spacing: CGFloat, @ViewBuilder content: () -> Content
-    ) -> some View {
-        #if os(visionOS)
-        content()
-        #else
-        GlassEffectContainer(spacing: spacing) { content() }
-        #endif
-    }
-
     private func sphereCard(label: String, bloch: BlochVector) -> some View {
-        let card = BlochSphereView(label: label, bloch: bloch)
+        BlochSphereView(label: label, bloch: bloch)
             .padding()
-        #if os(visionOS)
-        return card
-        #else
-        return card.glassEffect(in: .rect(cornerRadius: 16))
-        #endif
+            .glassEffect(in: .rect(cornerRadius: 16))
     }
 }
 

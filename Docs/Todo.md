@@ -44,8 +44,6 @@ Project status and roadmap for SwiftQiskitApp.
       vendoring them remains open — see "De-duplicate" below.
 - [ ] 3D Bloch sphere / rotatable view, following the package playground's `Bloch3DView`.
 - [ ] iPad-specific layout polish (currently shares the macOS 3-pane layout as-is).
-- [ ] Verify visionOS support — currently builds (`xros`/`xrsimulator` are in
-      `SUPPORTED_PLATFORMS`) but has never been run or tested on that platform.
 - [ ] UI tests via XCUIAutomation (current tests only cover the model/geometry, not views).
 - [ ] VoiceOver and Dynamic Type accessibility audit.
 - [ ] Performance check at high qubit counts (8 qubits → 256×256 matrices per gate; the
