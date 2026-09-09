@@ -62,9 +62,9 @@ resolution will fail — see [README.md](README.md) → Requirements.
 |---|---|---|---|---|
 | 0 | [What Quantum Computing Is, and Why Simulate It](Docs/Introduction/00-Introduction.md) | — | draft | — |
 | 1 | [Setup and Orientation](Docs/Introduction/01-Setup.md) | ● | draft | — |
-| 2 | [Complex Numbers and Matrices in Swift](Docs/Introduction/02-ComplexAndMatrices.md) | ○ | stub | `Math/Complex.swift`, `Math/Matrix.swift` |
-| 3 | [Qubits: Amplitudes and Probabilities](Docs/Introduction/03-Qubits.md) | ● | stub | [`01Qubits`](../SwiftQiskit/PlaygroundDocs/01QUBITSHELP.md) |
-| 4 | [Dirac Notation and Expectation Values](Docs/Introduction/04-DiracNotation.md) | ○ | stub | [`01Qubits`](../SwiftQiskit/PlaygroundDocs/01QUBITSHELP.md), [`08Dirac`](../SwiftQiskit/PlaygroundDocs/08DIRACHELP.md) |
+| 2 | [Complex Numbers and Matrices in Swift](Docs/Introduction/02-ComplexAndMatrices.md) | ○ | done | `Math/Complex.swift`, `Math/Matrix.swift`, `Quantum/Dirac.swift` |
+| 3 | [Qubits: Amplitudes and Probabilities](Docs/Introduction/03-Qubits.md) | ● | done | [`01Qubits`](../SwiftQiskit/PlaygroundDocs/01QUBITSHELP.md) |
+| 4 | [Dirac Notation and Expectation Values](Docs/Introduction/04-DiracNotation.md) | ◐ | done | [`01Qubits`](../SwiftQiskit/PlaygroundDocs/01QUBITSHELP.md), [`08Dirac`](../SwiftQiskit/PlaygroundDocs/08DIRACHELP.md) |
 | 5 | [The Bloch Sphere in 2D, and Its Projections](Docs/Introduction/05-BlochSphere2D.md) | ◐ | stub | [`02Bloch2d`](../SwiftQiskit/PlaygroundDocs/02BLOCH2DHELP.md), [`03Bloch2dProjection`](../SwiftQiskit/PlaygroundDocs/03BLOCH2DPROJECTIONHELP.md) |
 | 6 | [The Bloch Sphere in 3D: θ and φ](Docs/Introduction/06-BlochSphere3D.md) | ○ | stub | [`04Bloch3d`](../SwiftQiskit/PlaygroundDocs/04BLOCH3DHELP.md) |
 | 7 | [Single-Qubit Gates, One at a Time](Docs/Introduction/07-SingleQubitGates.md) | ● | stub | [`05Gates`](../SwiftQiskit/PlaygroundDocs/05GATESHELP.md) |
