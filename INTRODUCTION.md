@@ -15,10 +15,11 @@ computing is*, using the app and the package as the running example.
 
 ## Who this is for
 
-Anyone comfortable reading Swift who wants to understand qubits, gates, entanglement, and the
-handful of famous algorithms (Deutsch, Grover, Shor, teleportation, VQE, …) by building and
-running small circuits rather than by reading equations alone. No physics background assumed;
-linear algebra is introduced as needed in Chapter 2.
+Anyone who uses Swift and Xcode and has an interest in quantum physics and how mathematical
+modeling can be used to describe quantum computing — wanting to understand qubits, gates,
+entanglement, and the handful of famous algorithms (Deutsch, Grover, Shor, teleportation, VQE,
+…) by building and running small circuits rather than by reading equations alone. Terms are
+explained before they're used; linear algebra is introduced as needed in Chapter 2.
 
 ## Three ways to run everything
 
@@ -59,7 +60,8 @@ resolution will fail — see [README.md](README.md) → Requirements.
 
 | # | Title | App | Status | Source |
 |---|---|---|---|---|
-| 1 | [Setup and Orientation](Docs/Introduction/01-Setup.md) | ● | stub | — |
+| 0 | [What Quantum Computing Is, and Why Simulate It](Docs/Introduction/00-Introduction.md) | — | draft | — |
+| 1 | [Setup and Orientation](Docs/Introduction/01-Setup.md) | ● | draft | — |
 | 2 | [Complex Numbers and Matrices in Swift](Docs/Introduction/02-ComplexAndMatrices.md) | ○ | stub | `Math/Complex.swift`, `Math/Matrix.swift` |
 | 3 | [Qubits: Amplitudes and Probabilities](Docs/Introduction/03-Qubits.md) | ● | stub | [`01Qubits`](../SwiftQiskit/PlaygroundDocs/01QUBITSHELP.md) |
 | 4 | [Dirac Notation and Expectation Values](Docs/Introduction/04-DiracNotation.md) | ○ | stub | [`01Qubits`](../SwiftQiskit/PlaygroundDocs/01QUBITSHELP.md), [`08Dirac`](../SwiftQiskit/PlaygroundDocs/08DIRACHELP.md) |
@@ -92,8 +94,8 @@ per-chapter workflow).
 
 ## Reading paths
 
-- **Foundations** (1–12) — everything you need before any named algorithm: qubits, gates, phase,
-  measurement, tensor products, entanglement.
+- **Foundations** (0–12) — what quantum computing is, then everything you need before any named
+  algorithm: qubits, gates, phase, measurement, tensor products, entanglement.
 - **Algorithms** (13–20) — the classic results: Deutsch/Deutsch–Jozsa, Grover, the QFT, Shor,
   teleportation, error correction, and the CHSH inequality's link to entanglement.
 - **Beyond pure states** (21–25) — where the state-vector simulator's assumptions start to show:

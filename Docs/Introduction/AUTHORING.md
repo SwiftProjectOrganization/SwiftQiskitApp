@@ -112,5 +112,13 @@ Verified output pasted below each snippet.
 
 ## Reading order
 
-Chapters build on each other numerically; write and read them 1 → 26. Chapters 1–3 establish
+Chapters build on each other numerically; write and read them 0 → 26. Chapters 1–3 establish
 setup and notation that every later chapter assumes without re-explaining.
+
+## Chapter 0 is a special case
+
+`00-Introduction.md` is a general, non-technical introduction to quantum computing — motivation
+and vocabulary only, no amplitudes or matrices (those start in Chapter 2). It intentionally
+skips most of the checklist above: no at-a-glance table, no playground page, no app badge, no
+"Build it in the app" or "Run it in code" section, because nothing in it is runnable. Don't "fix"
+it to match the per-chapter template.

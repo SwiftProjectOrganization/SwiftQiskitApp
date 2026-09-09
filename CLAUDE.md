@@ -125,13 +125,19 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 - Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 17 tests are in its
   test plan (no scheme-switching gotcha, unlike the package).
 
+## Writing style
+
+The user prefers a sober writing style — plain, measured prose, no hype, no exclamation marks,
+no sales-pitch framing. Applies to prose written for this project: `INTRODUCTION.md` chapters,
+`Docs/`, `README.md`, commit messages, and PR descriptions.
+
 ## Documentation index
 
 - `README.md` — project overview, getting started, features.
-- `INTRODUCTION.md` — a 26-chapter introduction to quantum computing built on this app and the
-  SwiftQiskit playgrounds; each chapter lives in `Docs/Introduction/`. Working on a chapter
-  starts by reading `Docs/Introduction/AUTHORING.md` (template, style rules, verification
-  workflow) before touching the chapter file itself.
+- `INTRODUCTION.md` — a 26-chapter introduction to quantum computing (plus a Chapter 0 opener)
+  built on this app and the SwiftQiskit playgrounds; each chapter lives in `Docs/Introduction/`.
+  Working on a chapter starts by reading `Docs/Introduction/AUTHORING.md` (template, style rules,
+  verification workflow) before touching the chapter file itself.
 - `Docs/Tutorial.md` — how to use the app (build/measure a Bell state, GHZ state, etc.).
 - `Docs/Help.md` — implementation reference, extension guide, troubleshooting.
 - `Docs/Todo.md` — status and roadmap.
