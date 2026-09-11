@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| Playground page | — (see also [`09Tensor`](../../../SwiftQiskit/PlaygroundDocs/09TENSORHELP.md) for `⊗` in depth) |
+| Playground page | [`40ComplexAndMatrices`](../../../SwiftQiskit/Playgrounds.playground/Pages/40ComplexAndMatrices.xcplaygroundpage/Contents.swift) (see also [`09Tensor`](../../../SwiftQiskit/PlaygroundDocs/09TENSORHELP.md) for `⊗` in depth) |
 | In the app | ○ — the app has no matrix-entry UI; only the results of gates applied to it are visible |
 | Library APIs | `Math/Complex.swift`, `Math/Matrix.swift` (`+ - * /`, `multiply(by:)`, `identity(size:)`, `tensor(_:)`/`⊗`), `Quantum/Dirac.swift` (`.adjoint`, postfix `†`) |
 | Prerequisites | Chapter 1 |
