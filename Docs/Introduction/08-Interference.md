@@ -10,7 +10,50 @@
 | Library APIs | `QuantumCircuit.h/z/p/rz`, `.amplitudes` vs `.probabilities`, `BlochVector` |
 | Prerequisites | Chapters 6, 7 |
 
-## 8.1 Z alone on \|0⟩: nothing observable
+## 8.1 Why interference matters
+
+Four earlier chapters have been quietly deferring to this one. Chapter 2 §2.4 split a complex
+number into magnitude and phase and noted that phase "never touches a probability" — without
+saying why that might matter. Chapter 3 turned up a sign it could describe but not yet explain.
+Chapter 5 §5.1 showed a global phase vanishing from the Bloch sphere without a trace. Chapter 7
+§7.3 applied `Z` to `|0⟩` and found nothing happened at all. This chapter is where those four
+loose threads join into one mechanism: **interference**.
+
+The mechanism is physical, not merely notational, and it has a one-sentence version: split a
+path in two, let one branch pick up a phase the other doesn't, recombine the two branches, and
+—because amplitudes **add together before they are squared into a probability**— the phase
+that was invisible a moment ago now decides the outcome. That is the two-slit experiment in one
+sentence, and `H; Z; H` (§8.4 below) is its smallest possible quantum-computing instance: `H`
+splits, `Z` marks one branch, the second `H` recombines.
+
+The question this chapter answers, precisely, is when a phase survives that recombination and
+when it doesn't. A phase attached to *every* amplitude in a state equally — a **global**
+phase — is nothing: no measurement, and no further gate, can ever recover it. A phase attached
+to *one* amplitude out of several — a **relative** phase — is potentially everything, and
+whether it actually shows up in a probability depends entirely on what gate comes next. Holding
+onto that distinction is the single idea the rest of the chapter is organized around.
+
+By the end of §8.7, the reader should be able to: predict, without running anything, whether two
+circuits differing only by a phase gate will produce the same histogram or different ones;
+explain why `Z` alone is unmeasurable but `H;Z;H` is a deterministic bit flip; read a relative
+phase as an azimuth and a measurement probability as a latitude on the Bloch sphere, and name
+`H` as the gate that trades one for the other; and recognize the shape — mark a branch with a
+phase, then recombine — that Chapters 13–15's Deutsch, Deutsch–Jozsa, and Grover algorithms all
+repeat at larger scale.
+
+The sections ahead trace that shape from its quietest form to its most consequential:
+
+| § | What happens |
+|---|---|
+| 8.2 | `Z` on `\|0⟩`: nothing to see, and precisely why not |
+| 8.3 | `Z` after `H`: the state genuinely changes, the probabilities don't |
+| 8.4 | A second `H`: cancellation and reinforcement turn the hidden phase into a bit |
+| 8.5 | `P(φ)` swept continuously: a full interference fringe, `p₀ = cos²(φ/2)` |
+| 8.6 | The same story read geometrically, orbiting a rotatable 3D sphere |
+| 8.7 | The one real number a measurement destroys, and how a basis change gets it back |
+| 8.8 | One phase mark made certain by interference — a two-qubit rehearsal for Grover |
+
+## 8.2 Z alone on \|0⟩: nothing observable
 
 `Z = diag(1, −1)` leaves `|0⟩` alone entirely: `Z|0⟩ = |0⟩` exactly, amplitudes `[1.0, 0.0]`,
 probabilities `[1.0, 0.0]` — indistinguishable from an empty circuit. The reason is worth naming
@@ -24,8 +67,8 @@ Chapter 7 §7.3 showed the same emptiness; this chapter is about what happens on
 
 A **relative** phase is different: a sign or angle attached to one amplitude but not another,
 which is what `Z` produces once a state has two non-zero amplitudes. Whether a relative phase is
-visible depends entirely on what happens next — that is §8.2 and §8.3's whole story. A direct
-check that global phase really vanishes without a trace: `H;Z;H;Z;H` (five gates — §8.3's
+visible depends entirely on what happens next — that is §8.3 and §8.4's whole story. A direct
+check that global phase really vanishes without a trace: `H;Z;H;Z;H` (five gates — §8.4's
 `H;Z;H` "flip", done twice, with a trailing `H`) lands on `−|−⟩`, not `|−⟩` — an extra global
 minus sign — yet its Bloch card is bit-for-bit identical to plain `|−⟩`'s:
 
@@ -34,28 +77,28 @@ minus sign — yet its Bloch card is bit-for-bit identical to plain `|−⟩`'s:
 -|->       [-0.7071067811865474, 0.7071067811865474]   x -1.0000  y +0.0000  z +0.0000
 ```
 
-## 8.2 Z after H: a real amplitude change, an unchanged probability
+## 8.3 Z after H: a real amplitude change, an unchanged probability
 
 `H` first reaches `|+⟩ = (|0⟩+|1⟩)/√2`, genuinely superposed: both amplitudes are `0.7071…`,
 probabilities `[0.5, 0.5]`. Applying `Z` next flips the second amplitude's sign —
 `[0.7071067811865475, -0.7071067811865475]` — landing on `|−⟩ = (|0⟩−|1⟩)/√2`. `|+⟩` and `|−⟩`
 are **orthogonal states**, as different as two states can be, yet `H;Z`'s probabilities are
 still `[0.4999999999999999, 0.4999999999999999]` — identical to plain `H`'s, because
-`|−0.7071…|² = |+0.7071…|²`. The sign is completely real (§8.3 shows exactly what it changes),
+`|−0.7071…|² = |+0.7071…|²`. The sign is completely real (§8.4 shows exactly what it changes),
 but no measurement made right at this point can tell `|+⟩` from `|−⟩` apart.
 
 The Bloch sphere makes the "same statistics, different state" claim precise: both points sit on
 the sphere's equator (`z = 0`, so both measurement outcomes are equally likely), but at opposite
 azimuths — `φ = 0` for `|+⟩`, `φ = π` for `|−⟩`. Same latitude, opposite longitude.
 
-## 8.3 The second H: interference makes the phase visible
+## 8.4 The second H: interference makes the phase visible
 
 The mechanism is one line: `H` sends amplitudes `(a, b)` to `((a+b)/√2, (a−b)/√2)` —
 **amplitudes add together, and only afterward get squared into a probability.** That single fact
 is the entire chapter. Follow both branches from `|0⟩` (`a=1, b=0`):
 
 - `H` alone: `(1/√2, 1/√2)` — the two new amplitudes agree in sign.
-- `H` then `Z`: `(1/√2, −1/√2)` — `Z` flips the second one's sign, invisibly (§8.2).
+- `H` then `Z`: `(1/√2, −1/√2)` — `Z` flips the second one's sign, invisibly (§8.3).
 - A second `H` recombines `(1/√2, −1/√2)` into `((1/√2 − 1/√2)/√2, (1/√2 + 1/√2)/√2) = (0, 1)`.
 
 The `|0⟩`-amplitude's two contributions (`1/√2` and `−1/√2`) now **cancel** — destructive
@@ -71,7 +114,7 @@ the same construction `01Qubits`'s `circuit2` used, and the mechanism behind eve
 interference pattern: split, let one path pick up a phase, recombine, and the phase becomes a
 probability.
 
-## 8.4 The fringe: any phase, not just π
+## 8.5 The fringe: any phase, not just π
 
 `Z` is one point (φ = π) on a continuous family. Replacing it with the general phase gate
 `P(φ) = diag(1, e^{iφ})` and sweeping φ traces out a full interference fringe,
@@ -90,7 +133,7 @@ phi     p0      cos^2(phi/2)
 6.2832  1.0000  1.0000
 ```
 
-φ = π reproduces §8.3's `H;Z;H` exactly (`P(π) ≡ Z`, Chapter 7 §7.6); φ = π/2 and π/4 land on the
+φ = π reproduces §8.4's `H;Z;H` exactly (`P(π) ≡ Z`, Chapter 7 §7.6); φ = π/2 and π/4 land on the
 fixed gates `S` and `T`, each one further tappable point on the same curve:
 
 ```text
@@ -107,10 +150,10 @@ phi 0.7854  P probs [0.8536, 0.1464]  RZ probs [0.8536, 0.1464]   (agree to ~2e-
 phi 1.5708  P probs [0.5000, 0.5000]  RZ probs [0.5000, 0.5000]   (agree to ~2e-16)
 ```
 
-This is the sharp version of §8.1's distinction: relative phase is everything interference can
+This is the sharp version of §8.2's distinction: relative phase is everything interference can
 use; global phase is nothing it can, no matter how the recombination is arranged.
 
-## 8.5 Reading interference off the sphere (in 3D)
+## 8.6 Reading interference off the sphere (in 3D)
 
 Geometrically, `H` is a π rotation about the sphere's `(x+z)/√2` axis, and the visible effect of
 that rotation is that **`H` swaps the x- and z-coordinates (and flips the sign of y)**:
@@ -126,7 +169,7 @@ measurement probability lives on the z-axis — the latitude, read off as θ. `H
 gate that trades one for the other, which is why it is the universal recombiner: whatever phase
 the equator was holding becomes, after one more `H`, a latitude a measurement can read. The
 identity is exact, not approximate: `P(0) = (1 + x)/2`, where `x` is the Bloch x-coordinate of
-the state *immediately before* the final `H`. Reading down the fringe table in §8.4 against the
+the state *immediately before* the final `H`. Reading down the fringe table in §8.5 against the
 pre-final-`H` x-coordinates confirms it at every sampled φ (φ = π/4: `x = 0.7071` → `(1+0.7071)/2
 = 0.8536`, matching `p0` exactly; φ = π: `x = −1.0000` → `0.0000`, also exact).
 
@@ -137,7 +180,7 @@ mode, introduced in Chapter 6 §6.2 — orbits a real camera around the sphere i
 until you are looking straight down the z-axis, and φ becomes a protractor reading with no
 foreshortening at all, rather than a compressed sliver of the 2D card.
 
-## 8.6 Why probabilities lose information amplitudes keep
+## 8.7 Why probabilities lose information amplitudes keep
 
 A single-qubit state carries two independent real numbers, θ and φ (Chapter 6 §6.1). The
 probability pair `(cos²(θ/2), sin²(θ/2))` is a function of θ alone — one real number. Exactly one
@@ -160,7 +203,7 @@ will land close to, but not exactly on, 500/500. This one-basis-at-a-time limita
 what Chapter 22 (tomography) generalizes: no single measurement basis ever recovers a fully
 unknown state's phase, but three well-chosen ones together do.
 
-## 8.7 Interference as the engine of algorithms
+## 8.8 Interference as the engine of algorithms
 
 Interference is not just a curiosity about single qubits — it is the mechanism every quantum
 speedup in this book runs on. A minimal two-qubit teaser, using `CZ` (not in the palette,
@@ -381,7 +424,7 @@ H;Z after final H:  x +0.000  y +0.000  z -1.000  θ 3.142 rad
 Re-running the two Z-basis lines will land close to, but not exactly on, 500/500 — the shot
 counts are genuinely probabilistic (Chapter 9).
 
-Finally, §8.7's two-qubit teaser, `CZ` built by hand exactly as step 8 does on the grid:
+Finally, §8.8's two-qubit teaser, `CZ` built by hand exactly as step 8 does on the grid:
 
 ```swift
 import SwiftQiskitCore
@@ -418,9 +461,9 @@ oracle+diffuser probs:      [0.0, 0.0, 0.0, 0.9999999999999984]
    trick question — check for yourself which is wrong, and what the circuit actually returns.
    <details><summary>Answer</summary>Neither. Measured above: `[-0.7071067811865474,
    0.7071067811865474]`, probabilities `[0.5, 0.5]` — the state is `−|−⟩`, sitting on the
-   equator, not at either pole. Each `H;Z;H` sandwich is a bit flip up to global phase (§8.3), so
+   equator, not at either pole. Each `H;Z;H` sandwich is a bit flip up to global phase (§8.4), so
    two of them return to the start up to a sign, and the fifth, unpaired `H` is what leaves the
-   state on the equator instead of a pole. The leading `−` is a global phase (§8.1) with no
+   state on the equator instead of a pole. The leading `−` is a global phase (§8.2) with no
    physical consequence — `−|−⟩` and `|−⟩` are the same physical state.</details>
 
 2. Predict `H;T;T;H`'s `P(0)` before running it, using `T² = S` (Chapter 7 §7.5).
@@ -438,7 +481,7 @@ oracle+diffuser probs:      [0.0, 0.0, 0.0, 0.9999999999999984]
    <details><summary>Answer</summary>`P(φ)` and `RZ(φ)` are the same gate up to the global phase
    factor `e^{−iφ/2}` (Chapter 7 §7.7). Global phase multiplies every amplitude in the state
    equally and cancels out of every `|amplitude|²`, so it can never survive into a probability —
-   §8.4 verified the two circuits' probabilities agree to floating-point rounding at every φ
+   §8.5 verified the two circuits' probabilities agree to floating-point rounding at every φ
    tested, even though their raw amplitudes differ.</details>
 
 ---

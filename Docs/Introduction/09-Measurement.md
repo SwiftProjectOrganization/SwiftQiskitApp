@@ -28,7 +28,7 @@ stop, with no trace left of whatever superposition it started in. `StateVector.m
 makes this concrete: it does not just *report* an outcome, it **collapses** the vector into it.
 
 A measurement is also **basis-dependent**, a fact easy to miss because this app only ever offers
-one measurement button. Chapter 8 §8.6 already demonstrated the point without naming it as such:
+one measurement button. Chapter 8 §8.7 already demonstrated the point without naming it as such:
 `|+⟩` and `|−⟩` give indistinguishable, roughly-even splits forever if measured as-is, yet
 appending a single `H` before measuring separates them completely — all-`"0"` for one, all-`"1"`
 for the other. Nothing about either qubit changed; what changed is which question was asked of it.
