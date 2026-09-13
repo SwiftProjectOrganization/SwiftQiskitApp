@@ -67,7 +67,7 @@ resolution will fail — see [README.md](README.md) → Requirements.
 | 4 | [Dirac Notation and Expectation Values](Docs/Introduction/04-DiracNotation.md) | ◐ | done | [`01Qubits`](../SwiftQiskit/PlaygroundDocs/01QUBITSHELP.md), [`08Dirac`](../SwiftQiskit/PlaygroundDocs/08DIRACHELP.md) |
 | 5 | [The Bloch Sphere in 2D, and Its Projections](Docs/Introduction/05-BlochSphere2D.md) | ◐ | done | [`02Bloch2d`](../SwiftQiskit/PlaygroundDocs/02BLOCH2DHELP.md), [`03Bloch2dProjection`](../SwiftQiskit/PlaygroundDocs/03BLOCH2DPROJECTIONHELP.md) |
 | 6 | [The Bloch Sphere in 3D: θ and φ](Docs/Introduction/06-BlochSphere3D.md) | ◐ | done | [`04Bloch3d`](../SwiftQiskit/PlaygroundDocs/04BLOCH3DHELP.md) |
-| 7 | [Single-Qubit Gates, One at a Time](Docs/Introduction/07-SingleQubitGates.md) | ● | stub | [`05Gates`](../SwiftQiskit/PlaygroundDocs/05GATESHELP.md) |
+| 7 | [Single-Qubit Gates, One at a Time](Docs/Introduction/07-SingleQubitGates.md) | ● | done | [`05Gates`](../SwiftQiskit/PlaygroundDocs/05GATESHELP.md) |
 | 8 | [Phase, Interference, and Why Z Hides](Docs/Introduction/08-Interference.md) | ● | stub | [`05Gates`](../SwiftQiskit/PlaygroundDocs/05GATESHELP.md) §4, [`01Qubits`](../SwiftQiskit/PlaygroundDocs/01QUBITSHELP.md) |
 | 9 | [Measurement, Shots and Statistics](Docs/Introduction/09-Measurement.md) | ● | stub | `Quantum/SimulationResult.swift` |
 | 10 | [Superposition Across a Register](Docs/Introduction/10-Superposition.md) | ● | stub | [`06Superposition`](../SwiftQiskit/PlaygroundDocs/06SUPERPOSITIONHELP.md) |
