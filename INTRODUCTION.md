@@ -72,7 +72,7 @@ resolution will fail — see [README.md](README.md) → Requirements.
 | 9 | [Measurement, Shots and Statistics](Docs/Introduction/09-Measurement.md) | ● | done | `Quantum/SimulationResult.swift` |
 | 10 | [Superposition Across a Register](Docs/Introduction/10-Superposition.md) | ● | done | [`06Superposition`](../SwiftQiskit/PlaygroundDocs/06SUPERPOSITIONHELP.md) |
 | 11 | [Tensor Products and Composite Systems](Docs/Introduction/11-TensorProducts.md) | ◐ | stub | [`09Tensor`](../SwiftQiskit/PlaygroundDocs/09TENSORHELP.md) |
-| 12 | [Entanglement: Bell and GHZ](Docs/Introduction/12-Entanglement.md) | ● | stub | [`07Entanglement`](../SwiftQiskit/PlaygroundDocs/07ENTANGLEMENTHELP.md) |
+| 12 | [Entanglement: Bell and GHZ](Docs/Introduction/12-Entanglement.md) | ● | done | [`07Entanglement`](../SwiftQiskit/PlaygroundDocs/07ENTANGLEMENTHELP.md) |
 | 13 | [Oracles and Phase Kickback: Deutsch's Algorithm](Docs/Introduction/13-Deutsch.md) | ● | stub | [`10DeutschExample`](../SwiftQiskit/PlaygroundDocs/10DEUTSCHHELP.md) |
 | 14 | [Deutsch–Jozsa and Bernstein–Vazirani](Docs/Introduction/14-DeutschJozsa.md) | ● | stub | [`17DeutschJozsa`](../SwiftQiskit/PlaygroundDocs/17DEUTSCHJOZSAHELP.md) |
 | 15 | [Grover's Search](Docs/Introduction/15-Grover.md) | ◐ | stub | [`11GroverExample`](../SwiftQiskit/PlaygroundDocs/11GROVERHELP.md) |
