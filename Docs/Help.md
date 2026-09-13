@@ -30,7 +30,8 @@ run. No `SwiftQiskitCore` changes were needed for this feature.
 | `HistogramView.swift` | Bar chart of `SimulationResult` counts |
 | `BlochVector.swift` | Single-qubit Bloch coordinates (`x`/`y`/`z`/`theta`/`phi`) from a `StateVector`; `init(_:qubit:)` reduces a multi-qubit state to one qubit's vector |
 | `BlochSphereView.swift` | 2D oblique-projection `Canvas` drawing of one `BlochVector` |
-| `BlochDisplayView.swift` | Final/Steps segmented view: a grid of every qubit's sphere, or a column-by-column row for one chosen qubit |
+| `Bloch3DSphereView.swift` | Rotatable, perspective-projected 3D `Canvas` drawing of one `BlochVector`; drag to orbit |
+| `BlochDisplayView.swift` | Final/Steps/3D segmented view: a grid of every qubit's sphere, a column-by-column row for one chosen qubit, or an orbitable 3D sphere |
 | `ContentView.swift` | Owns the `CircuitBuilder` and `armedGate` state; picks `CircuitBuilderView` vs. `CompactBuilderView` by size class on iOS |
 | `SwiftQiskitAppApp.swift` | `@main App`; sets a minimum/default window size on macOS |
 
@@ -124,7 +125,7 @@ API: `center(column:qubit:) -> CGPoint`, `wireY(_:) -> CGFloat`,
 - `HistogramView` scales each bar to `maxBarHeight` proportional to the largest count in the
   `SimulationResult`.
 
-## Bloch sphere display (`BlochVector.swift`, `BlochSphereView.swift`, `BlochDisplayView.swift`)
+## Bloch sphere display (`BlochVector.swift`, `BlochSphereView.swift`, `Bloch3DSphereView.swift`, `BlochDisplayView.swift`)
 
 Opened via the **Display** button (next to Clear on macOS/iPad, next to Results in the
 iPhone bottom bar), mirroring how `ResultsView` is presented as a sheet.
@@ -135,15 +136,21 @@ iPhone bottom bar), mirroring how `ResultsView` is presented as a sheet.
   `precondition`s `state.dimension == 2` (and would crash otherwise), this overload sums over
   every basis configuration of the *other* qubits — a partial trace — to get qubit `k`'s
   reduced vector. Entangled qubits have `|r| < 1` (a shorter arrow, drawn inside the sphere,
-  not on its surface); `BlochSphereView`'s readout appends `|r|` whenever it's not ≈1 so a
-  short arrow reads as entanglement, not a bug.
+  not on its surface); both `BlochSphereView` and `Bloch3DSphereView`'s readouts append `|r|`
+  whenever it's not ≈1 so a short arrow reads as entanglement, not a bug.
 - `BlochSphereView` is a pure `Canvas`/`Path` drawing (no data access) — an oblique orthographic
   projection with `x` foreshortened toward the viewer, `y` right, `z` up.
-- `BlochDisplayView` has two modes: **Final** shows a `LazyVGrid` of every qubit's sphere from
+- `Bloch3DSphereView` orbits a genuine perspective camera around a fixed sphere instead: drag
+  the canvas to change the camera's azimuth/elevation (nothing about the state moves). Its
+  projection math is a separate pure struct, `Bloch3DProjection`
+  (`azimuth`/`elevation`/`cameraDistance` in, a projected `CGPoint` + depth out), so the camera
+  geometry is unit-testable without a live `Canvas`.
+- `BlochDisplayView` has three modes: **Final** shows a `LazyVGrid` of every qubit's sphere from
   `builder.buildCircuit().run()`; **Steps** shows one chosen qubit across every column, via
   `builder.buildCircuit(throughColumn:)` for each prefix (index `-1` is "Start", the initial
-  `|0…0⟩` state). Sphere cards use `.glassEffect(in:)`/`GlassEffectContainer`.
-- **Origin of the code:** `BlochVector`/`BlochSphereView` are ported from
+  `|0…0⟩` state); **3D** shows one chosen qubit's final state in the orbitable
+  `Bloch3DSphereView`. Sphere cards use `.glassEffect(in:)`/`GlassEffectContainer`.
+- **Origin of the code:** `BlochVector`/`BlochSphereView`/`Bloch3DSphereView` are ported from
   `SwiftQiskit/Playgrounds.playground/Sources/`, which is not an importable SwiftPM target —
   see "Relationship to SwiftQiskitGUI" below for why this creates a third copy of the type.
 

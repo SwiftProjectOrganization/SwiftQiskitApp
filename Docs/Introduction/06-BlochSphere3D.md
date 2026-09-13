@@ -6,8 +6,8 @@
 | | |
 |---|---|
 | Playground page | [`04Bloch3d`](../../../SwiftQiskit/PlaygroundDocs/04BLOCH3DHELP.md) |
-| In the app | ◐ — the Display sheet's readout prints θ and φ directly for any single-qubit state, built by placing **RY** then **P**; there is no rotatable camera and no live-while-dragging slider loop |
-| Library APIs | `Bloch3DView`, `BlochExplorerView` (playground `Sources/`, not vendored into the app) |
+| In the app | ● — the Display sheet's **3D** mode orbits a real camera around any single-qubit state, built by placing **RY** then **P**, and the readout prints θ and φ directly; only the live-while-dragging slider loop is still out of reach |
+| Library APIs | `Bloch3DSphereView`, `Bloch3DProjection` (vendored from the playground's `Bloch3DView`), `BlochExplorerView` (playground `Sources/`, not vendored — the still-missing live-slider loop) |
 | Prerequisites | Chapters 4, 5 |
 
 ## 6.1 The θ/φ parametrization
@@ -71,21 +71,23 @@ sphere, never off of it — there is nothing left to renormalize.
 ## 6.2 Rotating the view
 
 Chapter 5's `BlochSphereView` fixes one oblique viewpoint for good: `y` right, `z` up, `x`
-foreshortened toward the lower-left. `Bloch3DView` (playground `Sources/`, not vendored into
-this app) instead orbits a genuine perspective camera around a fixed sphere: an azimuth angle
-(about the z-axis) and an elevation angle (above the equator) place the camera at
-`cameraDistance = 4` sphere-radii, and every world point is perspective-divided,
-`scale = d / (d − depth)`, so nearer geometry draws larger. Dragging the canvas changes the
-*camera's* azimuth/elevation — nothing about `|ψ⟩` moves. That is the distinction this chapter's
-title draws: **rotating the view** (a spectator choice, orbiting around a fixed point) is a
-completely different action from **rotating the state** (dragging θ or φ, which is what §6.3
-does).
+foreshortened toward the lower-left. The app's **Display → 3D** mode, `Bloch3DSphereView`
+(driven by a pure camera struct, `Bloch3DProjection`, ported from the playground's `Bloch3DView`),
+instead orbits a genuine perspective camera around a fixed sphere: an azimuth angle (about the
+z-axis) and an elevation angle (above the equator) place the camera at `cameraDistance = 4`
+sphere-radii, and every world point is perspective-divided, `scale = d / (d − depth)`, so nearer
+geometry draws larger. Dragging the canvas changes the *camera's* azimuth/elevation — nothing
+about `|ψ⟩` moves, and "Build it in the app" step 4 below has you check that directly: the
+printed x/y/z/θ/φ caption never changes while you drag, no matter how far you orbit. That is the
+distinction this chapter's title draws: **rotating the view** (a spectator choice, orbiting
+around a fixed point) is a completely different action from **rotating the state** (dragging θ
+or φ, which is what §6.3 does).
 
 A fixed single projection has a real cost, and Chapter 5 §5.3 already named it: a short
 projected arrow is ambiguous between "points toward the viewer" and "is genuinely shorter than
-1." An orbit camera resolves that ambiguity by letting you look at the same state from another
-angle instead of reading a numeric `|r|` fallback — which is the whole reason page `04Bloch3d`
-exists as a companion to the fixed 2D view, rather than a replacement for it.
+1." Orbiting the 3D view resolves that ambiguity by letting you look at the same state from
+another angle instead of reading a numeric `|r|` fallback — which is also the reason playground
+page `04Bloch3d` exists as a companion to the fixed 2D view, rather than a replacement for it.
 
 ## 6.3 Live sliders as a state-space explorer
 
@@ -142,7 +144,7 @@ chapter's θ/φ sliders.
 
 ## Build it in the app
 
-◐ Qubits → 1.
+● Qubits → 1.
 
 1. Arm **RY** (Rotation (θ = π/2) section), tap the empty cell on `q0`. Tap the tile, drag the
    θ slider to `1.047` (as close to π/3 as the three-decimal readout allows).
@@ -157,29 +159,32 @@ chapter's θ/φ sliders.
    **The app prints θ and φ directly** — §6.1's parametrization is readable off the screen, not
    just implied by the arrow's position.
 
-4. To see θ move: reopen the RY tile, drag it to `1.571` (π/2), leave P at `0.785`, reopen
+4. **Orbit it in 3D.** Tap **Display**, select **3D** instead of **Final**. Drag the canvas:
+   the arrow's screen position swings around, but the caption at the bottom —
+   `x +0.612  y +0.612  z +0.500`, `θ 1.047 rad  φ 0.785 rad` — never changes, at any drag
+   position. That's direct proof of §6.2's distinction: dragging moves the camera's
+   azimuth/elevation, not `|ψ⟩`. Keep dragging until you're looking straight down from the
+   `|0⟩` pole: the arrow's angle around the rim now reads φ directly, with none of the fixed
+   2D card's x-axis foreshortening (Chapter 5 §5.3).
+5. To see θ move: reopen the RY tile, drag it to `1.571` (π/2), leave P at `0.785`, reopen
    **Display**. The card now reads `θ 1.571 rad` with the same `φ 0.785 rad`, and the State
    Vector panel's `p=` values shift from `0.750/0.250` to `0.500/0.500` — θ alone carries the
    measurement statistics, exactly as §6.3 derived.
-5. To see φ move independently: put RY back to `1.047`, instead drag the P tile to `3.142` (π).
+6. To see φ move independently: put RY back to `1.047`, instead drag the P tile to `3.142` (π).
    Reopen Display: `θ 1.047 rad` is unchanged, `φ` moves to `3.142 rad`, and the State Vector
    panel's `p=` values are still `0.750/0.250` — φ alone, no effect on what a measurement would
    show.
-6. **Steps** mode (`Start` → `Col 1` → `Col 2`) walks the same trajectory one gate at a time:
+7. **Steps** mode (`Start` → `Col 1` → `Col 2`) walks the same trajectory one gate at a time:
    `Start` sits at the `|0⟩` pole; `Col 1` (after RY) swings out to `θ ≈ 1.047 rad` at `φ = 0`,
    since a real amplitude vector puts it on the prime meridian; `Col 2` (after P) holds that same
    θ and rotates purely in azimuth to `φ ≈ 0.785 rad` — this is the app's substitute for
-   animating the arrow as a slider moves.
+   animating the arrow as a slider moves. (Steps mode itself stays 2D — 3D shows only the
+   circuit's current final state, not a per-column trajectory.)
 
-Two things stay genuinely out of reach, not just inconvenient:
-
-- **No rotatable camera.** Every card is `BlochSphereView`'s single fixed oblique projection
-  (Chapter 5 §5.3); there is no orbit-camera view like `Bloch3DView`'s. A rotatable 3D Bloch view
-  is an open item in `Docs/Todo.md`.
-- **No live-while-dragging loop.** `BlochExplorerView`'s sliders redraw the sphere on every
-  pixel of drag; the app's θ slider lives inside `ParameterPopover` on the circuit grid, and
-  `Display` is a separate sheet — so a slider move is followed by closing the popover and
-  reopening Display, not a single continuous gesture.
+One thing stays genuinely out of reach, not just inconvenient: **no live-while-dragging loop.**
+`BlochExplorerView`'s sliders redraw the sphere on every pixel of drag; the app's θ slider lives
+inside `ParameterPopover` on the circuit grid, and `Display` is a separate sheet — so a slider
+move is followed by closing the popover and reopening Display, not a single continuous gesture.
 
 The θ slider also has no exact-entry field and only a three-decimal readout (`ParameterPopover`,
 range `0...2π`), so steps 1–2 only approximate the code's exact `.pi / 3` and `.pi / 4` — close
@@ -265,6 +270,16 @@ Identical to what step 3 reads on the Display card.
    and multiplying `|1⟩`'s amplitude by `e^{iφ}` (what `P` does) never changes a magnitude, since
    `|e^{iφ}| = 1`. Every slider position is already normalized by construction — there is
    nothing for `StateVector.normalize()` to correct.</details>
+
+5. Orbit the 3D view for `RY(1.047); P(0.785)` until you're looking straight down from the
+   `|0⟩` pole. Why does that particular viewing angle make φ easiest to read, and which angle
+   would you orbit to instead if you wanted to read θ as cleanly?
+   <details><summary>Answer</summary>Looking straight down the polar axis turns the equatorial
+   angle φ into a flat protractor reading with no foreshortening at all — you're looking
+   directly along the axis §6.1's θ is measured from, so all of the state's remaining freedom is
+   visible in the plane facing you. To read θ instead, orbit to the equator (elevation ≈ 0), so
+   the polar axis lies flat across the image and θ becomes a left-right angle instead of a
+   foreshortened tilt.</details>
 
 ---
 [← Chapter 5](05-BlochSphere2D.md) · [Contents](../../INTRODUCTION.md) · [Chapter 7 →](07-SingleQubitGates.md)

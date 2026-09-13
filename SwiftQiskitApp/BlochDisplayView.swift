@@ -17,6 +17,7 @@ struct BlochDisplayView: View {
     private enum Mode: String, CaseIterable, Identifiable {
         case final = "Final"
         case steps = "Steps"
+        case threeD = "3D"
         var id: String { rawValue }
     }
 
@@ -32,12 +33,14 @@ struct BlochDisplayView: View {
             }
             .pickerStyle(.segmented)
 
-            ScrollView(mode == .final ? .vertical : .horizontal) {
+            ScrollView(mode == .steps ? .horizontal : .vertical) {
                 switch mode {
                 case .final:
                     finalGrid
                 case .steps:
                     stepsRow
+                case .threeD:
+                    threeDCard
                 }
             }
         }
@@ -58,16 +61,21 @@ struct BlochDisplayView: View {
         }
     }
 
+    @ViewBuilder
+    private var qubitPicker: some View {
+        if builder.qubitCount > 1 {
+            Picker("Qubit", selection: $selectedQubit) {
+                ForEach(0..<builder.qubitCount, id: \.self) { qubit in
+                    Text("q\(qubit)").tag(qubit)
+                }
+            }
+            .pickerStyle(.segmented)
+        }
+    }
+
     private var stepsRow: some View {
         VStack(alignment: .leading, spacing: 12) {
-            if builder.qubitCount > 1 {
-                Picker("Qubit", selection: $selectedQubit) {
-                    ForEach(0..<builder.qubitCount, id: \.self) { qubit in
-                        Text("q\(qubit)").tag(qubit)
-                    }
-                }
-                .pickerStyle(.segmented)
-            }
+            qubitPicker
 
             GlassEffectContainer(spacing: 20) {
                 LazyHStack(spacing: 20) {
@@ -83,6 +91,17 @@ struct BlochDisplayView: View {
                     }
                 }
             }
+        }
+    }
+
+    private var threeDCard: some View {
+        let state = builder.buildCircuit().run()
+        return VStack(alignment: .leading, spacing: 12) {
+            qubitPicker
+
+            Bloch3DSphereView(label: "q\(selectedQubit)", bloch: BlochVector(state, qubit: selectedQubit))
+                .padding()
+                .glassEffect(in: .rect(cornerRadius: 16))
         }
     }
 

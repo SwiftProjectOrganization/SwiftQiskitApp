@@ -39,7 +39,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 | Target | Product type | Notes |
 |---|---|---|
 | `SwiftQiskitApp` | Application | `com.robertgoedman.SwiftQiskitApp`; App Sandbox enabled, read-only user-selected file access |
-| `SwiftQiskitAppTests` | Unit Test Bundle | Swift `Testing` framework; 17 tests across 3 files |
+| `SwiftQiskitAppTests` | Unit Test Bundle | Swift `Testing` framework; 20 tests across 4 files |
 
 ## File map (`SwiftQiskitApp/`)
 
@@ -58,7 +58,8 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 | `HistogramView.swift` | Bar chart of `SimulationResult` counts |
 | `BlochVector.swift` | Single-qubit Bloch coordinates from a `StateVector`; `init(_:qubit:)` computes a reduced (partial-trace) vector for one qubit of a multi-qubit state |
 | `BlochSphereView.swift` | 2D oblique-projection `Canvas` drawing of one `BlochVector` |
-| `BlochDisplayView.swift` | Final/Steps segmented view showing a grid or column-by-column row of `BlochSphereView`s; opened via the "Display" button |
+| `Bloch3DSphereView.swift` | Rotatable, perspective-projected 3D `Canvas` drawing of one `BlochVector`; drag to orbit the camera |
+| `BlochDisplayView.swift` | Final/Steps/3D segmented view showing a grid, a column-by-column row of `BlochSphereView`s, or an orbitable `Bloch3DSphereView`; opened via the "Display" button |
 | `ContentView.swift` | Owns the `CircuitBuilder` and `armedGate` state; picks `CircuitBuilderView` vs. `CompactBuilderView` by size class on iOS |
 | `SwiftQiskitAppApp.swift` | `@main App`; sets a minimum/default window size on macOS |
 
@@ -85,7 +86,10 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   reduced Bloch vector by summing over the other qubits' basis configurations (a partial
   trace) — entangled qubits render with `|r| < 1`, a shorter arrow inside the sphere. This is
   vendored from `SwiftQiskit/Playgrounds.playground/Sources/BlochVector.swift` /
-  `BlochSphereView.swift`, which aren't importable (playground `Sources/` isn't an SPM target).
+  `BlochSphereView.swift` / `Bloch3DView.swift`, which aren't importable (playground `Sources/`
+  isn't an SPM target). The 3D mode's camera math lives in `Bloch3DProjection`, a pure struct
+  pulled out of `Bloch3DSphereView` so its perspective projection is unit-testable
+  (`Bloch3DProjectionTests.swift`) independent of the `Canvas`/`DragGesture` view code.
 
 ## Conventions & gotchas
 
@@ -121,8 +125,11 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   `H`/`X`/`H+S`, the Bell state's maximally-entangled reduced vectors (`|r| == 0` on both
   qubits), reduced-vector isolation between qubits, and `buildCircuit(throughColumn:)` prefix
   replay.
+- `SwiftQiskitAppTests/Bloch3DProjectionTests.swift` (3 tests) — pure `Bloch3DProjection`
+  geometry: pole projection direction, near- vs far-hemisphere perspective scale, the
+  silhouette-scale formula.
 - Swift **`Testing`** framework (`import Testing`, `@Test`, `#expect`), not XCTest.
-- Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 17 tests are in its
+- Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 20 tests are in its
   test plan (no scheme-switching gotcha, unlike the package).
 
 ## Writing style

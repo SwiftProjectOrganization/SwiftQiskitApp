@@ -22,10 +22,11 @@ Project status and roadmap for SwiftQiskitApp.
 - Live state vector (amplitudes + probabilities), recomputed on every change.
 - Shot-based `measure(shots:)` with a bar-chart histogram.
 - Two layouts: 3-pane regular (macOS/iPad) and compact full-bleed (iPhone).
-- 2D Bloch-sphere display (`BlochDisplayView`, opened via a **Display** button): a grid of
-  every qubit's final-state sphere, or a column-by-column row for one chosen qubit.
-- 17 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`) covering the
-  model, geometry, and Bloch-vector math.
+- Bloch-sphere display (`BlochDisplayView`, opened via a **Display** button): a 2D grid of
+  every qubit's final-state sphere, a column-by-column row for one chosen qubit, or a rotatable
+  3D view (`Bloch3DSphereView`, orbited by dragging).
+- 20 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
+  `Bloch3DProjectionTests`) covering the model, geometry, and Bloch-vector math.
 
 ## Roadmap
 
@@ -45,7 +46,9 @@ Project status and roadmap for SwiftQiskitApp.
       the app, plus a new reduced (partial-trace) `BlochVector` init for qubits beyond the
       first. Promoting these into a shared `SwiftQiskitViews` package target instead of
       vendoring them remains open — see "De-duplicate" below.
-- [ ] 3D Bloch sphere / rotatable view, following the package playground's `Bloch3DView`.
+- [x] 3D Bloch sphere / rotatable view — `Bloch3DSphereView`, ported from the package
+      playground's `Bloch3DView` the same way the 2D view was, added as a third Display mode
+      ("3D") alongside Final/Steps.
 - [ ] iPad-specific layout polish (currently shares the macOS 3-pane layout as-is).
 - [ ] UI tests via XCUIAutomation (current tests only cover the model/geometry, not views).
 - [ ] VoiceOver and Dynamic Type accessibility audit.

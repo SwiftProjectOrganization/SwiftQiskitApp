@@ -19,7 +19,7 @@ architecture, extension points, and troubleshooting, see the companion
 | **Circuit** (center) | A grid, one wire per qubit, drawn as a real horizontal line. Tap an empty cell to place the armed gate there. Has the qubit-count stepper and a **Clear** button. |
 | **State Vector** (right) | Live amplitudes/probabilities for the circuit as currently built, plus a **Measure** button and shot-count histogram. |
 
-A **Display** button next to **Clear** opens a sheet with a 2D Bloch-sphere view of the
+A **Display** button next to **Clear** opens a sheet with a Bloch-sphere view of the
 circuit — see "Viewing Bloch spheres" below.
 
 On iPhone (compact layout) the same controls are rearranged: the circuit grid fills the
@@ -59,12 +59,15 @@ exactly; `measure(shots:)` is probabilistic.
 
 ## Viewing Bloch spheres
 
-Tap **Display** to open a 2D Bloch-sphere view of the circuit, with two modes:
+Tap **Display** to open a Bloch-sphere view of the circuit, with three modes:
 
 - **Final** shows one sphere per qubit, for the circuit's current final state.
 - **Steps** shows a single chosen qubit's sphere after each column, so you can watch it move
   gate by gate. Pick the qubit with the segmented control above the row (hidden if there's
   only one qubit).
+- **3D** shows a single chosen qubit's final-state sphere as a rotatable 3D wireframe — drag
+  the sphere to orbit the camera around it. Useful for reading an angle that the fixed 2D
+  projection foreshortens (see Chapter 6 of `INTRODUCTION.md`).
 
 Try it on the Bell-state circuit above: in **Final**, both `q0` and `q1` show their arrow
 collapsed to the sphere's center (`|r| ≈ 0` in the readout below each sphere) — that's the
