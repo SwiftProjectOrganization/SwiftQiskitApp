@@ -11,12 +11,20 @@
 | Library APIs | `QuantumCircuit.run()`, `.runAndMeasure()`, `.measure(shots:)`, `StateVector.measure()`, `SimulationResult`, `.sortedCounts` |
 | Prerequisites | Chapters 3, 7 |
 
-## 9.1 What a measurement is
+## 9.1 Why measurement matters
+
+Measurement is the only channel out of a quantum computer. Every chapter so far has read a
+circuit's exact state vector via `run()` — a simulator privilege no real device offers, since a
+real device can only be measured, never inspected mid-flight (the point §9.2 makes technically).
+From here on, a result only counts if it survives being sampled: Chapters 13–17's algorithms are
+all judged by a histogram, Chapter 20's CHSH test is entirely a statistics argument against a
+classical bound, and Chapter 22's tomography reconstructs a state from nothing but shot counts.
+The 1/√N law derived in §9.4 below is a budget every one of those later chapters spends.
 
 Every state vector in this book carries complex amplitudes, but nothing ever *reads* an amplitude
 directly — not on real hardware, and not in this simulator. What comes out of a measurement is one
 classical bit string, chosen randomly according to the **Born rule**: the probability of landing
-on basis state `i` is `|amplitudeᵢ|²`, the squaring first met in Chapter 3 and used without
+on basis state `i` is `|amplitudeᵢ|²`, the squaring first met in Chapter 3 §3.3 and used without
 comment ever since. `|+⟩ = (|0⟩+|1⟩)/√2` does not "contain" 50% of `|0⟩` the way a mixture does —
 it is one state, and a measurement's job is to convert that one state into one classical outcome,
 governed by amplitude-squared odds.
@@ -41,6 +49,15 @@ gives one bit — useless for recovering the probabilities that produced it. Onl
 many independent shots, tallied into a histogram, lets those probabilities be estimated back out —
 and only approximately, with an error that shrinks as more shots are spent. That trade-off, between
 shots spent and precision gained, is the rest of the chapter.
+
+| § | What happens |
+|---|---|
+| 9.2 | `run()`'s exact state vector versus `measure(shots:)`'s sampled tally |
+| 9.3 | Collapse made numeric: `StateVector.measure()` mutates the state it reports |
+| 9.4 | Why shot counts jitter — binomial `σ = √(p(1−p)/N)` and the 1/√N law |
+| 9.5 | Reading a histogram honestly: a missing bar is absent, not impossible |
+| 9.6 | Unequal splits: `RY(θ)`'s exact probability against a 10,000-shot tally |
+| 9.7 | What this simulator's measurement does, and doesn't, do |
 
 ## 9.2 Exact vs. sampled: `run()` vs `measure(shots:)`
 

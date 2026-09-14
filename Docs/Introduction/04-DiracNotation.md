@@ -23,7 +23,7 @@ The structure is a type discipline: a bra placed before a ket (`⟨φ|ψ⟩`) is
 of two states; a ket placed before a bra (`|ψ⟩⟨φ|`) is a matrix, a projector or more general
 operator. Two symbols, reversed order, two completely different kinds of object — and once that
 distinction is in hand, several results from earlier chapters fall out as one-line consequences
-instead of separate calculations. Chapter 3 §3.2's Born rule re-reads as `⟨φ|0⟩⟨0|φ⟩`, a bra
+instead of separate calculations. Chapter 3 §3.3's Born rule re-reads as `⟨φ|0⟩⟨0|φ⟩`, a bra
 sandwiching a projector. And the three real numbers Chapters 5–6 place on the Bloch sphere —
 `⟨ψ|X|ψ⟩`, `⟨ψ|Y|ψ⟩`, `⟨ψ|Z|ψ⟩` — turn out to be nothing but bra–matrix–ket products, the same
 three numbers the app's Display sheet already prints for every qubit, now named and derived
@@ -180,7 +180,7 @@ print(p0 + p1 == Matrix.identity(size: 2))
 true
 ```
 
-Sandwiching a projector between a bra and its ket recovers the Born rule from Chapter 3 §3.2 —
+Sandwiching a projector between a bra and its ket recovers the Born rule from Chapter 3 §3.3 —
 `⟨φ|0⟩⟨0|φ⟩` is another way to write `P(0) = |⟨0|φ⟩|²`, and it matches `.probabilities[0]`
 exactly:
 

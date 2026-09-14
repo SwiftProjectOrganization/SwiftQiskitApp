@@ -10,7 +10,38 @@
 | Library APIs | `StateVector` (auto-normalizing `init`, `.amplitudes`, `.probabilities`, `apply(_:)`) |
 | Prerequisites | Chapters 1, 2 |
 
-## 3.1 A qubit as two complex amplitudes
+## 3.1 Why amplitudes and probabilities matter
+
+Chapter 2 built the raw materials — `Complex` numbers, plain `[Complex]` arrays, `Matrix` — with
+normalization something checked by hand, never enforced. §2.7 already promised what changes here:
+"from Chapter 3 onward the constraint above is enforced by the type rather than something you
+check by hand." This chapter delivers that promise. `StateVector` is the one type that carries a
+quantum state through every remaining chapter, and its guarantee, `|α|² + |β|² = 1`, is what turns
+"amplitude" from just a complex number in an array into a *probability* amplitude.
+
+A `StateVector` supports two readings, and the gap between them organizes much of the rest of the
+book. `.amplitudes` is the complete description — everything there is to know about the state.
+`.probabilities` is what a measurement can ever actually deliver, and it is strictly less: the
+Born rule squares magnitudes and throws phase away. `|+⟩` and `|+i⟩` below (§3.3) are the smallest
+possible example — two genuinely different states, one identical probability list — and naming
+that loss here is what makes Chapters 5–6 (phase as an azimuth on the Bloch sphere), 8 (a phase
+becoming a probability through interference) and 9 (measurement as the only way out of a
+superposition) legible later.
+
+One thread stays open past this chapter on purpose: §3.4's `H;Z;H` circuit lands on `|1⟩`, and
+this chapter only reports that it does, not why a sign flip that never moved a probability ends up
+flipping the outcome. Chapter 8 §8.1 already names this as the loose end it exists to tie off
+("Chapter 3 turned up a sign it could describe but not yet explain"). Everything below is ●
+badge — every printed number is exactly what the app's State Vector panel shows, so the whole
+chapter is checkable by tapping, not just by running code.
+
+| § | What happens |
+|---|---|
+| 3.2 | `StateVector`: two amplitudes, normalized at construction and never un-normalized |
+| 3.3 | The Born rule as `.probabilities` — and what it discards (`\|+⟩` vs `\|+i⟩`) |
+| 3.4 | Two worked circuits: `H;P;P`, where only phase moves, and `H;Z;H`, where probability does |
+
+## 3.2 A qubit as two complex amplitudes
 
 A qubit's state is a `StateVector` holding two complex amplitudes, `α` and `β` — one for each
 outcome, `0` and `1`. Chapter 2 built vectors like this by hand as plain `[Complex]` arrays, with
@@ -49,7 +80,7 @@ print(zero.amplitudes)
 [1.0, 0.0]
 ```
 
-## 3.2 From amplitudes to probabilities: the Born rule
+## 3.3 From amplitudes to probabilities: the Born rule
 
 `.probabilities` computes `|amplitude|²` for every entry — the Born rule from Chapter 2 §2.3,
 now a stored property instead of something you compute by hand:
@@ -63,7 +94,7 @@ print(raw.probabilities, raw.probabilities.reduce(0, +))
 ```
 
 Both entries ≈ 0.500, summing to ≈ 1 (floating-point rounding again, not a bug) — `|α|² + |β|² =
-1` from §3.1, now visible as `.probabilities` rather than asserted by hand.
+1` from §3.2, now visible as `.probabilities` rather than asserted by hand.
 
 `.probabilities` is a lossy view, and it is worth seeing exactly how much it throws away. `|+⟩`
 and `|+i⟩` are different states — a real amplitude on `|1⟩` versus a purely imaginary one — but
@@ -82,11 +113,11 @@ print(StateVector.plusI.amplitudes, StateVector.plusI.probabilities)
 Identical probability lists, `[≈0.500, ≈0.500]` both times — the phase difference on `|1⟩`
 (real `0.707` versus imaginary `0.707i`) is invisible to `.probabilities` even though it is a
 real, physical difference between the two states. This is the same point Chapter 2 §2.3/§2.4
-made about phase and magnitude carrying separate information; §3.3 below walks through a circuit
+made about phase and magnitude carrying separate information; §3.4 below walks through a circuit
 where that hidden phase is the entire story, and Chapter 8 is where a phase difference finally
 does change a probability.
 
-## 3.3 Two worked circuits
+## 3.4 Two worked circuits
 
 `01Qubits`'s `circuit1` and `circuit2` are both single-qubit circuits that start at `|0⟩` and
 diverge after the first `H`. Stage by stage, printing `.amplitudes` and `.probabilities` after
@@ -236,14 +267,14 @@ that rounding, same idiom as Chapter 2's tolerance discussion in §2.9.
    where in this chapter does it stop being invisible?
    <details><summary>Answer</summary>The Born rule keeps only magnitude-squared and discards
    phase — `|+⟩`'s `|1⟩` amplitude is real (`0.707`) while `|+i⟩`'s is imaginary (`0.707i`), a
-   real difference `.probabilities` can't see. §3.3's `circuit2` is where that hidden phase
+   real difference `.probabilities` can't see. §3.4's `circuit2` is where that hidden phase
    stops being invisible: the sign `Z` puts on the `|1⟩` amplitude doesn't move any probability
    by itself, but the following `H` converts it into a probability that does move, landing the
    state on `|1⟩` instead of back on `|0⟩`.</details>
 
 3. `StateVector([Complex(0.5), Complex(0.5)])` prints as `[0.707…, 0.707…]`, not `[0.5, 0.5]`.
    Why, and what would `raw.probabilities` have summed to if `init` hadn't rescaled it?
-   <details><summary>Answer</summary>`init(_:)` normalizes on construction (§3.1): the supplied
+   <details><summary>Answer</summary>`init(_:)` normalizes on construction (§3.2): the supplied
    vector `[0.5, 0.5]` has length `√(0.25+0.25) = √0.5 ≈ 0.707`, not `1`, so every entry is
    divided by that length, giving `0.5 / 0.707 ≈ 0.707`. Had normalization been skipped,
    `.probabilities` would be `[0.25, 0.25]`, summing to `0.5` — not a valid quantum state, since
