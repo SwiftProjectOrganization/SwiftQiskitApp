@@ -12,14 +12,46 @@
 | Library APIs | `QuantumCircuit.h/x/z/cx`, `measure(shots:)`/`SimulationResult.sortedCounts`, `CNOTGate.matrix(qubits:control:target:)`, `apply(_:)`, `BlochVector(_:qubit:)` |
 | Prerequisites | Chapters 5, 9, 10, 11 |
 
-## 12.1 What non-factorization means
+## 12.1 Why entanglement matters
 
-Chapter 11 §11.6 proved a fact about numbers: the Bell state's amplitudes cannot be split into
-`v ⊗ w` for any single-qubit `v`, `w`. This chapter asks what that fact means for anyone actually
-running the circuit. The answer has two parts, one statistical and one geometric, and both are
-visible with tools already in hand — `measure(shots:)` (Chapter 9) and `BlochVector` (Chapters 5,
-10) — applied to the entangling gate Chapter 11 §11.5 singled out as the one thing `⊗` cannot
-build: `cx`.
+Four earlier chapters have been quietly deferring to this one. Chapter 5 §5.1 showed a reduced
+Bloch vector shorter than 1 and put off explaining it. Chapter 7 §7.9 placed a lone `CX` as an
+explicit teaser for "Chapter 12's territory." Chapter 9 noted that the Bell state's `|01⟩` and
+`|10⟩` are exactly zero, not merely rare, and again deferred. And Chapter 11 §11.5–11.6 proved
+two negative results about `⊗` — it cannot build the entangling *gate*, and it cannot build the
+entangled *state* — without saying what either fact means for anyone actually running the
+circuit. This chapter is where those four threads land.
+
+Stated once in plain language before any numbers appear: two qubits are **entangled** when their
+measurement outcomes are perfectly correlated — whichever value one comes up with, the other is
+forced to match — while each qubit, read on its own, still looks like a fair coin. Chapter 11
+§11.6 proved this algebraically (no `v ⊗ w` factorization exists for the Bell state); this chapter
+shows what that means experimentally, and the through-line every section below returns to is:
+**the marginal probabilities cannot tell an entangled state from a plain product state — only the
+joint distribution can.** `|++⟩ = h(0); h(1)` is the running control case: identical 50/50
+marginals to the Bell state's, but no correlation between the two qubits at all.
+
+Entanglement is not a curiosity kept for its own sake — it is the resource the rest of this book
+spends. Teleportation (Chapter 18) moves a qubit's state across an entangled pair instead of
+moving the qubit; the 3-qubit error-correcting code (Chapter 19) fans one logical qubit out across
+three physical ones with the same `cx` recipe used here; the CHSH test (Chapter 20) and the
+density-matrix view of a reduced state (Chapter 21 §21.\*) both build directly on what this
+chapter establishes.
+
+What this chapter does *not* establish is worth stating plainly, since perfectly correlated
+outcomes are easy to over-read: on their own, they are not evidence of anything specifically
+quantum. Two coins sealed in envelopes before being separated reproduce §12.3's "only `00` and
+`11` ever appear" pattern exactly, with no quantum mechanics involved at all. What rules out that
+classical explanation is measuring in *rotated* bases and comparing the results against a
+provable classical ceiling — Chapter 20's CHSH inequality, where a Bell pair's `S = 2√2` exceeds
+the classical bound of `S = 2`. Chapter 12 establishes the correlation and its geometry; Chapter
+20 establishes that no classical account can reproduce it. And §12.6 below rules out the
+most common misreading directly: no-signalling means this correlation carries no message between
+the two qubits, so nothing in this chapter is faster-than-light communication.
+
+The two-part technical story — one statistical, one geometric — is visible with tools already in
+hand: `measure(shots:)` (Chapter 9) and `BlochVector` (Chapters 5, 10), applied to the entangling
+gate Chapter 11 §11.5 singled out as the one thing `⊗` cannot build: `cx`.
 
 | § | What happens |
 |---|---|
