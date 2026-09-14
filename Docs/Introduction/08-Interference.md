@@ -15,8 +15,8 @@
 Four earlier chapters have been quietly deferring to this one. Chapter 2 §2.4 split a complex
 number into magnitude and phase and noted that phase "never touches a probability" — without
 saying why that might matter. Chapter 3 turned up a sign it could describe but not yet explain.
-Chapter 5 §5.1 showed a global phase vanishing from the Bloch sphere without a trace. Chapter 7
-§7.3 applied `Z` to `|0⟩` and found nothing happened at all. This chapter is where those four
+Chapter 5 §5.2 showed a global phase vanishing from the Bloch sphere without a trace. Chapter 7
+§7.4 applied `Z` to `|0⟩` and found nothing happened at all. This chapter is where those four
 loose threads join into one mechanism: **interference**.
 
 The mechanism is physical, not merely notational, and it has a one-sentence version: split a
@@ -61,8 +61,8 @@ precisely, because the rest of the chapter is built on the distinction: with onl
 amplitude, any sign or phase attached to it is a **global** phase — a factor multiplying *every*
 amplitude in the state equally. A global phase is invisible to every measurement (probabilities
 depend on `|amplitude|²`, and `|e^{iγ}| = 1` for any γ) and even to the Bloch sphere (Chapter 5
-§5.1) — it is not a special property of `Z`, it is a fact about single-branch states in general.
-Chapter 7 §7.3 showed the same emptiness; this chapter is about what happens once there is a
+§5.2) — it is not a special property of `Z`, it is a fact about single-branch states in general.
+Chapter 7 §7.4 showed the same emptiness; this chapter is about what happens once there is a
 *second* branch to compare against.
 
 A **relative** phase is different: a sign or angle attached to one amplitude but not another,
@@ -133,7 +133,7 @@ phi     p0      cos^2(phi/2)
 6.2832  1.0000  1.0000
 ```
 
-φ = π reproduces §8.4's `H;Z;H` exactly (`P(π) ≡ Z`, Chapter 7 §7.6); φ = π/2 and π/4 land on the
+φ = π reproduces §8.4's `H;Z;H` exactly (`P(π) ≡ Z`, Chapter 7 §7.7); φ = π/2 and π/4 land on the
 fixed gates `S` and `T`, each one further tappable point on the same curve:
 
 ```text
@@ -142,7 +142,7 @@ H;T;H probabilities: [0.8535533905932735, 0.14644660940672616]
 ```
 
 **Global phase drops out of the fringe entirely.** `RZ(φ)` and `P(φ)` differ by a global phase
-factor `e^{−iφ/2}` (Chapter 7 §7.7) — different raw amplitudes, but `H;RZ(φ);H` reproduces
+factor `e^{−iφ/2}` (Chapter 7 §7.8) — different raw amplitudes, but `H;RZ(φ);H` reproduces
 `H;P(φ);H`'s probabilities to floating-point rounding, at every φ tested:
 
 ```text
@@ -174,18 +174,18 @@ pre-final-`H` x-coordinates confirms it at every sampled φ (φ = π/4: `x = 0.7
 = 0.8536`, matching `p0` exactly; φ = π: `x = −1.0000` → `0.0000`, also exact).
 
 This is also the chapter where a 3D Bloch view earns its keep. `BlochSphereView`'s fixed oblique
-projection (Chapter 5 §5.3) foreshortens the x-axis by a factor of `0.5·√0.5 ≈ 0.354` — and x is
+projection (Chapter 5 §5.4) foreshortens the x-axis by a factor of `0.5·√0.5 ≈ 0.354` — and x is
 exactly the coordinate a relative phase moves. `Bloch3DSphereView` — the app's rotatable Display
-mode, introduced in Chapter 6 §6.2 — orbits a real camera around the sphere instead: drag
+mode, introduced in Chapter 6 §6.3 — orbits a real camera around the sphere instead: drag
 until you are looking straight down the z-axis, and φ becomes a protractor reading with no
 foreshortening at all, rather than a compressed sliver of the 2D card.
 
 ## 8.7 Why probabilities lose information amplitudes keep
 
-A single-qubit state carries two independent real numbers, θ and φ (Chapter 6 §6.1). The
+A single-qubit state carries two independent real numbers, θ and φ (Chapter 6 §6.2). The
 probability pair `(cos²(θ/2), sin²(θ/2))` is a function of θ alone — one real number. Exactly one
 real number of information is destroyed by measuring in the computational basis, and it is
-always φ, never θ: this is §6.3's derivation restated as the reason `Z`, `P(φ)`, and `RZ(φ)`
+always φ, never θ: this is §6.4's derivation restated as the reason `Z`, `P(φ)`, and `RZ(φ)`
 alone are all unmeasurable, and the reason a second `H` is needed to get any of φ back.
 
 Recovering φ requires **changing basis before measuring**, not just measuring harder or more
@@ -466,7 +466,7 @@ oracle+diffuser probs:      [0.0, 0.0, 0.0, 0.9999999999999984]
    state on the equator instead of a pole. The leading `−` is a global phase (§8.2) with no
    physical consequence — `−|−⟩` and `|−⟩` are the same physical state.</details>
 
-2. Predict `H;T;T;H`'s `P(0)` before running it, using `T² = S` (Chapter 7 §7.5).
+2. Predict `H;T;T;H`'s `P(0)` before running it, using `T² = S` (Chapter 7 §7.6).
    <details><summary>Answer</summary>`0.5`. `T` applied twice is `S` (to floating-point
    rounding), so `H;T;T;H` lands on the same fringe point as `H;S;H`, measured above as
    `0.4999999999999998`.</details>
@@ -479,7 +479,7 @@ oracle+diffuser probs:      [0.0, 0.0, 0.0, 0.9999999999999984]
 
 4. `H;P(π/2);H` and `H;RZ(π/2);H` produce different amplitudes but the same probabilities. Why?
    <details><summary>Answer</summary>`P(φ)` and `RZ(φ)` are the same gate up to the global phase
-   factor `e^{−iφ/2}` (Chapter 7 §7.7). Global phase multiplies every amplitude in the state
+   factor `e^{−iφ/2}` (Chapter 7 §7.8). Global phase multiplies every amplitude in the state
    equally and cancels out of every `|amplitude|²`, so it can never survive into a probability —
    §8.5 verified the two circuits' probabilities agree to floating-point rounding at every φ
    tested, even though their raw amplitudes differ.</details>

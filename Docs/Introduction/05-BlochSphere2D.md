@@ -10,9 +10,38 @@
 | Library APIs | `BlochVector` (single-qubit case), `BlochSphereView` |
 | Prerequisites | Chapters 3, 4 |
 
-## 5.1 The six canonical states on the sphere
+## 5.1 Why a qubit fits on a sphere
 
-Chapter 4 §4.4 showed that the three Pauli expectation values `⟨ψ|X|ψ⟩`, `⟨ψ|Y|ψ⟩`, `⟨ψ|Z|ψ⟩`
+A single qubit's state looks, on paper, like it should need four real numbers: two complex
+amplitudes, each with a real and imaginary part. It doesn't. Normalization (Chapter 2 §2.7)
+removes one degree of freedom — the amplitudes must satisfy `|α|² + |β|² = 1`, a single
+constraint. Global phase removes a second: multiplying the whole state by any `e^{iγ}` leaves
+every `|amplitude|²` unchanged, so no measurement can ever detect it — §5.2 below makes this
+precise for the coordinates this chapter builds. Four real numbers, minus two constraints, leaves
+two — and a surface parametrized by two independent numbers, sitting at a fixed distance from an
+origin, is a sphere. That is not a metaphor; it is the entire content of this chapter, spelled out
+coordinate by coordinate.
+
+The three numbers Chapter 4 §4.5 computed as bra–ket sandwiches — `⟨ψ|X|ψ⟩`, `⟨ψ|Y|ψ⟩`,
+`⟨ψ|Z|ψ⟩` — are exactly the `x, y, z` this chapter plots, and the sphere they land on is the
+**Bloch sphere**, the picture the rest of this book reasons with instead of columns of complex
+numbers. Placing states on it pays off immediately: the six states every later chapter reaches
+for by name sit at the six axis points (§5.2), gates become rotations of this same sphere
+(Chapter 7), a hidden relative phase becomes a longitude that a second `H` can read as a latitude
+(Chapter 8), and an entangled qubit's reduced state shows up as an arrow that no longer reaches
+the surface at all (Chapter 12). The one cost this chapter has to pay up front: a sphere is a 3D
+object, and a page — or an app's canvas — is not, so §5.4 closes with what a 2D drawing of it
+necessarily throws away.
+
+| § | What happens |
+|---|---|
+| 5.2 | The six axis states named and placed: `\|0⟩ \|1⟩ \|+⟩ \|−⟩ \|+i⟩ \|−i⟩` |
+| 5.3 | A general, off-axis state, reached by direction cosines |
+| 5.4 | Two projections of the same sphere onto a flat page, and what each one drops |
+
+## 5.2 The six canonical states on the sphere
+
+Chapter 4 §4.5 showed that the three Pauli expectation values `⟨ψ|X|ψ⟩`, `⟨ψ|Y|ψ⟩`, `⟨ψ|Z|ψ⟩`
 of a single-qubit state `|ψ⟩ = α|0⟩ + β|1⟩` are three real numbers. This chapter gives them
 names and a picture: they are the coordinates
 
@@ -100,7 +129,7 @@ Reading notes:
   themselves round: `2·(1/√2)²` is `0.9999999999999998`, the same ~1e-16 Chapter 4 measured on
   `H†H` — invisible at three decimals.
 
-## 5.2 A general tilted state
+## 5.3 A general tilted state
 
 Most states aren't on an axis. Take a Bloch vector making a 45° angle with the x-axis and a 60°
 angle with the y-axis. The components of a unit vector are its direction cosines, so:
@@ -113,7 +142,7 @@ z = √(1 − x² − y²) = √(1 − 3/4) = 1/2      (choosing the upper hemis
 
 which happens to also put the vector 60° from the z-axis: `θ = acos(z) = 60°`,
 `φ = atan2(y, x) ≈ 35.264°`. Every single-qubit state can be written, up to the same
-unobservable global phase §5.1 dropped, as
+unobservable global phase §5.2 dropped, as
 
 ```text
 |ψ⟩ = cos(θ/2)|0⟩ + e^{iφ}·sin(θ/2)|1⟩
@@ -162,7 +191,7 @@ direction. Also worth noting: `P(0)` and `P(1)` depend only on θ, never on φ �
 the state around its latitude (the equator at that θ) without changing the measurement
 statistics at all.
 
-## 5.3 Reading a 3D sphere in 2D: the two projections
+## 5.4 Reading a 3D sphere in 2D: the two projections
 
 `03Bloch2dProjection` draws this tilted state's sphere alongside two **plane projections**: an
 orthographic projection onto a coordinate plane simply drops the out-of-plane component and
@@ -193,9 +222,9 @@ canvas-up    = z − x·0.354
 So `|+⟩` (pure +x) draws as a short arrow toward the lower-left, `|−⟩` toward the upper-right,
 and the poles straight up/down at full length — one 2D picture standing in for both of
 `03Bloch2dProjection`'s panes, at the cost that a short arrow is ambiguous between "points
-mostly toward the viewer" and "is a mixed/entangled reduced state with `|r| < 1`" (§12 covers
-the latter) until you read the numeric readout underneath, which always states `|r|` explicitly
-whenever it drops below 1.
+mostly toward the viewer" and "is a mixed/entangled reduced state with `|r| < 1`" (Chapter 12
+covers the latter) until you read the numeric readout underneath, which always states `|r|`
+explicitly whenever it drops below 1.
 
 ## Build it in the app
 
@@ -219,7 +248,7 @@ q2  x +1.000  y +0.000  z +0.000        q5  x +0.000  y -1.000  z +0.000
     θ 1.571 rad  φ 0.000 rad                θ 1.571 rad  φ -1.571 rad
 ```
 
-— identical to §5.1's six numbers, read off six cards at once instead of six console lines. (If
+— identical to §5.2's six numbers, read off six cards at once instead of six console lines. (If
 you'd rather match `02Bloch2d` exactly, one wire at a time: drop **Qubits** to 1, arm/tap the
 gates for one state, **Display** → **Final**, **Clear**, repeat for the next state.)
 
@@ -230,7 +259,7 @@ because every one of these six wires is a genuinely unentangled product state, s
 vector still has length exactly 1; the same machinery gives `|r| = 0` for a wire of an entangled
 Bell state (Chapter 12).
 
-What's still missing: no separate x–y/z–y projection panes — the single oblique view of §5.3 is
+What's still missing: no separate x–y/z–y projection panes — the single oblique view of §5.4 is
 what's on screen instead — and no way to enter a Bloch vector's coordinates directly; every state
 still has to be reached by placing gates.
 
@@ -277,13 +306,13 @@ q5  x +0.000  y -1.000  z +0.000
 θ 1.571 rad  φ -1.571 rad
 ```
 
-No `|r|` line on any card, confirming every reduced vector comes out at full length, as §5.1's
+No `|r|` line on any card, confirming every reduced vector comes out at full length, as §5.2's
 per-qubit numbers predicted.
 
 ## Try it yourself
 
 1. `02Bloch2d`'s gallery reaches `|+i⟩` with `H` then `S`, and `|−i⟩` with `H` then `S†`. Predict
-   the sign of `y` for each before checking §5.1's table.
+   the sign of `y` for each before checking §5.2's table.
    <details><summary>Answer</summary>`S` (√Z) advances the relative phase of `|1⟩` by +90°,
    rotating `|+⟩`'s point counterclockwise from `+x` to `+y`; `S†` rotates the other way, to
    `−y`. Table: `|+i⟩ → +y`, `|−i⟩ → −y`, confirmed by the `02Bloch2d` run above.</details>
@@ -296,7 +325,7 @@ per-qubit numbers predicted.
 3. `h(0); z(0)` and `h(0); rz(.pi, 0)` are two different gate sequences. Do they land on the same
    Bloch point?
    <details><summary>Answer</summary>Yes — `RZ(π)` and `Z` both multiply `|1⟩`'s amplitude by
-   `−1` up to an overall global phase, and §5.1 established that Bloch coordinates are invariant
+   `−1` up to an overall global phase, and §5.2 established that Bloch coordinates are invariant
    under a global phase. Both circuits land on `|−⟩`, (−1, 0, 0), even though `RZ(π)`'s raw
    amplitudes carry an extra phase factor that `Z`'s don't.</details>
 

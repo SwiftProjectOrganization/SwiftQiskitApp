@@ -10,7 +10,34 @@
 | Library APIs | `Quantum/Dirac.swift` (`Ket`, `Bra`, postfix `†`, inner/outer `*`, `Bra * Matrix -> Bra`, `Matrix.adjoint`, basis kets `Ket("01")`, `.zero/.one/.plus/.minus/.plusI/.minusI`) |
 | Prerequisites | Chapters 2, 3 |
 
-## 4.1 Ket, Bra, and the dagger
+## 4.1 Why Dirac notation matters
+
+Chapter 2 built the machinery this chapter writes with: complex numbers, amplitude vectors, an
+inner product assembled by hand from `zip` and `map`, and `Matrix.adjoint` for the
+conjugate-transpose. Chapter 3 used that machinery to give a qubit its two amplitudes and the Born
+rule. Nothing here changes what a state *is* — `Ket` is a typealias of `StateVector`, not a new
+type — this chapter is a new way to *write* the same objects, one that reads closer to the
+physics literature and, more usefully, exposes structure the raw-array view left implicit.
+
+The structure is a type discipline: a bra placed before a ket (`⟨φ|ψ⟩`) is a number, the overlap
+of two states; a ket placed before a bra (`|ψ⟩⟨φ|`) is a matrix, a projector or more general
+operator. Two symbols, reversed order, two completely different kinds of object — and once that
+distinction is in hand, several results from earlier chapters fall out as one-line consequences
+instead of separate calculations. Chapter 3 §3.2's Born rule re-reads as `⟨φ|0⟩⟨0|φ⟩`, a bra
+sandwiching a projector. And the three real numbers Chapters 5–6 place on the Bloch sphere —
+`⟨ψ|X|ψ⟩`, `⟨ψ|Y|ψ⟩`, `⟨ψ|Z|ψ⟩` — turn out to be nothing but bra–matrix–ket products, the same
+three numbers the app's Display sheet already prints for every qubit, now named and derived
+rather than taken on faith.
+
+| § | What happens |
+|---|---|
+| 4.2 | `Ket`, `Bra`, and `†` — the same states Chapter 3 built, in new notation |
+| 4.3 | Inner products (`Bra * Ket`, a number) versus outer products (`Ket * Bra`, a matrix) |
+| 4.4 | Projectors: Hermitian, idempotent, complete, and the Born rule rewritten |
+| 4.5 | The three Pauli expectation values, and why they are exactly the Bloch coordinates |
+| 4.6 | Kets and bras for more than one qubit |
+
+## 4.2 Ket, Bra, and the dagger
 
 `Ket` is a typealias of `StateVector` — everything Chapter 3 established about amplitudes and
 normalization carries over unchanged; Dirac notation is a new way to *write* the same object,
@@ -58,7 +85,7 @@ exact equality rather than an approximate one.
 in this chapter has an ASCII equivalent: `Bra(ket)` for `ket†`, `bra.ket` for `bra†`, and
 `matrix.adjoint` for `matrix†`.
 
-## 4.2 Inner and outer products
+## 4.3 Inner and outer products
 
 `Bra * Ket` is the inner product ⟨φ\|ψ⟩ — a single `Complex` number measuring the overlap of two
 states. This is the same formula Chapter 2 §2.6 built by hand as a `zip`/`map` helper over plain
@@ -105,10 +132,10 @@ check, with the second value already conjugated before printing so the two lines
 directly.
 
 `Ket * Bra` runs the same two operands the other way and produces a different *type* entirely —
-a `Matrix`, the outer product |ψ⟩⟨φ|. §4.3 below is built entirely on that distinction: a bra
+a `Matrix`, the outer product |ψ⟩⟨φ|. §4.4 below is built entirely on that distinction: a bra
 before a ket is a number; a ket before a bra is a matrix.
 
-## 4.3 Projectors and adjoints
+## 4.4 Projectors and adjoints
 
 `|0⟩⟨0|` and `|1⟩⟨1|` are outer products — each one a `Matrix` that projects any state onto that
 basis vector:
@@ -208,9 +235,9 @@ print(maxDiff(HadamardGate.matrix† * HadamardGate.matrix, Matrix.identity(size
 `maxDiff`/`1e-10` tolerance idiom applies exactly as before.
 
 Hermitian operators matter beyond this chapter for one reason: their expectation values are
-always real numbers, never complex. §4.4 is built entirely on that fact.
+always real numbers, never complex. §4.5 is built entirely on that fact.
 
-## 4.4 Pauli expectation values as Bloch coordinates
+## 4.5 Pauli expectation values as Bloch coordinates
 
 Every single-qubit state can be written as `|ψ⟩ = cos(θ/2)|0⟩ + e^{iφ}·sin(θ/2)|1⟩` for some
 angles θ and φ — the parametrization Chapters 5 and 6 use to place `|ψ⟩` on the Bloch sphere.
@@ -264,7 +291,7 @@ print(sin(theta) * cos(phi), sin(theta) * sin(phi), cos(theta))
 
 Each printed value has **no `i` suffix** — `Complex.description` drops a zero imaginary part
 entirely (Chapter 2 §2.2's formatting note), and here that's the point, not a coincidence: X, Y,
-and Z are all Hermitian (§4.3), so their expectation values against any state are guaranteed
+and Z are all Hermitian (§4.4), so their expectation values against any state are guaranteed
 real. The closed forms `sin θ cos φ`, `sin θ sin φ`, `cos θ` agree with the bra–ket computation
 to about 15 significant figures — two independent routes to the same three numbers.
 
@@ -285,7 +312,7 @@ Identical to the bra–ket result above, to the last printed digit. This is not 
 unrelated formula — it is algebraically the same expectation value, and it's the formula the
 app's Bloch sphere actually draws every time it renders a qubit.
 
-## 4.5 Multi-qubit kets and bras
+## 4.6 Multi-qubit kets and bras
 
 `Ket`/`Bra` basis labels extend to multiple qubits the same way Chapter 2 §2.10's tensor product
 does — qubit 0 is the most-significant (leftmost) bit, and `⊗` concatenates registers exactly
@@ -300,7 +327,7 @@ true
 ```
 
 Conjugation distributes over `⊗` *exactly*: `(|a⟩ ⊗ |b⟩)† = ⟨a| ⊗ ⟨b|`, with no rounding gap,
-for the same reason §4.1's double-dagger was exact — conjugation touches no lengths, and
+for the same reason §4.2's double-dagger was exact — conjugation touches no lengths, and
 re-normalizing an already-normalized tensor product is a no-op:
 
 ```swift
@@ -311,7 +338,7 @@ print(Ket.plus† ⊗ Ket.one† == (Ket.plus ⊗ Ket.one)†)
 true
 ```
 
-Mixing a bra and a ket in `⊗` is not a new operation — it is the outer product from §4.3,
+Mixing a bra and a ket in `⊗` is not a new operation — it is the outer product from §4.4,
 spelled with `⊗` instead of `*`. A column (m×1) tensored with a row (1×n) is literally an m×n
 matrix with entries `aᵢb̄ⱼ`, which is `|a⟩⟨b|`; a row tensored with a column puts the ket back in
 the columns, which is why the operands swap: `⟨a| ⊗ |b⟩ = |b⟩⟨a|`.
@@ -356,7 +383,7 @@ tensor-product mechanics in depth, and Chapter 12 covers what makes this particu
 
 ## Build it in the app
 
-◐ Section §4.4's three numbers are exactly what the **Display** sheet's Bloch readout already
+◐ Section §4.5's three numbers are exactly what the **Display** sheet's Bloch readout already
 shows — that part is real, tap-by-tap:
 
 1. Drop **Qubits** to 1.
@@ -365,11 +392,11 @@ shows — that part is real, tap-by-tap:
 3. Arm **P**, tap the next empty cell on `q0`. Tap that tile and drag its slider to `0.785`
    (π/4).
 4. The State Vector panel now shows `|0⟩: 0.866…  (p=0.750)` and
-   `|1⟩: 0.354… + 0.354…i  (p=0.250)` — this is `|ψ⟩` from §4.4, `α` and `β` read directly off
+   `|1⟩: 0.354… + 0.354…i  (p=0.250)` — this is `|ψ⟩` from §4.5, `α` and `β` read directly off
    the panel instead of via `Bra("0")`/`Bra("1")`.
 5. Tap **Display** → **Final**. The `q0` sphere's readout reads
    `x +0.612  y +0.612  z +0.500` with `θ 1.047 rad  φ 0.785 rad` underneath. **Those three
-   numbers are `⟨ψ|X|ψ⟩`, `⟨ψ|Y|ψ⟩`, `⟨ψ|Z|ψ⟩`** — the whole content of §4.4, produced by the
+   numbers are `⟨ψ|X|ψ⟩`, `⟨ψ|Y|ψ⟩`, `⟨ψ|Z|ψ⟩`** — the whole content of §4.5, produced by the
    same `BlochVector` type the "Run it in code" section calls directly, read off the screen
    instead of printed to a console.
 6. Switch to **Steps** mode: `Start` (the `|0⟩` pole) → `Col 1` (after `RY`, swung out to
@@ -380,7 +407,7 @@ shows — that part is real, tap-by-tap:
 What's still missing, and stays code-only: there is no bra display, no way to enter an arbitrary
 matrix or projector, and no expectation value for anything other than the three fixed Paulis —
 and even those only appear implicitly, as Bloch coordinates, never labeled `⟨ψ|X|ψ⟩` on screen.
-§4.1–§4.3's ket/bra/projector algebra has no visual counterpart at all. Also note the θ slider
+§4.2–§4.4's ket/bra/projector algebra has no visual counterpart at all. Also note the θ slider
 has no exact-entry field and a three-decimal readout, so step 2–3 above only approximate the
 code's exact `.pi / 3` and `.pi / 4` — small enough that the app's rounded readout still matches
 the values above to three decimals, but not bit-for-bit identical to them.
@@ -407,7 +434,7 @@ print(bloch.x, bloch.y, bloch.z, bloch.theta, bloch.phi)
 0.6123724356957945 0.6123724356957945 0.5000000000000002 1.0471975511965974 0.7853981633974483
 ```
 
-Identical to §4.4's `makeState(theta: .pi/3, phi: .pi/4)` result — building `|ψ⟩` by tapping
+Identical to §4.5's `makeState(theta: .pi/3, phi: .pi/4)` result — building `|ψ⟩` by tapping
 `RY` then `P` onto the app's grid is the same state as building it directly from the closed-form
 amplitudes, and `bloch.theta`/`bloch.phi` recover the exact input angles, π/3 and π/4.
 
@@ -416,11 +443,11 @@ amplitudes, and `bloch.theta`/`bloch.phi` recover the exact input angles, π/3 a
 1. `⟨+i|Z|+i⟩ ≈ 0` — verify it, and explain why in terms of `|α|²` and `|β|²` rather than just
    "it's on the equator."
    <details><summary>Answer</summary>`Ket.plusI† * PauliZGate.matrix * Ket.plusI` gives exactly
-   `0.0`. `⟨ψ|Z|ψ⟩ = |α|² − |β|²` (§4.4's `z` coordinate), and `|+i⟩ = (|0⟩ + i|1⟩)/√2` has
+   `0.0`. `⟨ψ|Z|ψ⟩ = |α|² − |β|²` (§4.5's `z` coordinate), and `|+i⟩ = (|0⟩ + i|1⟩)/√2` has
    `|α|² = |β|² = 0.5`, so the two terms cancel exactly. Equatorial states have `z = 0` by this
    same reasoning generally — the geometry Chapter 5 draws is just this algebra, drawn.</details>
 
-2. Why is `(|ψ⟩†)† == |ψ⟩` checked as *exactly* `true` in §4.1, when so much of this book's
+2. Why is `(|ψ⟩†)† == |ψ⟩` checked as *exactly* `true` in §4.2, when so much of this book's
    arithmetic only holds "up to floating-point rounding"?
    <details><summary>Answer</summary>`StateVector.normalize()` skips rescaling whenever the
    vector's length is already within `1e-12` of 1 (the guard at

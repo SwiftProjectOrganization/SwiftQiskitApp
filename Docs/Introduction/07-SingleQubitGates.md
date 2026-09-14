@@ -1,6 +1,6 @@
 # Chapter 7 — Single-Qubit Gates, One at a Time
 
-> A gentle, gate-by-gate tour of the built-in gate set — `x h z y s sdg t p rx ry rz` — each
+> A gentle, gate-by-gate tour of the built-in gate set — `x h z y s sdg t tdg p rx ry rz` — each
 > shown individually on a 1-qubit circuit, ending with a one-line Bell-state teaser.
 
 | | |
@@ -10,19 +10,50 @@
 | Library APIs | `QuantumCircuit.h/x/y/z/s/sdg/t/tdg`, `p/rx/ry/rz(_:_:)` |
 | Prerequisites | Chapters 3, 5 |
 
-## 7.1 The bit flip: X
+## 7.1 Why one gate at a time
+
+Every chapter so far has described states without changing them: a fixed `|ψ⟩`, its amplitudes,
+its Bloch point. This is the first chapter about *acting* on one. Every gate is a unitary matrix
+(Chapter 2 §2.9), and Chapters 5–6 showed that on a single qubit, every unitary has a
+geometric meaning: it moves a point on the Bloch sphere, generally by rotating it. That single
+fact makes the whole catalog below readable two ways at once — as a matrix acting on a pair of
+amplitudes, and as a rotation moving an arrow — and this chapter deliberately keeps both readings
+in view, gate by gate, before Chapter 8 needs both at once.
+
+Two distinctions are worth having before the list starts. First, fixed turns versus continuous
+families: `X`, `Y`, `Z`, `H`, `S`, `S†`, `T`, `T†` are each one specific rotation, while `P(θ)`,
+`RX(θ)`, `RY(θ)`, `RZ(θ)` are continuous rotations that reproduce several of the fixed gates at
+particular angles — `P(π/2) ≡ S`, `P(π) ≡ Z`, and so on. Second, gates that move measurement
+probabilities versus gates that only move phase: `X` and `H` change what a measurement will show;
+`Z` alone, applied to `|0⟩`, changes nothing a measurement can detect at all. That second fact is
+not a dead end — it is a deliberately unresolved puzzle. §7.4 states it plainly and stops there;
+Chapter 8 is the chapter that resolves it, by showing what a *second* gate does with the phase `Z`
+leaves behind.
+
+| § | What happens |
+|---|---|
+| 7.2 | `X`: the bit flip |
+| 7.3 | `H`: superposition |
+| 7.4 | `Z`: a phase flip invisible on its own — the puzzle Chapter 8 resolves |
+| 7.5 | `Y`: `X` and `Z` together |
+| 7.6 | `S`, `S†`, `T`: quarter- and eighth-turns around the equator |
+| 7.7 | `P(θ)`: the general phase gate the quarter/eighth turns are special cases of |
+| 7.8 | `RX`, `RY`, `RZ`: continuous rotations about all three axes |
+| 7.9 | A first two-qubit gate, `CX`, as a teaser for Chapter 12 |
+
+## 7.2 The bit flip: X
 
 `X` swaps the two basis amplitudes: `|0⟩ → |1⟩`, `|1⟩ → |0⟩`. Its matrix is the off-diagonal
 `[[0,1],[1,0]]`. On `|0⟩` the result is a single basis state with probability 1 — nothing
 statistical to report, and the Bloch point (Chapter 5) lands exactly on the south pole, `(0, 0, −1)`.
 
-## 7.2 Superposition: H
+## 7.3 Superposition: H
 
 `H` sends `|0⟩ → (|0⟩+|1⟩)/√2 = |+⟩` — Chapter 5's `+x` axis point, `(+1, 0, 0)`. Both basis
 states now carry probability ≈ 0.500; a measurement (Chapter 9) is genuinely undetermined until
 it happens, unlike `X`'s deterministic flip.
 
-## 7.3 The phase flip: Z, and why it's invisible alone
+## 7.4 The phase flip: Z, and why it's invisible alone
 
 `Z` is `diag(1, −1)`: it leaves `|0⟩` alone and multiplies `|1⟩`'s amplitude by −1. Applied to
 `|0⟩` by itself, this changes nothing observable — `Z|0⟩ = |0⟩` exactly, probabilities `[1.0, 0.0]`.
@@ -40,7 +71,7 @@ in two independent places at once: the minus sign printed in the State Vector pa
 column, and the Display arrow swinging from `+x` to `−x` while the panel's `p=` values don't move
 at all.
 
-## 7.4 Y as X and Z together
+## 7.5 Y as X and Z together
 
 `Y = iXZ`: a bit flip and a phase flip applied together, packaged as one gate,
 `[[0,−i],[i,0]]`. On `|0⟩`, `Y` gives `i|1⟩` — the same probabilities `[0.0, 1.0]` as `X`, and
@@ -49,7 +80,7 @@ carrying a factor of `i` that `X` doesn't. `X` and `Y` become distinguishable �
 not just in the amplitude column — once they act on a state that isn't already a pole; §7's
 exercises pick this up on `|+⟩`.
 
-## 7.5 Quarter and eighth turns: S, S†, T
+## 7.6 Quarter and eighth turns: S, S†, T
 
 `S = P(π/2) = diag(1, i)` is `√Z` — two `S`s compose to `Z`. Applied after `H`, `S` rotates
 `|+⟩` a quarter turn around the equator to `|+i⟩`, `(0, +1, 0)`; its adjoint `S†` rotates the
@@ -58,7 +89,7 @@ lands on `H` then `S` — `T² = S` — to within a measured `1.11×10⁻¹⁶`,
 paths accumulate floating-point rounding differently (§ Run it in code below has the actual
 number). `T†` is `T`'s adjoint, the eighth-turn the other way.
 
-## 7.6 The general phase gate P(θ)
+## 7.7 The general phase gate P(θ)
 
 `P(θ) = diag(1, e^{iθ})` generalizes `S`, `T`, and `Z` to an arbitrary angle:
 `P(π/2) ≡ S`, `P(π/4) ≡ T`, `P(π) ≡ Z` — each an exact match to within floating-point rounding
@@ -66,16 +97,16 @@ number). `T†` is `T`'s adjoint, the eighth-turn the other way.
 z-axis — it moves φ, never θ, so it never touches the measurement statistics established by
 whatever gate ran before it.
 
-## 7.7 Continuous rotations: RX, RY, RZ
+## 7.8 Continuous rotations: RX, RY, RZ
 
-Where §7.1–7.6 are a fixed catalog of turns, `RX(θ)`, `RY(θ)`, `RZ(θ)` are continuous rotations
+Where §7.2–7.7 are a fixed catalog of turns, `RX(θ)`, `RY(θ)`, `RZ(θ)` are continuous rotations
 by an arbitrary angle θ about the x, y, z axes, each `exp(−iθA/2)` for the corresponding Pauli
 matrix `A`. Two land on states already reached above: `RY(π/2)|0⟩` gives the same `(0.7071, 0.7071)`
 as `H|0⟩` — the same point, `|+⟩`, reached by a continuous turn instead of a fixed reflection.
 `RX(π/2)|0⟩` gives `(0.7071, −0.7071i)` — probabilities roughly half-and-half like `H`, but at
 Bloch point `(0, −1, 0)`, not `(+1, 0, 0)`: `RX` rotates about the x-axis, which carries the
 north pole to the `−y` axis, not the `+x` axis that `RY`'s rotation (about the y-axis) reaches
-instead. `RZ`, by contrast, illustrates §7.3's lesson generalized to a whole continuous
+instead. `RZ`, by contrast, illustrates §7.4's lesson generalized to a whole continuous
 family: `RZ(θ)` alone on `|0⟩` never changes the measurement statistics at all, for any θ, because
 a rotation about the z-axis fixes the poles — it can only move a state already off-axis. Unlike
 plain `Z` alone, though, `RZ(π/2)|0⟩`'s single remaining amplitude is genuinely complex,
@@ -84,7 +115,7 @@ a global phase that no on-circuit measurement can detect, but that the State Vec
 anyway. `RZ` after `H` matches `P`'s probabilities (`[0.500, 0.500]`) but not its raw amplitudes —
 the two differ by the global phase factor `e^{−iθ/2}` baked into `RZ`'s definition.
 
-## 7.8 A Bell-state teaser
+## 7.9 A Bell-state teaser
 
 One `H` and one `CX` (Chapter 12's subject) reach past a single qubit for the first time in this
 chapter: `H` on `q0`, then `CX` with `q0` as control and `q1` as target, gives probabilities
@@ -309,13 +340,13 @@ Both match the readouts quoted in steps 9 and 10 above.
 2. Why does `RZ` alone leave the Display card exactly on the `|0⟩` pole, no matter what θ is,
    while `RZ` after `H` visibly moves it?
    <details><summary>Answer</summary>`RZ(θ)` is a rotation about the z-axis, and a rotation about
-   an axis fixes the two points already sitting on that axis — the same fact §7.3 established for
+   an axis fixes the two points already sitting on that axis — the same fact §7.4 established for
    the fixed gate `Z`, now true for the whole continuous `RZ` family. `H` first moves the state
    off the z-axis (onto `|+⟩`), giving `RZ` something to actually rotate.</details>
 
 3. Predict the Display card for `H` then `X`, and separately for `H` then `Y`, before checking.
    <details><summary>Answer</summary>`X|+⟩ = |+⟩` — `X` fixes `|+⟩`, so the card stays at
-   `x +1.000`. `Y|+⟩ = −i|−⟩` — physically the `−x` point, `x −1.000`. §7.4 showed `X` and `Y`
+   `x +1.000`. `Y|+⟩ = −i|−⟩` — physically the `−x` point, `x −1.000`. §7.5 showed `X` and `Y`
    land on the *same* card starting from `|0⟩`; here, starting from `|+⟩`, they land on opposite
    sides of the sphere — the difference between the two gates is invisible on one input and
    maximally visible on another.</details>
@@ -323,7 +354,7 @@ Both match the readouts quoted in steps 9 and 10 above.
 4. Three different circuits in this chapter — `H;S`, `H;P(π/2)`, and `H;RZ(π/2)` — produce three
    different sets of raw amplitudes but the exact same Display card. Why?
    <details><summary>Answer</summary>Bloch coordinates are blind to a global phase (Chapter 5
-   §5.1). `S`, `P(π/2)`, and `RZ(π/2)` agree on everything a measurement can detect — they all
+   §5.2). `S`, `P(π/2)`, and `RZ(π/2)` agree on everything a measurement can detect — they all
    send `|+⟩` to the same physical state, `|+i⟩` — but `RZ`'s definition carries an extra overall
    phase factor `e^{−iπ/4}` that `S` and `P(π/2)` don't, which is why its amplitudes
    (`0.5 ∓ 0.5i`) look nothing like the other two's (`0.7071`, `0.7071i`) even though the card is

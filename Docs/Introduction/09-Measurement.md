@@ -159,7 +159,7 @@ entry per basis state, computed exactly by `run()`, with nothing sampled or omit
 
 ## 9.6 Unequal splits
 
-Every example so far has been a fair coin. `RY(θ)` (Chapter 7 §7.7) gives a state with probability
+Every example so far has been a fair coin. `RY(θ)` (Chapter 7 §7.8) gives a state with probability
 `cos²(θ/2)` of measuring `0` for any θ, so sweeping θ and reading counts back recovers a known
 curve from statistics alone — this app's smallest possible rehearsal for tomography (Chapter 22):
 
@@ -206,7 +206,7 @@ A few implementation facts worth knowing before relying on any measurement resul
    wider swings than step 1's. Step up to **10,000** (the stepper's cap) and **Measure** again: the
    split visibly tightens toward even — the same 1/√N law as §9.4's table, watched live.
 3. **RX(π/2)** — Clear, arm **RX** (Rotation section — arms at θ = π/2), tap `q0`, **Measure** —
-   roughly even, like `H`, but reached from a different state (Chapter 7 §7.7).
+   roughly even, like `H`, but reached from a different state (Chapter 7 §7.8).
 4. **An unequal split** — Clear, arm **RY**, tap `q0`. Tap the placed tile to open its popover and
    drag θ to `1.047` (≈ π/3): the panel now reads `p≈0.750/0.250`. **Measure** at 10,000 shots and
    read the histogram back: an actual run gave `7463`/`2537` — close to, not exactly, the panel's
