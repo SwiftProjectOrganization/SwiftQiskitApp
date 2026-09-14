@@ -74,7 +74,7 @@ resolution will fail — see [README.md](README.md) → Requirements.
 | 11 | [Tensor Products and Composite Systems](Docs/Introduction/11-TensorProducts.md) | ◐ | done | [`09Tensor`](../SwiftQiskit/PlaygroundDocs/09TENSORHELP.md) |
 | 12 | [Entanglement: Bell and GHZ](Docs/Introduction/12-Entanglement.md) | ● | done | [`07Entanglement`](../SwiftQiskit/PlaygroundDocs/07ENTANGLEMENTHELP.md) |
 | 13 | [Oracles and Phase Kickback: Deutsch's Algorithm](Docs/Introduction/13-Deutsch.md) | ● | done | [`10DeutschExample`](../SwiftQiskit/PlaygroundDocs/10DEUTSCHHELP.md) |
-| 14 | [Deutsch–Jozsa and Bernstein–Vazirani](Docs/Introduction/14-DeutschJozsa.md) | ● | stub | [`17DeutschJozsa`](../SwiftQiskit/PlaygroundDocs/17DEUTSCHJOZSAHELP.md) |
+| 14 | [Deutsch–Jozsa and Bernstein–Vazirani](Docs/Introduction/14-DeutschJozsa.md) | ● | done | [`17DeutschJozsa`](../SwiftQiskit/PlaygroundDocs/17DEUTSCHJOZSAHELP.md) |
 | 15 | [Grover's Search](Docs/Introduction/15-Grover.md) | ◐ | stub | [`11GroverExample`](../SwiftQiskit/PlaygroundDocs/11GROVERHELP.md) |
 | 16 | [The Quantum Fourier Transform and Phase Estimation](Docs/Introduction/16-QFT.md) | ◐ | stub | [`16QFT`](../SwiftQiskit/PlaygroundDocs/16QFTHELP.md) |
 | 17 | [Shor's Algorithm, Compiled](Docs/Introduction/17-Shor.md) | ○ | stub | [`12ShorExample`](../SwiftQiskit/PlaygroundDocs/12SHORHELP.md) |
