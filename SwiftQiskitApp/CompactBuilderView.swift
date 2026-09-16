@@ -4,8 +4,9 @@
 //
 //  iPhone (horizontally-compact) layout: the circuit grid fills the screen
 //  with a horizontally-scrolling gate strip pinned below it. The qubit-count
-//  stepper doesn't fit a toolbar, so it's a Menu+Picker instead; results
-//  (state vector + histogram) open in a sheet rather than a side panel.
+//  stepper doesn't fit a toolbar, so it's a Menu+Picker in the nav bar instead;
+//  results (state vector + histogram) open in a sheet rather than a side
+//  panel. Clear/Results/Measure/Display all live together in the bottom bar.
 //
 
 #if os(iOS)
@@ -48,13 +49,13 @@ struct CompactBuilderView: View {
                         }
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItemGroup(placement: .bottomBar) {
                     Button("Clear") { builder.clear() }
-                }
-                ToolbarItem(placement: .bottomBar) {
                     Button("Results") { showingResults = true }
-                }
-                ToolbarItem(placement: .bottomBar) {
+                    Button("Measure") {
+                        builder.measure()
+                        showingResults = true
+                    }
                     Button("Display") { showingDisplay = true }
                 }
             }

@@ -70,14 +70,39 @@ struct CircuitBuilderTests {
         #expect(builder.gates[0].kind.theta == 1.23)
     }
 
-    @Test("clear removes all placed gates")
+    @Test("clear removes all placed gates and any prior measurement")
     func clearRemovesGates() {
         let builder = CircuitBuilder(qubitCount: 2)
         builder.place(.h, qubits: [0], column: 0)
         builder.place(.x, qubits: [1], column: 0)
+        builder.measure()
 
         builder.clear()
 
         #expect(builder.gates.isEmpty)
+        #expect(builder.lastResult == nil)
+    }
+
+    @Test("measure populates lastResult with counts totaling shots")
+    func measurePopulatesResult() throws {
+        let builder = CircuitBuilder(qubitCount: 2)
+        builder.place(.h, qubits: [0], column: 0)
+        builder.shots = 250
+
+        builder.measure()
+
+        let result = try #require(builder.lastResult)
+        #expect(result.counts.values.reduce(0, +) == 250)
+    }
+
+    @Test("shrinking qubitCount discards a prior measurement")
+    func shrinkingQubitCountClearsResult() {
+        let builder = CircuitBuilder(qubitCount: 3)
+        builder.place(.h, qubits: [0], column: 0)
+        builder.measure()
+
+        builder.qubitCount = 2
+
+        #expect(builder.lastResult == nil)
     }
 }

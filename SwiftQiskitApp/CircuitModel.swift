@@ -101,10 +101,14 @@ public final class CircuitBuilder {
                 return
             }
             gates.removeAll { gate in gate.qubits.contains { $0 >= qubitCount } }
+            lastResult = nil
         }
     }
 
     public var gates: [PlacedGate] = []
+
+    public var shots: Int = 1000
+    public var lastResult: SimulationResult?
 
     public init(qubitCount: Int = 2) {
         self.qubitCount = min(max(qubitCount, Self.minQubits), Self.maxQubits)
@@ -143,6 +147,12 @@ public final class CircuitBuilder {
 
     public func clear() {
         gates.removeAll()
+        lastResult = nil
+    }
+
+    /// Runs `shots` measurements on the current circuit and stores the result.
+    public func measure() {
+        lastResult = buildCircuit().measure(shots: shots)
     }
 
     /// Replays the placed gates, in column order, onto a fresh QuantumCircuit.

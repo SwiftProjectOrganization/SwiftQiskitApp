@@ -12,9 +12,6 @@ import SwiftQiskitCore
 struct ResultsView: View {
     var builder: CircuitBuilder
 
-    @State private var shots: Int = 1000
-    @State private var lastResult: SimulationResult?
-
     var body: some View {
         let state = builder.buildCircuit().run()
 
@@ -30,14 +27,20 @@ struct ResultsView: View {
             Divider()
 
             HStack {
-                Stepper("Shots: \(shots)", value: $shots, in: 1...10000, step: 100)
+                Stepper(
+                    "Shots: \(builder.shots)",
+                    value: Binding(
+                        get: { builder.shots },
+                        set: { builder.shots = $0 }
+                    ),
+                    in: 1...10000,
+                    step: 100
+                )
             }
 
-            Button("Measure") {
-                lastResult = builder.buildCircuit().measure(shots: shots)
-            }
+            Button("Measure") { builder.measure() }
 
-            if let result = lastResult {
+            if let result = builder.lastResult {
                 HistogramView(result: result)
                     .frame(height: 160)
             }
