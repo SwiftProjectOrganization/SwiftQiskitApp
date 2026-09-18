@@ -33,9 +33,13 @@ struct CircuitBuilderView: View {
             }
             .padding()
 
-            ResultsView(builder: builder)
-                .frame(width: 320)
-                .padding()
+            VStack(alignment: .leading, spacing: 12) {
+                ResultsView(builder: builder)
+                Divider()
+                MeasurementView(builder: builder)
+            }
+            .frame(width: 320)
+            .padding()
         }
         .safeAreaBar(edge: .bottom) { bottomBar }
         .sheet(isPresented: $showingDisplay) {

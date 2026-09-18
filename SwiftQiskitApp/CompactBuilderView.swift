@@ -3,10 +3,10 @@
 //  SwiftQiskitApp
 //
 //  iPhone (horizontally-compact) layout: the circuit grid fills the screen
-//  with a horizontally-scrolling gate strip pinned below it. The qubit-count
-//  stepper doesn't fit a toolbar, so it's a Menu+Picker in the nav bar instead;
-//  results (state vector + histogram) open in a sheet rather than a side
-//  panel. Clear/Results/Measure/Display all live together in the bottom bar.
+//  with a horizontally-scrolling gate strip pinned below it. Results (state
+//  vector) and Measurement (shots + histogram) are separate sheets rather
+//  than a side panel. Clear/Results/Measure/Display all live together in the
+//  bottom bar.
 //
 
 #if os(iOS)
@@ -18,6 +18,7 @@ struct CompactBuilderView: View {
     @Binding var armedGate: GateKind?
 
     @State private var showingResults = false
+    @State private var showingMeasurement = false
     @State private var showingDisplay = false
 
     var body: some View {
@@ -35,26 +36,22 @@ struct CompactBuilderView: View {
             .navigationTitle("Circuit")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Menu("Qubits: \(builder.qubitCount)") {
-                        Picker(
-                            "Qubits",
-                            selection: Binding(
-                                get: { builder.qubitCount },
-                                set: { builder.qubitCount = $0 }
-                            )
-                        ) {
-                            ForEach(CircuitBuilder.minQubits...CircuitBuilder.maxQubits, id: \.self) { count in
-                                Text("\(count)").tag(count)
-                            }
-                        }
-                    }
+                    Stepper(
+                        "Qubits: \(builder.qubitCount)",
+                        value: Binding(
+                            get: { builder.qubitCount },
+                            set: { builder.qubitCount = $0 }
+                        ),
+                        in: CircuitBuilder.minQubits...CircuitBuilder.maxQubits
+                    )
+                    .fixedSize()
                 }
                 ToolbarItemGroup(placement: .bottomBar) {
                     Button("Clear") { builder.clear() }
                     Button("Results") { showingResults = true }
                     Button("Measure") {
                         builder.measure()
-                        showingResults = true
+                        showingMeasurement = true
                     }
                     Button("Display") { showingDisplay = true }
                 }
@@ -67,6 +64,18 @@ struct CompactBuilderView: View {
                         .toolbar {
                             ToolbarItem(placement: .confirmationAction) {
                                 Button("Done") { showingResults = false }
+                            }
+                        }
+                }
+            }
+            .sheet(isPresented: $showingMeasurement) {
+                NavigationStack {
+                    MeasurementView(builder: builder)
+                        .padding()
+                        .navigationTitle("Measurement")
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Done") { showingMeasurement = false }
                             }
                         }
                 }

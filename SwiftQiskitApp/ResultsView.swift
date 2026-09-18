@@ -2,8 +2,8 @@
 //  ResultsView.swift
 //  SwiftQiskitApp
 //
-//  Live state vector for the current circuit, plus an on-demand shots
-//  measurement with a histogram.
+//  Live state vector for the current circuit. Shots/measurement/histogram
+//  live in MeasurementView instead.
 //
 
 import SwiftUI
@@ -23,29 +23,6 @@ struct ResultsView: View {
                 stateVectorList(state)
             }
             .frame(maxHeight: 220)
-
-            Divider()
-
-            HStack {
-                Stepper(
-                    "Shots: \(builder.shots)",
-                    value: Binding(
-                        get: { builder.shots },
-                        set: { builder.shots = $0 }
-                    ),
-                    in: 1...10000,
-                    step: 100
-                )
-            }
-
-            Button("Measure") { builder.measure() }
-
-            if let result = builder.lastResult {
-                HistogramView(result: result)
-                    .frame(height: 160)
-            }
-
-            Spacer()
         }
     }
 

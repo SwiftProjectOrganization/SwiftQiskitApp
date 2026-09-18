@@ -67,3 +67,5 @@ Project status and roadmap for SwiftQiskitApp.
 - `measure(shots:)` replays the full circuit per shot in the package's simulator; very high
   shot counts at high qubit counts may be slow (see the package's own notes on this in
   `PlaygroundDocs/12SHORHELP.md`).
+- Name and persistently store circuits.
+- 
