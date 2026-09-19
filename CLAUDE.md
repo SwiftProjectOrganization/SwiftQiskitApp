@@ -148,6 +148,9 @@ no sales-pitch framing. Applies to prose written for this project: `INTRODUCTION
 - `Docs/Tutorial.md` — how to use the app (build/measure a Bell state, GHZ state, etc.).
 - `Docs/Help.md` — implementation reference, extension guide, troubleshooting.
 - `Docs/Todo.md` — status and roadmap.
+- `Templates/README.md` — an Xcode project template ("Quantum Algorithm App") that wires up
+  `../SwiftQiskit` and a worked quantum-walk example for starting a new algorithm-demo app;
+  see `Docs/TemplatesPlan.md` for the design.
 - `../SwiftQiskit/CLAUDE.md`, `../SwiftQiskit/README.md` — the simulator itself: gate tables,
   Dirac notation, playground pages. Consult these for anything about *what the gates compute*
   rather than *how the app is built*.

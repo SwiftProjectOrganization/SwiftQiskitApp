@@ -98,6 +98,8 @@ using the Swift `Testing` framework (not XCTest).
 - [Docs/Tutorial.md](Docs/Tutorial.md) — how to use the app, step by step.
 - [Docs/Help.md](Docs/Help.md) — implementation reference, extension guide, troubleshooting.
 - [Docs/Todo.md](Docs/Todo.md) — status and roadmap.
+- [Templates/README.md](Templates/README.md) — an Xcode project template for starting a new
+  quantum-algorithm demo app, prefilled with a worked example.
 - [CLAUDE.md](CLAUDE.md) — guidance for Claude Code working in this repo.
 
 For everything about the simulator itself — the gate set, Dirac notation, tensor products,

@@ -1,8 +1,10 @@
 # An Introduction to Quantum Computing, with SwiftQiskitApp
 
-A book-length walkthrough of quantum computing, taught through this app and its underlying
-simulator, [SwiftQiskit](../SwiftQiskit). It teaches the physics first and the Swift second:
-every claim in every chapter is something you can run yourself and see for real, either by
+A book-length walkthrough of quantum computing, taught through this app, its underlying
+simulator, [SwiftQiskit](../SwiftQiskit) and playgrounds in SwiftQiskit. It teaches the math, how to confirm the math
+using the simulator and finally using Swift.
+
+Every claim in every chapter is something you can run yourself and see for real, either by
 tapping gates onto the app's grid or by running a few lines of `SwiftQiskitCore` code.
 
 This is not a reference manual — [Docs/Tutorial.md](Docs/Tutorial.md) and

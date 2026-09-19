@@ -55,6 +55,18 @@
 		D4959387304EEC4C004855D2 /* 25-QuantumWalks.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "25-QuantumWalks.md"; sourceTree = "<group>"; };
 		D4959388304EEC52004855D2 /* 26-Epilogue.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "26-Epilogue.md"; sourceTree = "<group>"; };
 		D49593893050446C004855D2 /* 00-Introduction.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "00-Introduction.md"; sourceTree = "<group>"; };
+		D49D19C1305DA5CD001EBFF3 /* TemplatesPlan.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TemplatesPlan.md; sourceTree = "<group>"; };
+		D4A62F65305EED5E005247C5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D4A62F66305EED60005247C5 /* install.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install.sh; sourceTree = "<group>"; };
+		D4A62F67305EED72005247C5 /* TemplateInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = TemplateInfo.plist; sourceTree = "<group>"; };
+		D4A62F68305EED75005247C5 /* TemplateInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = TemplateInfo.plist; sourceTree = "<group>"; };
+		D4A62F69305EED80005247C5 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		D4A62F6A305EED86005247C5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D4A62F6B305EED8B005247C5 /* AlgorithmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmModel.swift; sourceTree = "<group>"; };
+		D4A62F6C305EED9A005247C5 /* QuantumWalk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantumWalk.swift; sourceTree = "<group>"; };
+		D4A62F6D305EED9E005247C5 /* DistributionChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributionChartView.swift; sourceTree = "<group>"; };
+		D4A62F6E305EEDA6005247C5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D4A62F6F305EEDAD005247C5 /* AlgorithmTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmTests.swift; sourceTree = "<group>"; };
 		D4AF3DA6304BE7630078D4DF /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
 		D4AF3DA8304BE7760078D4DF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D4AF3DAD304BE7E70078D4DF /* Tutorial.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Tutorial.md; sourceTree = "<group>"; };
@@ -100,6 +112,7 @@
 				D4AF3DA8304BE7760078D4DF /* README.md */,
 				000000000000000000000020 /* Products */,
 				D4AF3DAC304BE7D50078D4DF /* Docs */,
+				D4A62F61305EED4B005247C5 /* Templates */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,6 +160,48 @@
 			path = Introduction;
 			sourceTree = "<group>";
 		};
+		D4A62F61305EED4B005247C5 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				D4A62F62305EED4D005247C5 /* SwiftQiskit */,
+				D4A62F65305EED5E005247C5 /* README.md */,
+				D4A62F66305EED60005247C5 /* install.sh */,
+			);
+			path = Templates;
+			sourceTree = "<group>";
+		};
+		D4A62F62305EED4D005247C5 /* SwiftQiskit */ = {
+			isa = PBXGroup;
+			children = (
+				D4A62F63305EED4F005247C5 /* Quantum Algorithm App.xctemplate */,
+				D4A62F64305EED50005247C5 /* Quantum Algorithm App Tests.xctemplate */,
+			);
+			path = SwiftQiskit;
+			sourceTree = "<group>";
+		};
+		D4A62F63305EED4F005247C5 /* Quantum Algorithm App.xctemplate */ = {
+			isa = PBXGroup;
+			children = (
+				D4A62F67305EED72005247C5 /* TemplateInfo.plist */,
+				D4A62F69305EED80005247C5 /* App.swift */,
+				D4A62F6A305EED86005247C5 /* ContentView.swift */,
+				D4A62F6B305EED8B005247C5 /* AlgorithmModel.swift */,
+				D4A62F6C305EED9A005247C5 /* QuantumWalk.swift */,
+				D4A62F6D305EED9E005247C5 /* DistributionChartView.swift */,
+				D4A62F6E305EEDA6005247C5 /* README.md */,
+			);
+			path = "Quantum Algorithm App.xctemplate";
+			sourceTree = "<group>";
+		};
+		D4A62F64305EED50005247C5 /* Quantum Algorithm App Tests.xctemplate */ = {
+			isa = PBXGroup;
+			children = (
+				D4A62F68305EED75005247C5 /* TemplateInfo.plist */,
+				D4A62F6F305EEDAD005247C5 /* AlgorithmTests.swift */,
+			);
+			path = "Quantum Algorithm App Tests.xctemplate";
+			sourceTree = "<group>";
+		};
 		D4AF3DAC304BE7D50078D4DF /* Docs */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +209,7 @@
 				D4AF3DAE304BE80B0078D4DF /* Help.md */,
 				D4AF3DAF304BE81B0078D4DF /* Todo.md */,
 				D495936D304EEB92004855D2 /* Introduction */,
+				D49D19C1305DA5CD001EBFF3 /* TemplatesPlan.md */,
 			);
 			path = Docs;
 			sourceTree = "<group>";
@@ -211,7 +267,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2700;
-				LastUpgradeCheck = 2700;
+				LastUpgradeCheck = 2710;
 				TargetAttributes = {
 					000000000000000100000000 = {
 						CreatedOnToolsVersion = 26.3;
@@ -320,6 +376,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 3SPAAQ6SK2;
 				DRIVERKIT_DEPLOYMENT_TARGET = 27.0;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -390,6 +447,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 3SPAAQ6SK2;
 				DRIVERKIT_DEPLOYMENT_TARGET = 27.0;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -421,7 +479,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3SPAAQ6SK2;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
@@ -436,8 +493,10 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.robertgoedman.SwiftQiskitApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -461,7 +520,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3SPAAQ6SK2;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
@@ -476,8 +534,10 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.robertgoedman.SwiftQiskitApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -501,7 +561,6 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3SPAAQ6SK2;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
@@ -529,7 +588,6 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3SPAAQ6SK2;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.goedman.swiftqiskitapp.SwiftQiskitAppTests;
