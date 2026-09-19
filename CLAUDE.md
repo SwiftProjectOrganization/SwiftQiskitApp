@@ -148,6 +148,9 @@ no sales-pitch framing. Applies to prose written for this project: `INTRODUCTION
 - `Docs/Tutorial.md` — how to use the app (build/measure a Bell state, GHZ state, etc.).
 - `Docs/Help.md` — implementation reference, extension guide, troubleshooting.
 - `Docs/Todo.md` — status and roadmap.
+- `Docs/SwiftQiskitCore as an external SPM.md` — proposed (not yet executed) change replacing the
+  local `../SwiftQiskit` path dependency with a version-tagged remote one, so this app and
+  `SwiftQiskitWalkDemo` can be open in Xcode at the same time.
 - `Templates/README.md` — an Xcode project template ("Quantum Algorithm App") that wires up
   `../SwiftQiskit` and a worked quantum-walk example for starting a new algorithm-demo app;
   see `Docs/TemplatesPlan.md` for the design.

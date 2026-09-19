@@ -67,6 +67,7 @@
 		D4A62F6D305EED9E005247C5 /* DistributionChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributionChartView.swift; sourceTree = "<group>"; };
 		D4A62F6E305EEDA6005247C5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D4A62F6F305EEDAD005247C5 /* AlgorithmTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmTests.swift; sourceTree = "<group>"; };
+		D4A62FAE305EF835005247C5 /* SwiftQiskitCore as an external SPM.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "SwiftQiskitCore as an external SPM.md"; sourceTree = "<group>"; };
 		D4AF3DA6304BE7630078D4DF /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
 		D4AF3DA8304BE7760078D4DF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D4AF3DAD304BE7E70078D4DF /* Tutorial.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Tutorial.md; sourceTree = "<group>"; };
@@ -210,6 +211,7 @@
 				D4AF3DAF304BE81B0078D4DF /* Todo.md */,
 				D495936D304EEB92004855D2 /* Introduction */,
 				D49D19C1305DA5CD001EBFF3 /* TemplatesPlan.md */,
+				D4A62FAE305EF835005247C5 /* SwiftQiskitCore as an external SPM.md */,
 			);
 			path = Docs;
 			sourceTree = "<group>";
