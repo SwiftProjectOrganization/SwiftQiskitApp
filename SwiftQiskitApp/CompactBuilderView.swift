@@ -46,14 +46,11 @@ struct CompactBuilderView: View {
                     )
                     .fixedSize()
                 }
-                ToolbarItemGroup(placement: .bottomBar) {
-                    Button("Clear") { builder.clear() }
-                    Button("Results") { showingResults = true }
-                    Button("Measure") {
-                        builder.measure()
-                        showingMeasurement = true
-                    }
-                    Button("Display") { showingDisplay = true }
+
+                if #available(iOS 27.1, *) {
+                    actionItems.axisBehavior(.verticalPreferred)
+                } else {
+                    actionItems
                 }
             }
             .sheet(isPresented: $showingResults) {
@@ -92,6 +89,23 @@ struct CompactBuilderView: View {
                         }
                 }
             }
+        }
+    }
+
+    @ToolbarContentBuilder
+    private var actionItems: some ToolbarContent {
+        // No explicit placement (defaults to `.automatic`): a `.bottomBar`
+        // placement makes the system anchor a `.verticalPreferred` capsule
+        // near the bottom, overlapping the gate strip. Left `.automatic`,
+        // it anchors top-right instead, clear of everything else on screen.
+        ToolbarItemGroup {
+            Button("Clear", systemImage: "eraser") { builder.clear() }
+            Button("Results", systemImage: "list.bullet") { showingResults = true }
+            Button("Measure", systemImage: "chart.bar") {
+                builder.measure()
+                showingMeasurement = true
+            }
+            Button("Display", systemImage: "globe") { showingDisplay = true }
         }
     }
 }

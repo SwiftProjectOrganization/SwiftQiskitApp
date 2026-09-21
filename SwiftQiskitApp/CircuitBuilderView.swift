@@ -117,13 +117,13 @@ struct CircuitBuilderView: View {
                     .frame(height: 20)
                     .padding(.horizontal, 6)
 
-                Button("Clear") { builder.clear() }
-                Button("Results") { showingResults = true }
-                Button("Measure") {
+                Button("Clear", systemImage: "eraser") { builder.clear() }
+                Button("Results", systemImage: "list.bullet") { showingResults = true }
+                Button("Measure", systemImage: "chart.bar") {
                     builder.measure()
                     showingMeasurement = true
                 }
-                Button("Display") { showingDisplay = true }
+                Button("Display", systemImage: "globe") { showingDisplay = true }
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
