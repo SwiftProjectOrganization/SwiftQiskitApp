@@ -9,7 +9,7 @@
 //
 
 import Foundation
-import SwiftQiskitCore
+import SwiftQiskit
 
 // MARK: - GateKind
 

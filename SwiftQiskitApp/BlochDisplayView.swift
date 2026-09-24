@@ -9,7 +9,7 @@
 //
 
 import SwiftUI
-import SwiftQiskitCore
+import SwiftQiskit
 
 struct BlochDisplayView: View {
     var builder: CircuitBuilder

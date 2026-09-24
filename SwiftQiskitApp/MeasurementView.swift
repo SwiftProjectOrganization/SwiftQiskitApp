@@ -8,7 +8,7 @@
 //
 
 import SwiftUI
-import SwiftQiskitCore
+import SwiftQiskit
 
 struct MeasurementView: View {
     var builder: CircuitBuilder

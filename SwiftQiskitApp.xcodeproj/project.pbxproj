@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D4094D2F304AA06200DAB212 /* SwiftQiskit in Frameworks */ = {isa = PBXBuildFile; productRef = D4094D2E304AA06200DAB212 /* SwiftQiskit */; };
 		D4959350304EE8E6004855D2 /* INTRODUCTION.md in Resources */ = {isa = PBXBuildFile; fileRef = D495934F304EE8E6004855D2 /* INTRODUCTION.md */; };
 		D4AF3DA7304BE7630078D4DF /* CLAUDE.md in Resources */ = {isa = PBXBuildFile; fileRef = D4AF3DA6304BE7630078D4DF /* CLAUDE.md */; };
 		D4AF3DA9304BE7760078D4DF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D4AF3DA8304BE7760078D4DF /* README.md */; };
+		D4D88CDC3065820300630AB5 /* SwiftQiskit in Frameworks */ = {isa = PBXBuildFile; productRef = D4D88CDB3065820300630AB5 /* SwiftQiskit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,7 +92,7 @@
 		000000000000000130000000 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
-				D4094D2F304AA06200DAB212 /* SwiftQiskit in Frameworks */,
+				D4D88CDC3065820300630AB5 /* SwiftQiskit in Frameworks */,
 			);
 		};
 		D4094D05304A924500DAB212 /* Frameworks */ = {
@@ -114,6 +114,7 @@
 				000000000000000000000020 /* Products */,
 				D4AF3DAC304BE7D50078D4DF /* Docs */,
 				D4A62F61305EED4B005247C5 /* Templates */,
+				D4D88CD630657F0500630AB5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -216,6 +217,13 @@
 			path = Docs;
 			sourceTree = "<group>";
 		};
+		D4D88CD630657F0500630AB5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -235,6 +243,7 @@
 			name = SwiftQiskitApp;
 			packageProductDependencies = (
 				D4094D2E304AA06200DAB212 /* SwiftQiskit */,
+				D4D88CDB3065820300630AB5 /* SwiftQiskit */,
 			);
 			productName = MyApp;
 			productReference = 000000000000000000000120 /* SwiftQiskitApp.app */;
@@ -290,7 +299,7 @@
 			mainGroup = 000000000000000000000001;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				D4094D2D304AA06200DAB212 /* XCLocalSwiftPackageReference "../SwiftQiskit" */,
+				D4D88CDA3065820300630AB5 /* XCRemoteSwiftPackageReference "SwiftQiskit" */,
 			);
 			preferredProjectObjectVersion = 90;
 			productRefGroup = 000000000000000000000020 /* Products */;
@@ -637,16 +646,25 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		D4094D2D304AA06200DAB212 /* XCLocalSwiftPackageReference "../SwiftQiskit" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../SwiftQiskit;
+/* Begin XCRemoteSwiftPackageReference section */
+		D4D88CDA3065820300630AB5 /* XCRemoteSwiftPackageReference "SwiftQiskit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftProjectOrganization/SwiftQiskit.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.1.0;
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		D4094D2E304AA06200DAB212 /* SwiftQiskit */ = {
 			isa = XCSwiftPackageProductDependency;
+			productName = SwiftQiskit;
+		};
+		D4D88CDB3065820300630AB5 /* SwiftQiskit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D4D88CDA3065820300630AB5 /* XCRemoteSwiftPackageReference "SwiftQiskit" */;
 			productName = SwiftQiskit;
 		};
 /* End XCSwiftPackageProductDependency section */

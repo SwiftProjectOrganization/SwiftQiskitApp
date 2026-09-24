@@ -14,7 +14,7 @@
 //
 
 import SwiftUI
-import SwiftQiskitCore
+import SwiftQiskit
 
 struct CircuitBuilderView: View {
     var builder: CircuitBuilder

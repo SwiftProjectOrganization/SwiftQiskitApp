@@ -11,7 +11,7 @@
 
 #if os(iOS)
 import SwiftUI
-import SwiftQiskitCore
+import SwiftQiskit
 
 struct CompactBuilderView: View {
     var builder: CircuitBuilder

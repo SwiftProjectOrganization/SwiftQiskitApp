@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SwiftQiskitCore
+import SwiftQiskit
 
 struct HistogramView: View {
     let result: SimulationResult

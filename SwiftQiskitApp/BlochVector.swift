@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SwiftQiskitCore
+import SwiftQiskit
 
 /// A single-qubit state |ψ⟩ = α|0⟩ + β|1⟩ mapped to a point on the
 /// Bloch sphere (up to global phase):
@@ -29,7 +29,7 @@ struct BlochVector {
         let alpha = state[0]
         let beta = state[1]
 
-        // ᾱβ — reuses Complex arithmetic from SwiftQiskitCore
+        // ᾱβ — reuses Complex arithmetic from SwiftQiskit
         let ab = alpha.conjugate * beta
 
         x = 2 * ab.real
