@@ -1,12 +1,13 @@
 # ___PACKAGENAME___
 
 Generated from the **Quantum Algorithm App** Xcode template. A multiplatform SwiftUI app
-linked to the local `SwiftQiskit` package, prefilled with a discrete-time quantum walk —
-ported from `SwiftQiskit/Playgrounds.playground/Pages/22Walk.xcplaygroundpage`.
+prefilled with a discrete-time quantum walk — ported from
+`SwiftQiskit/Playgrounds.playground/Pages/22Walk.xcplaygroundpage`. See "Add the SwiftQiskit
+package" below before building — the template does not add it automatically.
 
 ## Layout
 
-- `QuantumWalk.swift` — the algorithm itself. Pure math over SwiftQiskitCore's `Matrix` and
+- `QuantumWalk.swift` — the algorithm itself. Pure math over SwiftQiskit's `Matrix` and
   `StateVector`; no SwiftUI import, so it can be reasoned about and tested independent of the
   view layer.
 - `AlgorithmModel.swift` — the view model. `@MainActor @Observable`, holding the algorithm's
@@ -34,7 +35,12 @@ ported from `SwiftQiskit/Playgrounds.playground/Pages/22Walk.xcplaygroundpage`.
 5. Update `AlgorithmTests` to check the new algorithm's invariants — usually the same
    assertions the playground page's own "Expected:" comments describe.
 
-## Requirement: sibling checkout
+## Add the SwiftQiskit package
 
-This project references the `SwiftQiskit` package at the relative path `../SwiftQiskit` — it
-must sit next to a `SwiftQiskit` checkout, exactly like `SwiftQiskitApp` itself.
+The template does not wire up the `SwiftQiskit` package dependency automatically — add it once,
+by hand, after generating the project:
+
+1. Select the project in the navigator, then the project (not target) → **Package Dependencies**.
+2. Click **+**, enter `https://github.com/SwiftProjectOrganization/SwiftQiskit.git`.
+3. Choose **Up to Next Minor Version**, starting at `0.1.0`.
+4. Add the `SwiftQiskit` product to both the app target and the test target.

@@ -297,7 +297,7 @@ Every snippet below was run with `RunCodeSnippet` against
 `SwiftQiskitApp/SwiftQiskitApp/CircuitModel.swift`.
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 struct DeutschOracle {
     let name: String
@@ -382,7 +382,7 @@ f(x) = 1−x   1.0000   balanced    balanced
 ```
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 func card(_ b: BlochVector) -> String {
     String(format: "x %+.3f  y %+.3f  z %+.3f  |r| %.3f", b.x, b.y, b.z, b.magnitude)
@@ -442,7 +442,7 @@ wrong ancilla |+>, f(x)=x: probs [0.4999999999999998, 0.4999999999999998, 0.0, 0
 ```
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 func deutschCircuit(oracle: (QuantumCircuit) -> Void) -> QuantumCircuit {
     let qc = QuantumCircuit(qubits: 2)
@@ -495,7 +495,7 @@ directly and formatting output exactly as `ResultsView`'s panel and `BlochSphere
 (helpers first defined in Chapters 7–8's "Run it in code"):
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 func panelRows(_ state: StateVector, qubits: Int) -> [String] {
     let probs = state.probabilities

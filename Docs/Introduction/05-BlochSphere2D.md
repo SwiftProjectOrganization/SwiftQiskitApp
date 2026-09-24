@@ -83,7 +83,7 @@ Building each with a circuit (`|0⟩` empty, `|1⟩` via `x(0)`, `|+⟩` via `h(
 `S = √Z` and its inverse, Chapter 7's territory) and reading off `BlochVector`:
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 let zero = QuantumCircuit(qubits: 1)
 let one = QuantumCircuit(qubits: 1); one.x(0)

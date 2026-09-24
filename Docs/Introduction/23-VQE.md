@@ -33,7 +33,7 @@ needs code.
 ## Run it in code
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 // ansatz/energy/parameterShiftGradient copied from 18VQE, one gradient-descent step
 ```
 

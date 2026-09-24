@@ -25,7 +25,7 @@ Project status and roadmap for SwiftQiskitApp.
 - Bloch-sphere display (`BlochDisplayView`, opened via a **Display** button): a 2D grid of
   every qubit's final-state sphere, a column-by-column row for one chosen qubit, or a rotatable
   3D view (`Bloch3DSphereView`, orbited by dragging).
-- 20 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
+- 22 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
   `Bloch3DProjectionTests`) covering the model, geometry, and Bloch-vector math.
 
 ## Roadmap
@@ -38,7 +38,7 @@ Project status and roadmap for SwiftQiskitApp.
       the diagram.
 - [ ] Undo/redo for gate placement, deletion, and qubit-count changes.
 - [ ] Drag-and-drop gate placement as an alternative to tap-to-arm-then-tap-cell.
-- [ ] More gates once `SwiftQiskitCore` supports them (CZ, SWAP, Toffoli) — see the package's
+- [ ] More gates once `SwiftQiskit` supports them (CZ, SWAP, Toffoli) — see the package's
       own `STATUSandTODO.md` for its roadmap.
 - [ ] Gate-count / circuit-depth readout alongside the state vector.
 - [x] A Bloch-sphere view, covering multi-qubit circuits — `BlochVector`/`BlochSphereView`
@@ -54,10 +54,11 @@ Project status and roadmap for SwiftQiskitApp.
 - [ ] VoiceOver and Dynamic Type accessibility audit.
 - [ ] Performance check at high qubit counts (8 qubits → 256×256 matrices per gate; the
       package's Core is not performance-optimized — see its own roadmap).
-- [ ] De-duplicate against `SwiftQiskitGUI` in the `SwiftQiskit` package, whose UI this app's
-      source closely mirrors — consider extracting a shared module if the drift becomes a
-      maintenance problem. `SwiftQiskitGUI` does not yet have the Bloch-sphere Display button
-      that this app has, a deliberate divergence so far.
+- [x] De-duplicate against `SwiftQiskitGUI` — resolved by removing that target from the
+      `SwiftQiskit` package rather than extracting a shared module: it had drifted behind this
+      app (no Bloch-sphere Display button, an older `CircuitModel`, no measurement-model
+      refactor) with no offsetting benefit to keeping two copies in sync. This app is now the
+      only SwiftUI front-end for the package.
 
 ## Known limitations
 

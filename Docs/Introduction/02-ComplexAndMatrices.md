@@ -39,7 +39,7 @@ i¹ = i,  i² = -1,  i³ = -i,  i⁴ = 1,  i⁵ = i,  i⁶ = -1,  i⁷ = -i,  i�
 initializer:
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 let a = Complex(3, 4)
 let b = Complex(1, -2)
@@ -333,7 +333,7 @@ every bit as unitary as the others. A reader who happened to sanity-check unitar
 first would conclude `==` is a safe way to test it and be wrong the moment they tried `H`.
 
 The fix is the tolerance idiom the package's own tests use throughout (for example
-`SwiftQiskit/Tests/SwiftQiskitCoreTests/TensorProductTests.swift:30`): compare entries, not whole
+`SwiftQiskit/Tests/SwiftQiskitTests/TensorProductTests.swift:30`): compare entries, not whole
 matrices, and allow a small tolerance instead of demanding exact equality.
 
 ```swift

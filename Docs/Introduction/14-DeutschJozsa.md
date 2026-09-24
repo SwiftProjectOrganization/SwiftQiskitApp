@@ -295,7 +295,7 @@ Every snippet below was run with `RunCodeSnippet` against
 `SwiftQiskitApp/SwiftQiskitApp/CircuitModel.swift`.
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 let n = 3
 let ancilla = n
@@ -365,7 +365,7 @@ n    quantum queries   classical DJ (worst case)   classical BV
 ```
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 let n = 3
 let ancilla = n
@@ -411,7 +411,7 @@ extra H on ancilla too, nonzero probs:
 ```
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 let n = 3
 let ancilla = n
@@ -494,7 +494,7 @@ hidden s   recovered   P
 ```
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 let n = 3
 let ancilla = n
@@ -576,7 +576,7 @@ Finally, the app-path walkthrough behind steps 1–4 of "Build it in the app," d
 Chapter 13):
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 func panelRows(_ state: StateVector, qubits: Int) -> [String] {
     let probs = state.probabilities

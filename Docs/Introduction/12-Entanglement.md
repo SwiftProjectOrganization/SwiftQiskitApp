@@ -302,7 +302,7 @@ Every snippet below was run with `RunCodeSnippet` against
 `SwiftQiskitApp/SwiftQiskitApp/CircuitModel.swift`.
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 // 12.2 -- Bell state, staged: h(0) alone, then +cx(0,1)
 let hOnly = QuantumCircuit(qubits: 2)
@@ -388,7 +388,7 @@ Bell q1 marginal [P(0), P(1)]: [0.4999999999999999, 0.4999999999999999]
 ```
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 func card(_ bloch: BlochVector) -> String {
     var text = String(format: "x %+.3f  y %+.3f  z %+.3f  θ %.3f rad",
@@ -482,7 +482,7 @@ h(0); cx(0,1); cx(0,1); h(0) amplitudes: [0.9999999999999998, 0.0, 0.0, 0.0]
 ```
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 func card(_ bloch: BlochVector) -> String {
     var text = String(format: "x %+.3f  y %+.3f  z %+.3f  θ %.3f rad",
@@ -572,7 +572,7 @@ Finally, the app-path walkthrough behind every "Build it in the app" step above,
 `BlochSphereView`'s card do (helpers first defined in Chapters 8–11's "Run it in code"):
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 func panelRows(_ state: StateVector, qubits: Int) -> [String] {
     let probs = state.probabilities

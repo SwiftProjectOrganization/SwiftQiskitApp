@@ -31,7 +31,7 @@ fast and the code version is more practical.
 ## Run it in code
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 // 2-qubit QFT via H/CP gates, compared to the page's hand-built matrix
 ```
 

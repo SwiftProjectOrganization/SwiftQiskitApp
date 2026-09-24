@@ -283,7 +283,7 @@ Every snippet below was run with `RunCodeSnippet` against
 `SwiftQiskitApp/SwiftQiskitApp/CircuitModel.swift`.
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 let qcZ = QuantumCircuit(qubits: 1); qcZ.z(0)
 print(qcZ.run().amplitudes, qcZ.run().probabilities)          // 1 — Z alone
@@ -352,7 +352,7 @@ formatting output exactly as `ResultsView`'s panel and `BlochSphereView`'s card 
 first defined in Chapter 7's "Run it in code"):
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 func panelRows(_ state: StateVector, qubits: Int) -> [String] {
     let probs = state.probabilities
@@ -427,7 +427,7 @@ counts are genuinely probabilistic (Chapter 9).
 Finally, §8.8's two-qubit teaser, `CZ` built by hand exactly as step 8 does on the grid:
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 // CZ, decomposed as H on the target, CX, H on the target — not in the palette directly
 func cz(_ c: QuantumCircuit) { c.h(1); c.cx(0, 1); c.h(1) }

@@ -247,7 +247,7 @@ Every snippet below was run with `RunCodeSnippet` against
 `SwiftQiskitApp/SwiftQiskitApp/CircuitModel.swift`.
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 // 9.2 — run() is deterministic; measure(shots:) jitters
 let qcH = QuantumCircuit(qubits: 1); qcH.h(0)
@@ -290,7 +290,7 @@ same rough 470–530 neighborhood §9.4 predicts.
 The shots-jitter statistics table (§9.4), 40 repeats at each of four shot counts:
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 import Foundation
 
 let qc = QuantumCircuit(qubits: 1); qc.h(0)
@@ -323,7 +323,7 @@ The `RY(θ)` unequal-split sweep (§9.6), `run()`'s exact probability and a 10,0
 fraction against `cos²(θ/2)`:
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 import Foundation
 
 for k in 0...4 {
@@ -356,7 +356,7 @@ and formatting histogram rows the way `HistogramView` labels its bars (helpers f
 Chapter 7's and Chapter 8's "Run it in code"):
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 func panelRows(_ state: StateVector, qubits: Int) -> [String] {
     let probs = state.probabilities

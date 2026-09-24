@@ -1,5 +1,18 @@
 # Xcode project template: "Quantum Algorithm App"
 
+> **Superseded (partially):** this doc's local `../SwiftQiskit` path reference — the package
+> reference definition in `## Quantum Algorithm App.xctemplate/TemplateInfo.plist` below, and
+> the sibling-checkout requirement it implies — no longer reflects the shipped template.
+> `SwiftQiskit` is now tagged (`0.1.0`) and consumable as a remote package, but no plist syntax
+> for a remote package reference could be found or verified (see
+> `Docs/SwiftQiskitCore as an external SPM.md`), so the template now ships with **no package
+> reference at all**; the generated project's `README.md` instructs the user to add
+> `https://github.com/SwiftProjectOrganization/SwiftQiskit.git` by hand via File > Add Package
+> Dependencies. The rest of this document — the ancestor chain, the generated-source design, the
+> file layout — is unaffected and still describes the shipped template. Also stale below: "the
+> module is `SwiftQiskitCore`" (now `SwiftQiskit`, matching the product name) and "no tags"
+> (now tagged).
+
 ## Context
 
 Each playground page in `../SwiftQiskit/Playgrounds.playground/Pages/` (22Walk, 18VQE, 15CHSH, …)

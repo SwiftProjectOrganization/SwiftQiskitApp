@@ -7,8 +7,8 @@
 | | |
 |---|---|
 | Playground page | [`19Noise`](../../../SwiftQiskit/PlaygroundDocs/19NOISEHELP.md) |
-| In the app | ○ — `SwiftQiskitCore` is a pure state-vector simulator; there is no density-matrix type or channel API, in the app or the package |
-| Library APIs | none in `SwiftQiskitCore`; the page's own local helpers (`rho`, `purity`, `bitFlipKraus`/`phaseFlipKraus`/`depolarizingKraus`/`ampDampingKraus`, `applyChannel`, `partialTraceLast`, `entropy`) |
+| In the app | ○ — `SwiftQiskit` is a pure state-vector simulator; there is no density-matrix type or channel API, in the app or the package |
+| Library APIs | none in `SwiftQiskit`; the page's own local helpers (`rho`, `purity`, `bitFlipKraus`/`phaseFlipKraus`/`depolarizingKraus`/`ampDampingKraus`, `applyChannel`, `partialTraceLast`, `entropy`) |
 | Prerequisites | Chapters 4, 11, 12 |
 
 ## 21.1 From state vectors to density matrices
@@ -31,12 +31,12 @@ Watching a qubit's Bloch vector shrink toward the sphere's center under noise.
 
 ## Build it in the app
 ○ Not expressible — copy the page's helper functions into a standalone snippet, per
-`AUTHORING.md`'s note that these live in the page body, not `SwiftQiskitCore`.
+`AUTHORING.md`'s note that these live in the page body, not `SwiftQiskit`.
 
 ## Run it in code
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 // rho/purity/Kraus-channel helpers copied from 19Noise, applied to a bit-flip channel
 ```
 

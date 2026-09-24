@@ -33,7 +33,7 @@ mid-circuit measurement — do that part in code.
 ## Run it in code
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 // 3-qubit bit-flip code: encode, inject an error on qubit 1, syndrome, correct
 ```
 

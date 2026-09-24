@@ -1,6 +1,6 @@
 import Testing
 @testable import ___PACKAGENAME___
-import SwiftQiskitCore
+import SwiftQiskit
 
 @Suite("QuantumWalk")
 struct AlgorithmTests {

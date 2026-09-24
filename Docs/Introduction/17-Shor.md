@@ -37,7 +37,7 @@ approximation of the QFT half.
 ## Run it in code
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 // factor 15 via a = 7 (success) and a = 14 (failure), per 12SHORHELP.md
 ```
 

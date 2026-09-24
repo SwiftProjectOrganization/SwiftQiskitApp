@@ -5,8 +5,7 @@ instead of hand-wiring the package reference and view scaffolding every time.
 
 ## What's here
 
-- **Quantum Algorithm App** — a multiplatform SwiftUI app template. It links the local
-  `../SwiftQiskit` package the same way `SwiftQiskitApp.xcodeproj` does, and comes prefilled
+- **Quantum Algorithm App** — a multiplatform SwiftUI app template. It comes prefilled
   with a working example: a discrete-time quantum walk (ported from
   `SwiftQiskit/Playgrounds.playground/Pages/22Walk.xcplaygroundpage`), split into a pure
   algorithm file, an `@Observable` view model, a Swift Charts view, and a unit test suite.
@@ -23,13 +22,12 @@ This symlinks `Templates/SwiftQiskit/` into `~/Library/Developer/Xcode/Templates
 Xcode, then look for a **SwiftQiskit** section in File > New > Project. The symlink means
 edits to the templates in this repo take effect without reinstalling.
 
-## Requirement: sibling checkout
+## Add the SwiftQiskit package dependency
 
-Like `SwiftQiskitApp` itself, a project generated from this template references the
-`SwiftQiskit` package at the relative path `../SwiftQiskit`. Create the new project as a
-sibling of your `SwiftQiskit` checkout — e.g. if `SwiftQiskit` lives in
-`~/Projects/Swift/SwiftQiskit`, create the new project in `~/Projects/Swift/<NewApp>`. If
-package resolution fails in the generated project, this is almost always why.
+The template does not wire up the `SwiftQiskit` package dependency automatically — the
+generated project's own `README.md` has the exact steps (File > Add Package Dependencies,
+`https://github.com/SwiftProjectOrganization/SwiftQiskit.git`, Up to Next Minor Version from
+`0.1.0`). No sibling checkout is required; the package resolves from GitHub.
 
 ## Porting a different playground algorithm
 

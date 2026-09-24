@@ -5,17 +5,19 @@ grid instead of writing code. Place gates, watch the state vector update live, t
 with as many shots as you like and see a histogram of the outcomes.
 
 > This app is a thin front end. All quantum simulation — state vectors, gates, measurement —
-> is implemented by the [SwiftQiskit](../SwiftQiskit) package; this repo contributes only the
-> UI and a small model that replays placed gates onto a `QuantumCircuit`.
+> is implemented by the [SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)
+> package; this repo contributes only the UI and a small model that replays placed gates onto a
+> `QuantumCircuit`.
 
 ---
 
 ## Requirements
 
 - Xcode 27, macOS 27 / iOS 27.
-- A checkout of **[SwiftQiskit](../SwiftQiskit)** as a sibling folder — the app depends on it
-  as a local package at the relative path `../SwiftQiskit`. If package resolution fails,
-  check that the two folders sit next to each other.
+- No local setup beyond that — Xcode resolves the `SwiftQiskit` package dependency from GitHub
+  automatically. A sibling checkout of
+  [SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit) is only needed if you
+  want to browse its playground pages (see `Docs/Introduction/01-Setup.md`).
 
 ## Getting started
 
@@ -104,12 +106,10 @@ using the Swift `Testing` framework (not XCTest).
 
 For everything about the simulator itself — the gate set, Dirac notation, tensor products,
 and the playground pages that teach quantum computing algorithm by algorithm — see the
-sibling package:
+[SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit) package (a sibling
+checkout is convenient for browsing these but not required to build this app):
 
 - [../SwiftQiskit/README.md](../SwiftQiskit/README.md)
-- [../SwiftQiskit/SwiftQiskitDocs/GUITUTORIAL.md](../SwiftQiskit/SwiftQiskitDocs/GUITUTORIAL.md) /
-  [GUIHELP.md](../SwiftQiskit/SwiftQiskitDocs/GUIHELP.md) — the package's own `SwiftQiskitGUI`
-  executable, whose UI this app closely mirrors.
 
 ## Status
 

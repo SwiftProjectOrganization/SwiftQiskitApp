@@ -35,13 +35,13 @@ decomposition from that chapter's "Build it in the app" section.
 ## Run it in code
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 // no new code — this chapter is a map back to what came before
 ```
 
 ## Try it yourself
 
-1. Pick one ◐ or ○ chapter and sketch what would need to change in `SwiftQiskitCore` or the app
+1. Pick one ◐ or ○ chapter and sketch what would need to change in `SwiftQiskit` or the app
    to make it ●.
    <details><summary>Answer</summary>Common answers: a mid-circuit-measurement API (Chapters
    18, 19), a density-matrix type (Chapter 21), or a matrix-entry UI in the app (Chapters 2, 17,

@@ -188,7 +188,7 @@ depth; for now, notice that the phase `Z` introduced after the first `H` was inv
 ## Run it in code
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 let raw = StateVector([Complex(0.5), Complex(0.5)])
 print(raw.amplitudes)

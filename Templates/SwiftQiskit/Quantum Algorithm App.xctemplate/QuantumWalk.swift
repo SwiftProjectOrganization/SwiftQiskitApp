@@ -7,7 +7,7 @@
 //  Playgrounds.playground page 22Walk — see that page and
 //  PlaygroundDocs/22WALKHELP.md for the full derivation.
 //
-//  No SwiftUI here. This file is pure math over SwiftQiskitCore's Matrix
+//  No SwiftUI here. This file is pure math over SwiftQiskit's Matrix
 //  and StateVector, so it can be tested and reasoned about independent of
 //  the view layer. To port a different SwiftQiskit playground algorithm,
 //  replace this file with the corresponding page's math and update
@@ -15,7 +15,7 @@
 //
 
 import Foundation
-import SwiftQiskitCore
+import SwiftQiskit
 
 struct QuantumWalk {
 

@@ -6,24 +6,33 @@ Guidance for Claude Code when working in this repository.
 
 SwiftQiskitApp is a SwiftUI front-end for building and running quantum circuits by tapping
 gates onto a grid instead of writing code. All quantum simulation (state vectors, gates,
-measurement) lives in the sibling `SwiftQiskit` package; this app contributes only the UI and
-a small front-end model that replays placed gates onto a `QuantumCircuit`.
+measurement) lives in the `SwiftQiskit` package; this app contributes only the UI and
+a small front-end model that replays placed gates onto a `QuantumCircuit`. This app is the
+package's only SwiftUI front-end — the package used to ship a duplicate (`SwiftQiskitGUI`),
+which was removed once it had drifted behind this app with no offsetting benefit to
+maintaining two copies.
 
 ## Relationship to the SwiftQiskit package
 
-This project depends on a **local Swift package at `../SwiftQiskit`** (a relative-path SPM
-dependency — the checkout must sit next to this folder or package resolution fails). The
-library *product* is named `SwiftQiskit` but the *module* is `SwiftQiskitCore`:
+This project depends on **`SwiftQiskit` as a remote package**, pinned "Up to Next Minor
+Version" from `0.1.0`
+(`https://github.com/SwiftProjectOrganization/SwiftQiskit.git`). No sibling checkout is
+required to build or run this app — Xcode resolves the dependency from GitHub into its own
+cache. The library product and module are both named `SwiftQiskit`:
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 ```
 
-**Duplication gotcha:** this app's 13 source files are a near-identical copy of
-`SwiftQiskit/Sources/SwiftQiskitGUI/` (the package's own SwiftPM-executable version of the
-same UI, documented in `SwiftQiskit/SwiftQiskitDocs/GUIHELP.md`). The two copies can drift.
-When fixing a bug or adding a feature here, consider whether the same change applies to
-`SwiftQiskitGUI` and note in your summary if you only fixed one side.
+A sibling `SwiftQiskit` checkout is still useful for reading the playground pages and
+`PlaygroundDocs/*HELP.md` this project's `INTRODUCTION.md` and `Docs/Introduction/` draw from
+(see `Docs/Introduction/01-Setup.md`), but it is no longer a build requirement.
+
+**Editing the package in tandem with this app:** package edits don't reach this app until
+they're committed, tagged, and pulled in via File > Packages > Update to Latest Package
+Versions. For tandem development, drag a local `../SwiftQiskit` checkout into this project's
+workspace — a local package overrides a remote dependency of the same name, restoring instant
+edits. Remove the override when done.
 
 ## Build, Run & Test
 
@@ -39,7 +48,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 | Target | Product type | Notes |
 |---|---|---|
 | `SwiftQiskitApp` | Application | `com.robertgoedman.SwiftQiskitApp`; App Sandbox enabled, read-only user-selected file access |
-| `SwiftQiskitAppTests` | Unit Test Bundle | Swift `Testing` framework; 20 tests across 4 files |
+| `SwiftQiskitAppTests` | Unit Test Bundle | Swift `Testing` framework; 22 tests across 4 files |
 
 ## File map (`SwiftQiskitApp/`)
 
@@ -116,9 +125,10 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 
 ## Testing
 
-- `SwiftQiskitAppTests/CircuitBuilderTests.swift` (7 tests) — Bell-state replay via
+- `SwiftQiskitAppTests/CircuitBuilderTests.swift` (9 tests) — Bell-state replay via
   `buildCircuit()`, occupied/out-of-range placement rejection, qubit-count clamping and
-  gate-dropping on shrink, `updateTheta`, `clear`.
+  gate-dropping on shrink, `updateTheta`, `clear`, `measure(shots:)` populating `lastResult`,
+  and a qubit-count shrink discarding a prior measurement.
 - `SwiftQiskitAppTests/CircuitLayoutTests.swift` (3 tests) — pure `CircuitLayout` geometry:
   center spacing, `wireY` agreement with `center`, `canvasSize` growth in each dimension.
 - `SwiftQiskitAppTests/BlochVectorTests.swift` (7 tests) — single-qubit Bloch coordinates for
@@ -129,7 +139,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   geometry: pole projection direction, near- vs far-hemisphere perspective scale, the
   silhouette-scale formula.
 - Swift **`Testing`** framework (`import Testing`, `@Test`, `#expect`), not XCTest.
-- Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 20 tests are in its
+- Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 22 tests are in its
   test plan (no scheme-switching gotcha, unlike the package).
 
 ## Writing style
@@ -148,11 +158,14 @@ no sales-pitch framing. Applies to prose written for this project: `INTRODUCTION
 - `Docs/Tutorial.md` — how to use the app (build/measure a Bell state, GHZ state, etc.).
 - `Docs/Help.md` — implementation reference, extension guide, troubleshooting.
 - `Docs/Todo.md` — status and roadmap.
-- `Docs/SwiftQiskitCore as an external SPM.md` — proposed (not yet executed) change replacing the
-  local `../SwiftQiskit` path dependency with a version-tagged remote one, so this app and
-  `SwiftQiskitWalkDemo` can be open in Xcode at the same time.
-- `Templates/README.md` — an Xcode project template ("Quantum Algorithm App") that wires up
-  `../SwiftQiskit` and a worked quantum-walk example for starting a new algorithm-demo app;
+- `Docs/SwiftQiskit as an external SPM.md` — record of replacing the local `../SwiftQiskit` path
+  dependency with a version-tagged remote one (executed), so this app and `SwiftQiskitWalkDemo`
+  can be open in Xcode at the same time; also documents the `SwiftQiskitCore` → `SwiftQiskit`
+  rename and the removal of the package's duplicate `SwiftQiskitGUI` target, both done as part
+  of the same change.
+- `Templates/README.md` — an Xcode project template ("Quantum Algorithm App") with a worked
+  quantum-walk example for starting a new algorithm-demo app (the `SwiftQiskit` package
+  dependency itself is a manual post-generation step, per that template's own README.md);
   see `Docs/TemplatesPlan.md` for the design.
 - `../SwiftQiskit/CLAUDE.md`, `../SwiftQiskit/README.md` — the simulator itself: gate tables,
   Dirac notation, playground pages. Consult these for anything about *what the gates compute*

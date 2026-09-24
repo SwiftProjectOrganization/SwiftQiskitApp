@@ -37,7 +37,7 @@ against `expm`, needs code.
 ## Run it in code
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 // expm/zzViaGates/trotterUnitary copied from 21Trotter; error vs n
 ```
 

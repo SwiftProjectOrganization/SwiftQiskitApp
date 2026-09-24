@@ -37,7 +37,7 @@ T/T†/CX or fall back to `apply(_:)` in code.
 ## Run it in code
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 // 2-qubit Grover: one iteration, exact success; a second iteration, over-rotation
 ```
 

@@ -32,7 +32,7 @@ the app — represent it in code with deferred measurement instead.
 ## Run it in code
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 // full teleportation protocol via deferred measurement (Bell-basis projectors)
 ```
 

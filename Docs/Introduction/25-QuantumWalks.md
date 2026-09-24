@@ -30,7 +30,7 @@ this simulator's fixed gate set can't reach through tapping.
 ## Run it in code
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 // coin flip (h) + shift permutation via apply(_:), position distribution after n steps
 ```
 

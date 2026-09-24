@@ -19,9 +19,9 @@ It is the only file you need alongside the chapter's own stub and its source pla
 7. Flip the chapter's **Status** cell in `INTRODUCTION.md` from `stub` to `draft`, then to `done`
    once verified.
 8. Note in your summary whether the chapter surfaced anything (a bug, a clearer explanation,
-   corrected expected output) that should also change `../SwiftQiskit` — per that repo's own
-   `CLAUDE.md` duplication gotcha, this app's source is a near-copy of `SwiftQiskitGUI`, and the
-   introduction may find things worth fixing on both sides.
+   corrected expected output) that should also change `../SwiftQiskit` — the playground pages and
+   `PlaygroundDocs/*HELP.md` this introduction draws from live in that repo, and this chapter may
+   find things worth fixing on both sides.
 
 ## Style rules
 
@@ -57,11 +57,11 @@ values from a HELP doc without re-running them, since the point of this book is 
 is real.
 
 - Use `RunCodeSnippet` with `SwiftQiskitApp/CircuitModel.swift` as the context file (it already
-  `import SwiftQiskitCore`) for anything expressible with the public API.
+  `import SwiftQiskit`) for anything expressible with the public API.
 - For Chapters 21–25, the playground pages define their own local helpers (`expm`, the Kraus
   operators, `partialTraceLast`, `entropy`, the VQE `ansatz`/`energy`/`parameterShiftGradient`,
   Trotter's `zzViaGates`/`trotterUnitary`) — these live in the page body, not in
-  `SwiftQiskitCore`. Copy the helpers the chapter needs directly into its "Run it in code" block
+  `SwiftQiskit`. Copy the helpers the chapter needs directly into its "Run it in code" block
   so the snippet is self-contained; don't reference the playground file by path.
 - Paste the real output beneath each snippet (or inline as a comment), not a value copied from a
   HELP doc — cross-check against the HELP doc as a sanity check, not as the source of truth.
@@ -81,7 +81,7 @@ Copy this verbatim for a new chapter file:
 |---|---|
 | Playground page | [`NNPageName`](../../../SwiftQiskit/PlaygroundDocs/NNXXXHELP.md) |
 | In the app | ● / ◐ / ○ — one clause saying why |
-| Library APIs | the `SwiftQiskitCore` types/methods this chapter uses |
+| Library APIs | the `SwiftQiskit` types/methods this chapter uses |
 | Prerequisites | Chapters X, Y |
 
 ## N.1 Section title
@@ -95,7 +95,7 @@ Tap-by-tap steps, or the ◐/○ explanation — see AUTHORING.md.
 ## Run it in code
 
 \`\`\`swift
-import SwiftQiskitCore
+import SwiftQiskit
 // ...
 \`\`\`
 

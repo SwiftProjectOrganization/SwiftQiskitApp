@@ -53,7 +53,7 @@ That is the seed every algorithm in Chapters 13–20 grew from.
 You can watch Feynman's exponential wall directly in this app: `CircuitBuilder` caps you at 8
 qubits (`CircuitBuilder.maxQubits`, `SwiftQiskitApp/CircuitModel.swift`), because a state vector
 for `n` qubits holds 2ⁿ complex numbers, and doubling `n` from 8 to 16 would multiply that count
-by 256. `SwiftQiskitCore` is exactly the classical simulation Feynman said was expensive — this
+by 256. `SwiftQiskit` is exactly the classical simulation Feynman said was expensive — this
 book's running example *is* the problem quantum computers exist to solve, running at a scale
 small enough that an ordinary computer can still do it exactly. It's also why Chapter 17's Shor's
 algorithm is "compiled" down to factoring the number 15 rather than something a real
@@ -118,7 +118,7 @@ Three common misconceptions, worth naming explicitly before they take root:
 
 Two more worth adding, specific to reading this book with a *simulator* in hand:
 
-- **A state vector is not something a real quantum computer will show you.** `SwiftQiskitCore`
+- **A state vector is not something a real quantum computer will show you.** `SwiftQiskit`
   can print every amplitude because it's running on ordinary classical hardware, cheating (in the
   best sense) at a scale where cheating is still tractable. A real device gives you only
   measurement outcomes — the histogram, never the amplitudes behind it.
@@ -136,10 +136,10 @@ every gate applied to them introduces some error. NISQ machines are useful for r
 narrowing set of specialized tasks, but not yet for breaking encryption or simulating a
 genuinely complex molecule.
 
-`SwiftQiskitCore` sidesteps NISQ noise entirely, and it's worth being honest about exactly what
+`SwiftQiskit` sidesteps NISQ noise entirely, and it's worth being honest about exactly what
 that buys you and costs you. This simulator is **noiseless** and works with **pure states**
 only — every amplitude is an exact double-precision complex number, and there is no decoherence,
-no gate error, and no density matrix anywhere in `SwiftQiskitCore` itself. That is precisely why
+no gate error, and no density matrix anywhere in `SwiftQiskit` itself. That is precisely why
 Chapter 21 has to *hand-build* Kraus channels (bit-flip, phase-flip, depolarizing, amplitude
 damping) from scratch using nothing but existing gate matrices — there is no `.noise()` call to
 reach for — and why Chapter 19's error-correction chapter has to build its own syndrome-correction
@@ -197,11 +197,11 @@ Each numbered chapter follows the same shape:
 
 - A one-line **summary** of what you'll be able to do afterward that you couldn't before.
 - An **at-a-glance table** — the playground page it's drawn from, an **app badge**, the
-  `SwiftQiskitCore` APIs it uses, and its prerequisite chapters.
+  `SwiftQiskit` APIs it uses, and its prerequisite chapters.
 - Numbered **sections** teaching the idea in prose first, math and code second.
 - **Build it in the app** — concrete tap-by-tap steps, or (see the badge below) an honest account
   of what the app's fixed gate palette can't reach and how to get there in code instead.
-- **Run it in code** — a `SwiftQiskitCore` snippet with its *real, actually-run* output pasted
+- **Run it in code** — a `SwiftQiskit` snippet with its *real, actually-run* output pasted
   beneath it. Nothing in this book is a value copied from a reference doc and left unverified.
 - **Try it yourself** — a handful of exercises with answers tucked into `<details>` blocks, so
   you can attempt them before peeking.

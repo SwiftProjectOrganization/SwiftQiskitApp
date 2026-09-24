@@ -11,7 +11,7 @@ full-dimension `Matrix` — no gate name, no target qubit, no column. That's eno
 `run()`/`measure(shots:)`, but not enough to draw or edit a circuit diagram after the fact:
 there's nothing to inspect. So the app keeps its own record of *placed* gates
 (`CircuitModel.swift`) and replays them onto a fresh `QuantumCircuit` whenever it needs to
-run. No `SwiftQiskitCore` changes were needed for this feature.
+run. No `SwiftQiskit` changes were needed for this feature.
 
 ## File map (`SwiftQiskitApp/`)
 
@@ -151,8 +151,8 @@ iPhone bottom bar), mirroring how `ResultsView` is presented as a sheet.
   `|0…0⟩` state); **3D** shows one chosen qubit's final state in the orbitable
   `Bloch3DSphereView`. Sphere cards use `.glassEffect(in:)`/`GlassEffectContainer`.
 - **Origin of the code:** `BlochVector`/`BlochSphereView`/`Bloch3DSphereView` are ported from
-  `SwiftQiskit/Playgrounds.playground/Sources/`, which is not an importable SwiftPM target —
-  see "Relationship to SwiftQiskitGUI" below for why this creates a third copy of the type.
+  `SwiftQiskit/Playgrounds.playground/Sources/`, which is not an importable SwiftPM target, so
+  vendoring a copy here is the only option.
 
 ## Extending
 
@@ -170,16 +170,6 @@ generically via `.symbol`/`.qubitSpan`.
 stateless `View` taking a value type, not the whole `CircuitBuilder`) and wire it into
 `ResultsView.swift`.
 
-## Relationship to SwiftQiskitGUI
-
-This app's 13 source files are a near-identical copy of
-`../SwiftQiskit/Sources/SwiftQiskitGUI/` — the package's own SwiftPM-executable version of
-the same UI (documented in `../SwiftQiskit/SwiftQiskitDocs/GUIHELP.md`). The two copies exist
-independently and can drift out of sync; there is currently no shared module between them.
-When changing behavior here, consider whether the same change should apply to
-`SwiftQiskitGUI`. The Bloch-sphere Display button is a known, deliberate divergence:
-`SwiftQiskitGUI` does not have it yet.
-
 ## Not implemented (v1 scope)
 
 - **No drag-and-drop.** Tap-to-arm-then-tap-cell was chosen over `onDrag`/`dropDestination`
@@ -195,13 +185,16 @@ When changing behavior here, consider whether the same change should apply to
 `SwiftQiskitAppTests/CircuitBuilderTests.swift` covers `CircuitBuilder`'s logic only (no view
 tests — SwiftUI views aren't unit-testable here): Bell-state replay via `buildCircuit()`,
 occupied/out-of-range placement rejection, qubit-count clamping and gate-dropping on shrink,
-`updateTheta`, and `clear`. `CircuitLayoutTests.swift` covers the pure `CircuitLayout`
+`updateTheta`, `clear`, `measure(shots:)` populating `lastResult`, and a qubit-count shrink
+discarding a prior measurement. `CircuitLayoutTests.swift` covers the pure `CircuitLayout`
 geometry: center spacing, `wireY` agreement with `center`, and `canvasSize` growth in each
 dimension independently. `BlochVectorTests.swift` covers `BlochVector`'s math: single-qubit
 coordinates for `H`/`X`/`H+S`, the Bell state's reduced vectors collapsing to the origin on
 both qubits (`|r| == 0`, the entanglement signature), reduced-vector isolation between
-independent qubits, and `buildCircuit(throughColumn:)` prefix replay. Run via ⌘U or
-`RunAllTests` under the `SwiftQiskitApp` scheme — all 17 tests are included in its test plan
+independent qubits, and `buildCircuit(throughColumn:)` prefix replay. `Bloch3DProjectionTests.swift`
+covers the pure `Bloch3DProjection` camera math: pole projection direction, near- vs
+far-hemisphere perspective scale, and the silhouette-scale formula. Run via ⌘U or
+`RunAllTests` under the `SwiftQiskitApp` scheme — all 22 tests are included in its test plan
 (unlike the package's plain `SwiftQiskit` scheme, whose test plan has no test targets — a
 pre-existing gotcha over there, not here).
 
@@ -219,8 +212,8 @@ pre-existing gotcha over there, not here).
   `builder.buildCircuit().run()` fresh on every render. If it really doesn't update, that's a
   bug, not expected behavior.
 - **"Package SwiftQiskit not found" / dependency resolution fails.** The app depends on
-  `../SwiftQiskit` by relative path — check that a `SwiftQiskit` checkout exists as a sibling
-  of this repo's folder.
+  `SwiftQiskit` as a remote package — check network access to GitHub, or try File ▸ Packages ▸
+  Reset Package Caches followed by Resolve Package Versions.
 - **Measure gives a different split every time.** Expected; `measure(shots:)` is
   probabilistic, same as everywhere in the `SwiftQiskit` package — re-run or raise the shot
   count for a tighter distribution.

@@ -210,7 +210,7 @@ Every snippet below was run with `RunCodeSnippet` against
 `SwiftQiskitApp/SwiftQiskitApp/CircuitModel.swift`.
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 func binaryLabel(_ index: Int, qubits: Int) -> String {
     let raw = String(index, radix: 2)
@@ -265,7 +265,7 @@ X on q1 alone -> |0100⟩: 1.0
 prediction, plus a low-shot run showing outcomes drop out of `counts` entirely:
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 import Foundation
 
 let qc = QuantumCircuit(qubits: 4)
@@ -300,7 +300,7 @@ either snippet will not reproduce these exact counts, only the same rough neighb
 §10.6's dimension table, generated rather than hand-typed:
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 for n in 1...8 {
     let qc = QuantumCircuit(qubits: n)
@@ -326,7 +326,7 @@ Finally, the app-path walkthrough behind every "Build it in the app" step above,
 9's "Run it in code"):
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 func panelRows(_ state: StateVector, qubits: Int) -> [String] {
     let probs = state.probabilities

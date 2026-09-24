@@ -188,7 +188,7 @@ The playground page itself has no `print` calls (its results live in the sidebar
 below adds them, run with `RunCodeSnippet` against `SwiftQiskitApp/CircuitModel.swift`:
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 let qcIdentity = QuantumCircuit(qubits: 1)
 print(qcIdentity.run().probabilities)                 // 1 — no gates yet

@@ -11,7 +11,7 @@
 //
 
 import SwiftUI
-import SwiftQiskitCore
+import SwiftQiskit
 
 @MainActor
 @Observable

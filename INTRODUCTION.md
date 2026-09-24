@@ -5,7 +5,7 @@ simulator, [SwiftQiskit](../SwiftQiskit) and playgrounds in SwiftQiskit. It teac
 using the simulator and finally using Swift.
 
 Every claim in every chapter is something you can run yourself and see for real, either by
-tapping gates onto the app's grid or by running a few lines of `SwiftQiskitCore` code.
+tapping gates onto the app's grid or by running a few lines of `SwiftQiskit` code.
 
 This is not a reference manual — [Docs/Tutorial.md](Docs/Tutorial.md) and
 [Docs/Help.md](Docs/Help.md) already cover *how to use the app*. This is *what quantum
@@ -34,7 +34,7 @@ Every chapter shows its examples in whichever of these apply, and says so with a
 2. **A playground page** — open `../SwiftQiskit/Playgrounds.playground` in Xcode, pick the page
    named in the chapter's table, and run it. This is where the chapters' code originates; the
    playground's own `PlaygroundDocs/NN…HELP.md` guide is the answer key.
-3. **Plain code** — `import SwiftQiskitCore` and write a few lines directly (in a Swift file, a
+3. **Plain code** — `import SwiftQiskit` and write a few lines directly (in a Swift file, a
    playground, or via the `RunCodeSnippet` tool). This is the only option for anything beyond the
    app's fixed gate set — custom matrices via `apply(_:)`, mid-circuit measurement, density
    matrices — and every such chapter says so explicitly.

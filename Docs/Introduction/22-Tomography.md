@@ -32,7 +32,7 @@ a Bloch-vector estimate is code-only.
 ## Run it in code
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 // tomography of |+i> from three measure(shots:) runs, reconstructed (x,y,z)
 ```
 

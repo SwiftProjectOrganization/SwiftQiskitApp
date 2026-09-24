@@ -294,7 +294,7 @@ Every snippet below was run with `RunCodeSnippet` against
 `SwiftQiskitApp/SwiftQiskitApp/CircuitModel.swift`.
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 // 11.2 -- combining registers: |0> (x) |0> = |00>
 let zero1 = StateVector(qubits: 1)
@@ -344,7 +344,7 @@ combined (unpadded) description:
 ```
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 import Foundation
 
 // 11.3 -- I2 (x) I2 == I4, exactly
@@ -432,7 +432,7 @@ max |(X(x)H)(x(x)y) - (Xx)(x)(Hy)| = 0.0
 ```
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 // 11.5 -- block-proportionality test: is a 4x4 matrix M expressible as A (x) B?
 func blocks(_ m: Matrix) -> [[Complex]] {
@@ -520,7 +520,7 @@ Finally, the app-path walkthrough behind every "Build it in the app" step above,
 `BlochSphereView`'s card do (helpers first defined in Chapters 8–10's "Run it in code"):
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 func panelRows(_ state: StateVector, qubits: Int) -> [String] {
     let probs = state.probabilities

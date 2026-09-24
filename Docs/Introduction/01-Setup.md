@@ -7,21 +7,21 @@
 | | |
 |---|---|
 | Playground page | — |
-| Library APIs | `import SwiftQiskitCore` |
+| Library APIs | `import SwiftQiskit` |
 | Prerequisites | Chapter 0 |
 
 ## 1.1 What you'll need
 
 - **Xcode 27**, targeting macOS 27 / iOS 27.
-- **Two sibling checkouts on disk**: `SwiftQiskitApp` and `SwiftQiskit`, side by side in the same
-  parent folder. The app depends on `../SwiftQiskit` as a *local, relative-path* Swift package —
-  not a pinned version from a URL — so if the two folders aren't sitting next to each other,
-  package resolution fails the moment you open or build the project. If you see a
-  package-resolution error, that's the first thing to check.
-- **One naming trap worth knowing up front**: the Swift package *product* is named
-  `SwiftQiskit`, but the *module* you actually import is `SwiftQiskitCore`. Every code snippet in
-  this book, starting with this chapter's, writes `import SwiftQiskitCore` — never
-  `import SwiftQiskit`.
+- **Nothing else, to build the app.** `SwiftQiskitApp` depends on `SwiftQiskit` as a remote
+  Swift package (a version-pinned GitHub URL, not a local path), so Xcode resolves it
+  automatically the first time you open or build the project — no sibling checkout, no manual
+  setup.
+- **A sibling checkout is worth having anyway.** This book's second way of running examples,
+  §1.3 below, is `SwiftQiskit/Playgrounds.playground`, and its `PlaygroundDocs/*HELP.md` guides
+  are referenced throughout this book. Put a `SwiftQiskit` checkout next to `SwiftQiskitApp` on
+  disk if you want to follow those links locally — the app doesn't need it, but you'll want it
+  for the playground.
 
 ## 1.2 A five-minute tour of the app
 
@@ -68,7 +68,7 @@ check `../SwiftQiskit/PLAYGROUNDSUPPORT.md` for the current beta workarounds.
 
 The third way — the only option once a chapter needs something the app's fixed gate palette
 can't express, such as a custom matrix or mid-circuit measurement — is plain Swift:
-`import SwiftQiskitCore` in a scratch file, a playground, or via the `RunCodeSnippet` tool, and
+`import SwiftQiskit` in a scratch file, a playground, or via the `RunCodeSnippet` tool, and
 write a few lines directly. This chapter's own "Run it in code" section below is the smallest
 possible example of that.
 
@@ -93,7 +93,7 @@ The smallest possible circuit that proves the module imports and actually runs �
 one Hadamard:
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 
 let circuit = QuantumCircuit(qubits: 1)
 circuit.h(0)
@@ -113,19 +113,22 @@ State Vector panel in step 4 above — same circuit, same result, two different 
 
 ## Try it yourself
 
-1. Open both `SwiftQiskitApp.xcodeproj` and `../SwiftQiskit/Playgrounds.playground` and confirm
-   both build.
-   <details><summary>Answer</summary>If the playground fails with a package-resolution error,
-   check that `SwiftQiskit` sits next to `SwiftQiskitApp` on disk — the app's dependency is a
-   relative path, not a pinned URL, so the two folders must be siblings.</details>
+1. Open `SwiftQiskitApp.xcodeproj` on a machine with no `SwiftQiskit` checkout anywhere on disk
+   and confirm it still builds. Then open `SwiftQiskit/Playgrounds.playground` and confirm it
+   builds too.
+   <details><summary>Answer</summary>Both build independently. The app's dependency is a
+   version-pinned GitHub URL, so Xcode fetches it into its own cache regardless of what else is
+   on disk; the playground lives inside the `SwiftQiskit` repo itself and was never affected by
+   where `SwiftQiskitApp` sits.</details>
 
-2. Suppose you renamed the `SwiftQiskit` checkout to `SwiftQiskitCore` on disk (keeping
-   `SwiftQiskitApp` where it is). What would happen the next time you opened
-   `SwiftQiskitApp.xcodeproj`, and why?
-   <details><summary>Answer</summary>Package resolution would fail with the same error as a
-   missing checkout — the dependency is declared as the relative path `../SwiftQiskit`, which is
-   a folder name, not the module name `SwiftQiskitCore` you `import`. Renaming the folder breaks
-   the path even though the module name inside it hasn't changed.</details>
+2. Suppose you're actively editing `SwiftQiskit` and want `SwiftQiskitApp` to pick up your
+   changes immediately, before committing or tagging a release. Just having a `../SwiftQiskit`
+   checkout on disk isn't enough by itself anymore — why not, and what do you do instead?
+   <details><summary>Answer</summary>The app's dependency is declared by URL and version now,
+   not by relative path, so Xcode has no reason to look at a sibling folder unless told to.
+   Drag the local `../SwiftQiskit` checkout into the app's Xcode workspace as a local package —
+   a local package overrides a remote dependency of the same name — to get instant edits back;
+   remove the override when you're done.</details>
 
 3. The app's palette includes `T†` (`tdg`). Skim the gate table in
    `../SwiftQiskit/README.md` and find which playground page actually calls `tdg(qubit)`.

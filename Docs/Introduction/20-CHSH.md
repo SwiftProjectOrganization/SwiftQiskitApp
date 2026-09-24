@@ -30,7 +30,7 @@ into the single CHSH statistic S needs code.
 ## Run it in code
 
 ```swift
-import SwiftQiskitCore
+import SwiftQiskit
 // CHSH: four measurement settings on a Bell pair, summed into S ≈ 2√2
 ```
 
