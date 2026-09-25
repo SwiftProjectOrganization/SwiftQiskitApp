@@ -1,31 +1,28 @@
 # An Introduction to Quantum Computing, with SwiftQiskitApp
 
 A book-length walkthrough of quantum computing, taught through this app, its underlying
-simulator, [SwiftQiskit](../SwiftQiskit) and playgrounds in SwiftQiskit. It teaches the math, how to confirm the math
-using the simulator and finally using Swift.
+simulator ([SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)), the playgrounds in SwiftQiskit and standalone applications, possibly
+) generated from playground templates, e.g. [SwiftQiskitWalkDemo](https://github.com/SwiftProjectOrganization/SwiftQiskit).
 
+It teaches the math, how to confirm the math using the simulator and finally Swift.
 Every claim in every chapter is something you can run yourself and see for real, either by
 tapping gates onto the app's grid or by running a few lines of `SwiftQiskit` code.
 
-This is not a reference manual — [Docs/Tutorial.md](Docs/Tutorial.md) and
-[Docs/Help.md](Docs/Help.md) already cover *how to use the app*. This is *what quantum
-computing is*, using the app and the package as the running example.
+This illustrates *what quantum computing is*, using the app and the package as the running example.
 
-> **Work in progress.** Most chapters below are still stubs (summary and section headings only,
-> no prose yet) — see the Status column in the chapter table. Completion is targeted,
+> **Work in progress.** Most chapters need substantial updates. Completion is targeted,
 > optimistically, for late 2027.
 
 ## Who this is for
 
 Anyone who uses Swift and Xcode and has an interest in quantum physics and how mathematical
 modeling can be used to describe quantum computing — wanting to understand qubits, gates,
-entanglement, and the handful of famous algorithms (Deutsch, Grover, Shor, teleportation, VQE,
-…) by building and running small circuits rather than by reading equations alone. Terms are
-explained before they're used; linear algebra is introduced as needed in Chapter 2.
+entanglement and a handful of famous algorithms (Deutsch, Grover, Shor, teleportation, VQE,
+…) by building and running small circuits rather than by reading equations alone.
 
 ## Three ways to run everything
 
-Every chapter shows its examples in whichever of these apply, and says so with an **app badge**
+Every chapter shows its examples in whichever of these ways apply, and says so with an **app badge**
 (below):
 
 1. **The app (`SwiftQiskitApp`)** — tap gates onto the circuit grid, watch the state vector and
@@ -39,17 +36,14 @@ Every chapter shows its examples in whichever of these apply, and says so with a
    app's fixed gate set — custom matrices via `apply(_:)`, mid-circuit measurement, density
    matrices — and every such chapter says so explicitly.
 
-**Setup note:** this app depends on `../SwiftQiskit` as a sibling folder (a relative-path Swift
-package). If you're reading this from a checkout where that folder is missing, package
-resolution will fail — see [README.md](README.md) → Requirements.
-
 ## Conventions
 
 - **Qubit 0 is the most-significant (leftmost) bit** in every ket — `|q0 q1 q2…⟩` — matching both
   the package and the app.
 - Math is plain Unicode in running text (`|ψ⟩`, `θ`, `⊗`, `√2`, `⟨ψ|X|ψ⟩`), never LaTeX, so it
   reads the same in a terminal, a `.md` viewer, or GitHub.
-- **App badge**, next to each chapter: **●** Full (every step is tappable in the app as described),
+- **App badge**, next to each chapter:
+  **●** Full (every step is tappable in the app as described),
   **◐** Partial (some steps are tappable; the rest — and exactly what's missing — are called out),
   **○** Not expressible (the chapter is code-only; the app's fixed single/two-qubit gate palette
   can't reach it).

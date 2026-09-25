@@ -7,26 +7,16 @@ Guidance for Claude Code when working in this repository.
 SwiftQiskitApp is a SwiftUI front-end for building and running quantum circuits by tapping
 gates onto a grid instead of writing code. All quantum simulation (state vectors, gates,
 measurement) lives in the `SwiftQiskit` package; this app contributes only the UI and
-a small front-end model that replays placed gates onto a `QuantumCircuit`. This app is the
-package's only SwiftUI front-end — the package used to ship a duplicate (`SwiftQiskitGUI`),
-which was removed once it had drifted behind this app with no offsetting benefit to
-maintaining two copies.
+a small front-end model that replays placed gates onto a `QuantumCircuit`. 
 
 ## Relationship to the SwiftQiskit package
 
-This project depends on **`SwiftQiskit` as a remote package**, pinned "Up to Next Minor
-Version" from `0.1.0`
-(`https://github.com/SwiftProjectOrganization/SwiftQiskit.git`). No sibling checkout is
-required to build or run this app — Xcode resolves the dependency from GitHub into its own
-cache. The library product and module are both named `SwiftQiskit`:
+This project depends on **`SwiftQiskit` as a remote package**. The library product and module
+are both named `SwiftQiskit`:
 
 ```swift
 import SwiftQiskit
 ```
-
-A sibling `SwiftQiskit` checkout is still useful for reading the playground pages and
-`PlaygroundDocs/*HELP.md` this project's `INTRODUCTION.md` and `Docs/Introduction/` draw from
-(see `Docs/Introduction/01-Setup.md`), but it is no longer a build requirement.
 
 **Editing the package in tandem with this app:** package edits don't reach this app until
 they're committed, tagged, and pulled in via File > Packages > Update to Latest Package
