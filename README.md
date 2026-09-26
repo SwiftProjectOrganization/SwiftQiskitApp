@@ -76,7 +76,8 @@ SwiftQiskitApp/
 ├── SwiftQiskitAppTests/
 │   ├── CircuitBuilderTests.swift
 │   ├── CircuitLayoutTests.swift
-│   └── BlochVectorTests.swift
+│   ├── BlochVectorTests.swift
+│   └── Bloch3DProjectionTests.swift
 ├── Docs/
 │   ├── Tutorial.md
 │   ├── Help.md
@@ -87,7 +88,7 @@ SwiftQiskitApp/
 
 ## Testing
 
-Run via ⌘U or the `RunAllTests` MCP tool under the `SwiftQiskitApp` scheme — 17 tests total,
+Run via ⌘U or the `RunAllTests` MCP tool under the `SwiftQiskitApp` scheme — 22 tests total,
 using the Swift `Testing` framework (not XCTest).
 
 ---
@@ -96,8 +97,9 @@ using the Swift `Testing` framework (not XCTest).
 
 - [INTRODUCTION.md](INTRODUCTION.md) — a 26-chapter, book-length introduction to quantum
   computing (plus a Chapter 0 opener) taught through this app and the SwiftQiskit playgrounds,
-  chapter by chapter.
-- [Docs/Introduction](Docs/Introduction) — Contains the actual chapters
+  chapter by chapter, from qubits and gates through the named algorithms (Deutsch, Grover, the
+  QFT, Shor, teleportation, ...) and on to noise, tomography, and VQE.
+- [Docs/Introduction](Docs/Introduction) — contains the actual chapters.
 - [Docs/Tutorial.md](Docs/Tutorial.md) — how to use the app, step by step.
 - [Docs/Help.md](Docs/Help.md) — implementation reference, extension guide, troubleshooting.
 - [Docs/Todo.md](Docs/Todo.md) — status and roadmap.
