@@ -77,7 +77,7 @@ Every chapter shows its examples in whichever of these ways apply, and says so w
 | 18 | [Teleportation and Superdense Coding](Docs/Introduction/18-Teleportation.md) | ◐ | done | [`13Teleportation`](../SwiftQiskit/PlaygroundDocs/13TELEPORTATIONHELP.md) |
 | 19 | [Quantum Error Correction](Docs/Introduction/19-ErrorCorrection.md) | ● | done | [`14ErrorCorrection`](../SwiftQiskit/PlaygroundDocs/14ERRORCORRECTIONHELP.md) |
 | 20 | [Bell Tests: The CHSH Inequality](Docs/Introduction/20-CHSH.md) | ● | done | [`15CHSH`](../SwiftQiskit/PlaygroundDocs/15CHSHHELP.md) |
-| 21 | [Noise, Density Matrices and Channels](Docs/Introduction/21-Noise.md) | ○ | stub | [`19Noise`](../SwiftQiskit/PlaygroundDocs/19NOISEHELP.md) |
+| 21 | [Noise, Density Matrices and Channels](Docs/Introduction/21-Noise.md) | ◐ | done | [`19Noise`](../SwiftQiskit/PlaygroundDocs/19NOISEHELP.md) |
 | 22 | [State Tomography](Docs/Introduction/22-Tomography.md) | ◐ | stub | [`20Tomography`](../SwiftQiskit/PlaygroundDocs/20TOMOGRAPHYHELP.md) |
 | 23 | [Variational Algorithms: VQE](Docs/Introduction/23-VQE.md) | ◐ | stub | [`18VQE`](../SwiftQiskit/PlaygroundDocs/18VQEHELP.md) |
 | 24 | [Hamiltonian Simulation and Trotter Error](Docs/Introduction/24-Trotter.md) | ◐ | stub | [`21Trotter`](../SwiftQiskit/PlaygroundDocs/21TROTTERHELP.md) |
