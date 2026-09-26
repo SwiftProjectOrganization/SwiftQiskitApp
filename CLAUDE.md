@@ -143,8 +143,11 @@ no sales-pitch framing. Applies to prose written for this project: `INTRODUCTION
 - `README.md` — project overview, getting started, features.
 - `INTRODUCTION.md` — a 26-chapter introduction to quantum computing (plus a Chapter 0 opener)
   built on this app and the SwiftQiskit playgrounds; each chapter lives in `Docs/Introduction/`.
-  Working on a chapter starts by reading `Docs/Introduction/AUTHORING.md` (template, style rules,
-  verification workflow) before touching the chapter file itself.
+  Chapters run from qubits and gates through the named algorithms (Deutsch, Grover, the QFT,
+  Shor, teleportation, ...) and on to noise, tomography, and VQE; `INTRODUCTION.md`'s own table is
+  the single source of truth for each chapter's `stub`/`draft`/`done` status. Working on a chapter
+  starts by reading `Docs/Introduction/AUTHORING.md` (template, style rules, verification
+  workflow) before touching the chapter file itself.
 - `Docs/Tutorial.md` — how to use the app (build/measure a Bell state, GHZ state, etc.).
 - `Docs/Help.md` — implementation reference, extension guide, troubleshooting.
 - `Docs/Todo.md` — status and roadmap.
