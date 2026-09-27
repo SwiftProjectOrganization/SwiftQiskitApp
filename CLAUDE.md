@@ -38,7 +38,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 | Target | Product type | Notes |
 |---|---|---|
 | `SwiftQiskitApp` | Application | `com.robertgoedman.SwiftQiskitApp`; App Sandbox enabled, read-only user-selected file access |
-| `SwiftQiskitAppTests` | Unit Test Bundle | Swift `Testing` framework; 22 tests across 4 files |
+| `SwiftQiskitAppTests` | Unit Test Bundle | Swift `Testing` framework; 28 tests across 4 files |
 
 ## File map (`SwiftQiskitApp/`)
 
@@ -46,13 +46,13 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 |---|---|
 | `CircuitModel.swift` | `GateKind`, `PlacedGate`, `CircuitBuilder` — the model, no SwiftUI import |
 | `CircuitLayout.swift` | Pure geometry — turns `(column, qubit)` into points shared by the wire layer and the interactive gate layer |
-| `CircuitWiresView.swift` | Background `Canvas` layer: one horizontal wire per qubit, plus a vertical connector for CX gates |
+| `CircuitWiresView.swift` | Background `Canvas` layer: one horizontal wire per qubit, plus a vertical connector for any two-qubit gate |
 | `CircuitBuilderView.swift` | Regular-width (macOS/iPad) 3-pane layout: palette, grid, results |
 | `CompactBuilderView.swift` | iPhone-compact layout (`#if os(iOS)`): full-bleed grid + horizontal gate strip, results in a sheet |
 | `GatePaletteView.swift` | Gate buttons, grouped by category; arms a `GateKind`; `.sidebar` or `.strip` layout |
 | `CircuitGridView.swift` | The qubit-wire grid; tap-to-place and the CX two-tap state machine |
-| `GateTileView.swift` | `GateTileView` (a placed single-qubit or CX-control tile), `CXTargetView`, `EmptyCellView` |
-| `ParameterPopover.swift` | θ slider for `.p/.rx/.ry/.rz` tiles |
+| `GateTileView.swift` | `GateTileView` (a placed single-qubit tile, or either qubit of a symmetric two-qubit rotation, or CX's control), `CXTargetView` (CX's target only), `EmptyCellView` |
+| `ParameterPopover.swift` | θ slider for `.p/.rx/.ry/.rz/.rzz/.rxx/.ryy` tiles |
 | `ResultsView.swift` | Live state vector + shots/Measure/histogram |
 | `HistogramView.swift` | Bar chart of `SimulationResult` counts |
 | `BlochVector.swift` | Single-qubit Bloch coordinates from a `StateVector`; `init(_:qubit:)` computes a reduced (partial-trace) vector for one qubit of a multi-qubit state |
@@ -115,10 +115,12 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 
 ## Testing
 
-- `SwiftQiskitAppTests/CircuitBuilderTests.swift` (9 tests) — Bell-state replay via
+- `SwiftQiskitAppTests/CircuitBuilderTests.swift` (15 tests) — Bell-state replay via
   `buildCircuit()`, occupied/out-of-range placement rejection, qubit-count clamping and
   gate-dropping on shrink, `updateTheta`, `clear`, `measure(shots:)` populating `lastResult`,
-  and a qubit-count shrink discarding a prior measurement.
+  a qubit-count shrink discarding a prior measurement, and RZZ/RXX/RYY replay on non-adjacent
+  qubits checked against a directly built `QuantumCircuit` (RZZ also against the `cx;rz;cx`
+  identity), plus `updateTheta`/occupied-cell coverage for RZZ.
 - `SwiftQiskitAppTests/CircuitLayoutTests.swift` (3 tests) — pure `CircuitLayout` geometry:
   center spacing, `wireY` agreement with `center`, `canvasSize` growth in each dimension.
 - `SwiftQiskitAppTests/BlochVectorTests.swift` (7 tests) — single-qubit Bloch coordinates for
@@ -129,7 +131,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   geometry: pole projection direction, near- vs far-hemisphere perspective scale, the
   silhouette-scale formula.
 - Swift **`Testing`** framework (`import Testing`, `@Test`, `#expect`), not XCTest.
-- Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 22 tests are in its
+- Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 28 tests are in its
   test plan (no scheme-switching gotcha, unlike the package).
 
 ## Writing style

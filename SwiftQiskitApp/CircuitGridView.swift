@@ -4,7 +4,8 @@
 //
 //  Renders the circuit as a grid of qubit wires x columns, and handles
 //  tap-to-place: arm a gate in the palette, then tap an empty cell. Two-qubit
-//  gates (CX) need a control tap followed by a target tap in the same column.
+//  gates need two taps in the same column — CX distinguishes control from
+//  target, while RZZ/RXX/RYY treat both taps the same way.
 //
 
 import SwiftUI
@@ -68,7 +69,10 @@ struct CircuitGridView: View {
     private func occupiedCell(gate: PlacedGate, qubit: Int) -> some View {
         let isPrimary = gate.qubits.first == qubit
 
-        if isPrimary {
+        // A controlled gate's non-primary qubit (CX's target) renders the ⊕
+        // glyph instead of the tile; symmetric two-qubit rotations (RZZ/RXX/
+        // RYY) show the tile — and its θ popover — on both qubits.
+        if isPrimary || !gate.kind.isControlled {
             GateTileView(
                 gate: gate,
                 isSelected: selectedGateID == gate.id,
@@ -117,6 +121,7 @@ struct CircuitGridView: View {
     builder.place(.h, qubits: [0], column: 0)
     builder.place(.rx(.pi / 2), qubits: [1], column: 0)
     builder.place(.cx, qubits: [0, 2], column: 1)
+    builder.place(.rzz(.pi / 2), qubits: [0, 2], column: 2)
 
     return CircuitGridView(builder: builder, armedGate: .constant(nil))
         .frame(width: 500, height: 300)

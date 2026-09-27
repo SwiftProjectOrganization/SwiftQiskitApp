@@ -2,7 +2,7 @@
 //  ParameterPopover.swift
 //  SwiftQiskitApp
 //
-//  Angle editor for a placed P/RX/RY/RZ gate.
+//  Angle editor for a placed P/RX/RY/RZ/RZZ/RXX/RYY gate.
 //
 
 import SwiftUI

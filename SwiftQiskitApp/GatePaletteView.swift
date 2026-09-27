@@ -26,7 +26,8 @@ struct GatePaletteView: View {
             ("Pauli / Hadamard", [.h, .x, .y, .z]),
             ("Phase", [.s, .sdg, .t, .tdg]),
             ("Rotation (θ = π/2)", [.p(defaultAngle), .rx(defaultAngle), .ry(defaultAngle), .rz(defaultAngle)]),
-            ("Multi-qubit", [.cx])
+            ("Multi-qubit", [.cx]),
+            ("Two-qubit rotation (θ = π/2)", [.rzz(defaultAngle), .rxx(defaultAngle), .ryy(defaultAngle)])
         ]
     }
 
@@ -81,9 +82,12 @@ struct GatePaletteView: View {
     }
 
     private func hint(for gate: GateKind) -> String {
-        gate.qubitSpan == 2
+        guard gate.qubitSpan == 2 else {
+            return "Tap a wire to place \(gate.symbol)."
+        }
+        return gate.isControlled
             ? "Tap a control qubit, then a target qubit in the same column."
-            : "Tap a wire to place \(gate.symbol)."
+            : "Tap two qubits in the same column."
     }
 
     private func sidebarSection(_ title: String, gates: [GateKind]) -> some View {

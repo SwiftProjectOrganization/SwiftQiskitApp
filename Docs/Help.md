@@ -19,13 +19,13 @@ run. No `SwiftQiskit` changes were needed for this feature.
 |---|---|
 | `CircuitModel.swift` | `GateKind`, `PlacedGate`, `CircuitBuilder` — the model, no SwiftUI import |
 | `CircuitLayout.swift` | Pure geometry — turns `(column, qubit)` into points shared by the wire layer and the interactive gate layer so they can't drift apart |
-| `CircuitWiresView.swift` | Background `Canvas` layer: one horizontal wire per qubit, plus a vertical connector between a CX gate's control and target |
+| `CircuitWiresView.swift` | Background `Canvas` layer: one horizontal wire per qubit, plus a vertical connector between any two-qubit gate's two qubits |
 | `CircuitBuilderView.swift` | Regular-width (macOS/iPad) 3-pane layout; takes `builder`/`armedGate` from `ContentView` |
 | `CompactBuilderView.swift` | iPhone-compact layout (`#if os(iOS)`): full-bleed grid + horizontal gate strip, results in a sheet |
 | `GatePaletteView.swift` | Gate buttons, grouped by category; arms a `GateKind`; `.sidebar` (macOS/iPad) or `.strip` (iPhone) layout |
 | `CircuitGridView.swift` | The qubit-wire grid; tap-to-place and the CX two-tap state machine |
-| `GateTileView.swift` | `GateTileView` (a placed single-qubit or CX-control tile), `CXTargetView` (the ⊕ half of a CX), `EmptyCellView` |
-| `ParameterPopover.swift` | θ slider for `.p/.rx/.ry/.rz` tiles |
+| `GateTileView.swift` | `GateTileView` (a placed single-qubit tile, either qubit of a symmetric two-qubit rotation, or CX's control), `CXTargetView` (the ⊕ half of a CX only), `EmptyCellView` |
+| `ParameterPopover.swift` | θ slider for `.p/.rx/.ry/.rz/.rzz/.rxx/.ryy` tiles |
 | `ResultsView.swift` | Live state vector + shots/Measure/histogram |
 | `HistogramView.swift` | Bar chart of `SimulationResult` counts |
 | `BlochVector.swift` | Single-qubit Bloch coordinates (`x`/`y`/`z`/`theta`/`phi`) from a `StateVector`; `init(_:qubit:)` reduces a multi-qubit state to one qubit's vector |
@@ -42,13 +42,16 @@ public enum GateKind: Equatable, Hashable {
     case h, x, y, z, s, sdg, t, tdg
     case p(Double), rx(Double), ry(Double), rz(Double)
     case cx
-    // .symbol, .qubitSpan (1, or 2 for .cx), .isParameterized, .theta, .withTheta(_:)
+    case rzz(Double), rxx(Double), ryy(Double)
+    // .symbol, .qubitSpan (1, or 2 for .cx/.rzz/.rxx/.ryy), .isControlled (true only
+    // for .cx), .isParameterized, .theta, .withTheta(_:)
 }
 
 public struct PlacedGate: Identifiable, Equatable {
     public let id: UUID
     public var kind: GateKind
-    public var qubits: [Int]   // 1 entry, or [control, target] for .cx
+    public var qubits: [Int]   // 1 entry, or 2 qubits — [control, target] for .cx,
+                                // an unordered pair for .rzz/.rxx/.ryy
     public var column: Int
 }
 
@@ -83,22 +86,26 @@ below):
 
 - Single-qubit gate armed → tapping any empty cell calls
   `builder.place(kind, qubits: [qubit], column: column)` immediately.
-- `.cx` armed → the **first** tap on an empty cell sets `pendingControl = (column, qubit)`
-  (view-local `@State`, not part of `CircuitBuilder` — it's ephemeral UI state, not circuit
-  data). The **second** tap must be in the *same column*, a *different* qubit row; it
-  commits `builder.place(.cx, qubits: [control, target], column:)`. A tap that breaks
-  either rule resets `pendingControl` to the new cell rather than erroring.
+- Any span-2 gate (`.cx`, `.rzz`, `.rxx`, `.ryy`) armed → the **first** tap on an empty cell
+  sets `pendingControl = (column, qubit)` (view-local `@State`, not part of `CircuitBuilder`
+  — it's ephemeral UI state, not circuit data). The **second** tap must be in the *same
+  column*, a *different* qubit row; it commits `builder.place(armed, qubits: [first, second],
+  column:)`. A tap that breaks either rule resets `pendingControl` to the new cell rather than
+  erroring. For `.cx` the two taps are control-then-target; for `.rzz`/`.rxx`/`.ryy` the two
+  qubits play the same role, so which one is tapped first doesn't matter.
 - A `PlacedGate` is drawn once, at its "primary" qubit (`gate.qubits.first`) — that's where
-  `GateTileView` renders (the symbol, or a filled dot for CX's control). The other qubit(s)
-  of a multi-qubit gate render `CXTargetView` (the ⊕ glyph) instead. Deleting works from
-  either half.
+  `GateTileView` renders. `CXTargetView` (the ⊕ glyph) only ever stands in for the *non-primary*
+  qubit of a **controlled** gate (`.cx`'s target); the non-primary qubit of a symmetric
+  rotation (`.rzz`/`.rxx`/`.ryy`) gets its own `GateTileView` instead, showing the same symbol
+  and θ popover as the primary qubit's tile. Deleting works from either half.
 - The grid sits on two layers sharing one `CircuitLayout`: `CircuitWiresView` (a `Canvas`)
-  draws the horizontal qubit wires and the vertical CX control→target connector *behind*
-  everything, and `CircuitGridView` `.position()`s labels/cells on top from the same
-  `center(column:qubit:)` geometry, so the two layers can't drift apart. Single-qubit tiles
-  paint an opaque backing (`GateTileView.boxedBackground`) so they read clearly over the
-  wire; CX dots and `EmptyCellView`'s pending-control marker are transparent rings instead,
-  so the wire shows through.
+  draws the horizontal qubit wires and the vertical connector between any two-qubit gate's two
+  qubits *behind* everything, and `CircuitGridView` `.position()`s labels/cells on top from the
+  same `center(column:qubit:)` geometry, so the two layers can't drift apart. Boxed tiles
+  (every single-qubit gate, and both qubits of `.rzz`/`.rxx`/`.ryy`) paint an opaque backing
+  (`GateTileView.boxedBackground`) so they read clearly over the wire; CX's dot/⊕ and
+  `EmptyCellView`'s pending-control marker are transparent rings instead, so the wire shows
+  through.
 
 ## Geometry (`CircuitLayout.swift`)
 
@@ -164,7 +171,9 @@ iPhone bottom bar), mirroring how `ResultsView` is presented as a sheet.
 3. Add it to the appropriate group in `GatePaletteView`'s `sections` array.
 
 No changes needed anywhere else — `CircuitGridView`/`GateTileView` render any `GateKind`
-generically via `.symbol`/`.qubitSpan`.
+generically via `.symbol`/`.qubitSpan`/`.isControlled`. A new span-2 gate is symmetric
+(both placed qubits render a tile, like `.rzz`/`.rxx`/`.ryy`) unless it distinguishes
+control from target like `.cx`, in which case also add it to `isControlled`'s switch.
 
 **Adding a chart type / result view:** follow `HistogramView.swift`'s pattern (a small,
 stateless `View` taking a value type, not the whole `CircuitBuilder`) and wire it into
@@ -185,8 +194,11 @@ stateless `View` taking a value type, not the whole `CircuitBuilder`) and wire i
 `SwiftQiskitAppTests/CircuitBuilderTests.swift` covers `CircuitBuilder`'s logic only (no view
 tests — SwiftUI views aren't unit-testable here): Bell-state replay via `buildCircuit()`,
 occupied/out-of-range placement rejection, qubit-count clamping and gate-dropping on shrink,
-`updateTheta`, `clear`, `measure(shots:)` populating `lastResult`, and a qubit-count shrink
-discarding a prior measurement. `CircuitLayoutTests.swift` covers the pure `CircuitLayout`
+`updateTheta`, `clear`, `measure(shots:)` populating `lastResult`, a qubit-count shrink
+discarding a prior measurement, and RZZ/RXX/RYY replay across non-adjacent qubits checked
+entrywise against a directly built `QuantumCircuit` using the same `rzz`/`rxx`/`ryy` calls
+(RZZ additionally checked against the `cx;rz;cx` identity), plus `updateTheta` and
+occupied-cell rejection for RZZ. `CircuitLayoutTests.swift` covers the pure `CircuitLayout`
 geometry: center spacing, `wireY` agreement with `center`, and `canvasSize` growth in each
 dimension independently. `BlochVectorTests.swift` covers `BlochVector`'s math: single-qubit
 coordinates for `H`/`X`/`H+S`, the Bell state's reduced vectors collapsing to the origin on
@@ -194,7 +206,7 @@ both qubits (`|r| == 0`, the entanglement signature), reduced-vector isolation b
 independent qubits, and `buildCircuit(throughColumn:)` prefix replay. `Bloch3DProjectionTests.swift`
 covers the pure `Bloch3DProjection` camera math: pole projection direction, near- vs
 far-hemisphere perspective scale, and the silhouette-scale formula. Run via ⌘U or
-`RunAllTests` under the `SwiftQiskitApp` scheme — all 22 tests are included in its test plan
+`RunAllTests` under the `SwiftQiskitApp` scheme — all 28 tests are included in its test plan
 (unlike the package's plain `SwiftQiskit` scheme, whose test plan has no test targets — a
 pre-existing gotcha over there, not here).
 

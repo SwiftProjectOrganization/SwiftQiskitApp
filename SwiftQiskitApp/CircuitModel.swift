@@ -20,6 +20,9 @@ public enum GateKind: Equatable, Hashable {
     case ry(Double)
     case rz(Double)
     case cx
+    case rzz(Double)
+    case rxx(Double)
+    case ryy(Double)
 
     public var symbol: String {
         switch self {
@@ -36,13 +39,26 @@ public enum GateKind: Equatable, Hashable {
         case .ry: return "RY"
         case .rz: return "RZ"
         case .cx: return "CX"
+        case .rzz: return "RZZ"
+        case .rxx: return "RXX"
+        case .ryy: return "RYY"
         }
     }
 
-    /// Number of qubits this gate occupies (1 for single-qubit gates, 2 for CX).
+    /// Number of qubits this gate occupies (1 for single-qubit gates, 2 for the
+    /// two-qubit gates: CX and the RZZ/RXX/RYY rotations).
     public var qubitSpan: Int {
-        if case .cx = self { return 2 }
-        return 1
+        switch self {
+        case .cx, .rzz, .rxx, .ryy: return 2
+        default: return 1
+        }
+    }
+
+    /// True only for CX: its two qubits play distinct roles (control vs. target),
+    /// unlike RZZ/RXX/RYY, whose two qubits are symmetric.
+    public var isControlled: Bool {
+        if case .cx = self { return true }
+        return false
     }
 
     public var isParameterized: Bool {
@@ -51,7 +67,9 @@ public enum GateKind: Equatable, Hashable {
 
     public var theta: Double? {
         switch self {
-        case .p(let t), .rx(let t), .ry(let t), .rz(let t): return t
+        case .p(let t), .rx(let t), .ry(let t), .rz(let t),
+             .rzz(let t), .rxx(let t), .ryy(let t):
+            return t
         default: return nil
         }
     }
@@ -63,6 +81,9 @@ public enum GateKind: Equatable, Hashable {
         case .rx: return .rx(newTheta)
         case .ry: return .ry(newTheta)
         case .rz: return .rz(newTheta)
+        case .rzz: return .rzz(newTheta)
+        case .rxx: return .rxx(newTheta)
+        case .ryy: return .ryy(newTheta)
         default: return self
         }
     }
@@ -185,6 +206,9 @@ public final class CircuitBuilder {
         case .ry(let theta): circuit.ry(theta, gate.qubits[0])
         case .rz(let theta): circuit.rz(theta, gate.qubits[0])
         case .cx: circuit.cx(gate.qubits[0], gate.qubits[1])
+        case .rzz(let theta): circuit.rzz(theta, gate.qubits[0], gate.qubits[1])
+        case .rxx(let theta): circuit.rxx(theta, gate.qubits[0], gate.qubits[1])
+        case .ryy(let theta): circuit.ryy(theta, gate.qubits[0], gate.qubits[1])
         }
     }
 }

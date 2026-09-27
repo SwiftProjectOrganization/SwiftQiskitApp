@@ -15,8 +15,10 @@ Project status and roadmap for SwiftQiskitApp.
 ## What Works (v1)
 
 - Gate palette: `H X Y Z` (Pauli/Hadamard), `S S† T T†` (phase), `P RX RY RZ` (rotations,
-  each with a θ parameter), `CX` (two-qubit CNOT).
-- Tap-to-arm-then-tap-cell placement; CX's two-tap control→target flow.
+  each with a θ parameter), `CX` (two-qubit CNOT), `RZZ RXX RYY` (two-qubit rotations, each
+  with a θ parameter).
+- Tap-to-arm-then-tap-cell placement; CX's two-tap control→target flow, RZZ/RXX/RYY's
+  two-tap flow on an unordered qubit pair.
 - θ editor popover for parameterized gates (0–2π slider).
 - Qubit count 1–8, adjustable via stepper; shrinking drops out-of-range gates.
 - Live state vector (amplitudes + probabilities), recomputed on every change.
@@ -25,7 +27,7 @@ Project status and roadmap for SwiftQiskitApp.
 - Bloch-sphere display (`BlochDisplayView`, opened via a **Display** button): a 2D grid of
   every qubit's final-state sphere, a column-by-column row for one chosen qubit, or a rotatable
   3D view (`Bloch3DSphereView`, orbited by dragging).
-- 22 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
+- 28 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
   `Bloch3DProjectionTests`) covering the model, geometry, and Bloch-vector math.
 
 ## Roadmap

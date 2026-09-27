@@ -105,4 +105,99 @@ struct CircuitBuilderTests {
 
         #expect(builder.lastResult == nil)
     }
+
+    @Test("RZZ replay matches a directly built circuit on non-adjacent qubits")
+    func rzzReplay() {
+        let theta = 0.7
+        let builder = CircuitBuilder(qubitCount: 3)
+        builder.place(.h, qubits: [0], column: 0)
+        builder.place(.h, qubits: [2], column: 0)
+        builder.place(.rzz(theta), qubits: [0, 2], column: 1)
+
+        let direct = QuantumCircuit(qubits: 3)
+        direct.h(0)
+        direct.h(2)
+        direct.rzz(theta, 0, 2)
+
+        expectStatesMatch(builder.buildCircuit().run(), direct.run())
+    }
+
+    @Test("RXX replay matches a directly built circuit on non-adjacent qubits")
+    func rxxReplay() {
+        let theta = 0.7
+        let builder = CircuitBuilder(qubitCount: 3)
+        builder.place(.h, qubits: [0], column: 0)
+        builder.place(.h, qubits: [2], column: 0)
+        builder.place(.rxx(theta), qubits: [0, 2], column: 1)
+
+        let direct = QuantumCircuit(qubits: 3)
+        direct.h(0)
+        direct.h(2)
+        direct.rxx(theta, 0, 2)
+
+        expectStatesMatch(builder.buildCircuit().run(), direct.run())
+    }
+
+    @Test("RYY replay matches a directly built circuit on non-adjacent qubits")
+    func ryyReplay() {
+        let theta = 0.7
+        let builder = CircuitBuilder(qubitCount: 3)
+        builder.place(.h, qubits: [0], column: 0)
+        builder.place(.h, qubits: [2], column: 0)
+        builder.place(.ryy(theta), qubits: [0, 2], column: 1)
+
+        let direct = QuantumCircuit(qubits: 3)
+        direct.h(0)
+        direct.h(2)
+        direct.ryy(theta, 0, 2)
+
+        expectStatesMatch(builder.buildCircuit().run(), direct.run())
+    }
+
+    @Test("RZZ replay matches the cx;rz;cx identity")
+    func rzzMatchesIdentity() {
+        let theta = 0.7
+        let builder = CircuitBuilder(qubitCount: 3)
+        builder.place(.h, qubits: [0], column: 0)
+        builder.place(.h, qubits: [2], column: 0)
+        builder.place(.rzz(theta), qubits: [0, 2], column: 1)
+
+        let direct = QuantumCircuit(qubits: 3)
+        direct.h(0)
+        direct.h(2)
+        direct.cx(0, 2)
+        direct.rz(theta, 2)
+        direct.cx(0, 2)
+
+        expectStatesMatch(builder.buildCircuit().run(), direct.run())
+    }
+
+    @Test("updateTheta changes an RZZ gate's angle")
+    func updateThetaChangesRZZAngle() {
+        let builder = CircuitBuilder(qubitCount: 2)
+        builder.place(.rzz(0.1), qubits: [0, 1], column: 0)
+        let id = builder.gates[0].id
+
+        builder.updateTheta(id: id, theta: 1.23)
+
+        #expect(builder.gates[0].kind.theta == 1.23)
+        #expect(builder.gates[0].kind.qubitSpan == 2)
+        #expect(builder.gates[0].kind.isControlled == false)
+    }
+
+    @Test("placing an RZZ on an occupied qubit is rejected")
+    func rzzOccupiedCellRejected() {
+        let builder = CircuitBuilder(qubitCount: 2)
+        #expect(builder.place(.h, qubits: [0], column: 0))
+        #expect(!builder.place(.rzz(0.5), qubits: [0, 1], column: 0))
+        #expect(builder.gates.count == 1)
+    }
+}
+
+/// Compares two state vectors entrywise within a fixed tolerance.
+private func expectStatesMatch(_ lhs: StateVector, _ rhs: StateVector, tolerance: Double = 1e-9) {
+    #expect(lhs.dimension == rhs.dimension)
+    for i in 0..<lhs.dimension {
+        #expect((lhs[i] - rhs[i]).magnitude < tolerance)
+    }
 }

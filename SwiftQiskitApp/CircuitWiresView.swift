@@ -3,10 +3,11 @@
 //  SwiftQiskitApp
 //
 //  Background layer of the circuit diagram: one horizontal wire per qubit,
-//  plus a vertical connector between a CX gate's control and target. Drawn
-//  behind the interactive gate layer in CircuitGridView, so a connector that
-//  passes through an intervening qubit's wire also passes behind any gate
-//  placed there in the same column — matching standard circuit-diagram style.
+//  plus a vertical connector between any two-qubit gate's two qubits (CX's
+//  control/target, or an RZZ/RXX/RYY rotation's symmetric pair). Drawn behind
+//  the interactive gate layer in CircuitGridView, so a connector that passes
+//  through an intervening qubit's wire also passes behind any gate placed
+//  there in the same column — matching standard circuit-diagram style.
 //
 
 import SwiftUI

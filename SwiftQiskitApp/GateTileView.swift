@@ -24,7 +24,9 @@ struct GateTileView: View {
         )
     }
 
-    private var isBoxed: Bool { gate.kind.qubitSpan == 1 }
+    // Every single-qubit gate is boxed, as is each qubit of a symmetric
+    // two-qubit rotation (RZZ/RXX/RYY); only CX's control dot is unboxed.
+    private var isBoxed: Bool { !gate.kind.isControlled }
 
     var body: some View {
         content
@@ -65,7 +67,7 @@ struct GateTileView: View {
 
     @ViewBuilder
     private var content: some View {
-        if gate.kind.qubitSpan == 2 {
+        if gate.kind.isControlled {
             Circle()
                 .fill(Color.accentColor)
                 .frame(width: 14, height: 14)
