@@ -80,7 +80,7 @@ Every chapter shows its examples in whichever of these ways apply, and says so w
 | 21 | [Noise, Density Matrices and Channels](Docs/Introduction/21-Noise.md) | ◐ | done | [`19Noise`](../SwiftQiskit/PlaygroundDocs/19NOISEHELP.md) |
 | 22 | [State Tomography](Docs/Introduction/22-Tomography.md) | ◐ | done | [`20Tomography`](../SwiftQiskit/PlaygroundDocs/20TOMOGRAPHYHELP.md) |
 | 23 | [Variational Algorithms: VQE](Docs/Introduction/23-VQE.md) | ◐ | done | [`18VQE`](../SwiftQiskit/PlaygroundDocs/18VQEHELP.md) |
-| 24 | [Hamiltonian Simulation and Trotter Error](Docs/Introduction/24-Trotter.md) | ◐ | stub | [`21Trotter`](../SwiftQiskit/PlaygroundDocs/21TROTTERHELP.md) |
+| 24 | [Hamiltonian Simulation and Trotter Error](Docs/Introduction/24-Trotter.md) | ◐ | done | [`21Trotter`](../SwiftQiskit/PlaygroundDocs/21TROTTERHELP.md) |
 | 25 | [Discrete-Time Quantum Walks](Docs/Introduction/25-QuantumWalks.md) | ○ | stub | [`22Walk`](../SwiftQiskit/PlaygroundDocs/22WALKHELP.md) |
 | 26 | [Epilogue: Where to Go Next](Docs/Introduction/26-Epilogue.md) | — | stub | — |
 
