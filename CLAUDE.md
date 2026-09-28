@@ -12,10 +12,15 @@ a small front-end model that replays placed gates onto a `QuantumCircuit`.
 ## Relationship to the SwiftQiskit package
 
 This project depends on **`SwiftQiskit` as a remote package**. The library product and module
-are both named `SwiftQiskit`:
+are both named `SwiftQiskit`. As of `0.2.0` the package also ships a second product,
+`SwiftQiskitViews` — a shared, UI-free-Core-preserving SwiftUI library (`BlochVector`,
+`CHSHChartView`) also used by `SwiftQiskit`'s own `Playgrounds.playground`, added to this
+target so `BlochSphereView.swift`/`Bloch3DSphereView.swift`/`BlochDisplayView.swift` can use
+its `BlochVector` instead of a locally vendored copy:
 
 ```swift
 import SwiftQiskit
+import SwiftQiskitViews
 ```
 
 **Editing the package in tandem with this app:** package edits don't reach this app until
@@ -55,8 +60,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 | `ParameterPopover.swift` | θ slider for `.p/.rx/.ry/.rz/.rzz/.rxx/.ryy` tiles |
 | `ResultsView.swift` | Live state vector + shots/Measure/histogram |
 | `HistogramView.swift` | Bar chart of `SimulationResult` counts |
-| `BlochVector.swift` | Single-qubit Bloch coordinates from a `StateVector`; `init(_:qubit:)` computes a reduced (partial-trace) vector for one qubit of a multi-qubit state |
-| `BlochSphereView.swift` | 2D oblique-projection `Canvas` drawing of one `BlochVector` |
+| `BlochSphereView.swift` | 2D oblique-projection `Canvas` drawing of one `BlochVector` (from `SwiftQiskitViews`) |
 | `Bloch3DSphereView.swift` | Rotatable, perspective-projected 3D `Canvas` drawing of one `BlochVector`; drag to orbit the camera |
 | `BlochDisplayView.swift` | Final/Steps/3D segmented view showing a grid, a column-by-column row of `BlochSphereView`s, or an orbitable `Bloch3DSphereView`; opened via the "Display" button |
 | `ContentView.swift` | Owns the `CircuitBuilder` and `armedGate` state; picks `CircuitBuilderView` vs. `CompactBuilderView` by size class on iOS |
@@ -81,13 +85,14 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   first, behind everything) and `CircuitGridView` (interactive cells on top) — so the two
   layers can't drift apart.
 - **"Display" button** (`CircuitBuilderView`/`CompactBuilderView`) opens `BlochDisplayView` in
-  a sheet, mirroring how Results is presented. `BlochVector(_ state:, qubit:)` produces a
-  reduced Bloch vector by summing over the other qubits' basis configurations (a partial
-  trace) — entangled qubits render with `|r| < 1`, a shorter arrow inside the sphere. This is
-  vendored from `SwiftQiskit/Playgrounds.playground/Sources/BlochVector.swift` /
-  `BlochSphereView.swift` / `Bloch3DView.swift`, which aren't importable (playground `Sources/`
-  isn't an SPM target). The 3D mode's camera math lives in `Bloch3DProjection`, a pure struct
-  pulled out of `Bloch3DSphereView` so its perspective projection is unit-testable
+  a sheet, mirroring how Results is presented. `BlochVector(_ state:, qubit:)` — imported from
+  the package's `SwiftQiskitViews` product — produces a reduced Bloch vector by summing over
+  the other qubits' basis configurations (a partial trace) — entangled qubits render with
+  `|r| < 1`, a shorter arrow inside the sphere. `BlochSphereView.swift`/`Bloch3DSphereView.swift`
+  (this app's own views, not `SwiftQiskitViews`) are still ported from
+  `SwiftQiskit/Playgrounds.playground/Sources/BlochSphereView.swift`/`Bloch3DView.swift`,
+  since those stay playground-only. The 3D mode's camera math lives in `Bloch3DProjection`, a
+  pure struct pulled out of `Bloch3DSphereView` so its perspective projection is unit-testable
   (`Bloch3DProjectionTests.swift`) independent of the `Canvas`/`DragGesture` view code.
 
 ## Conventions & gotchas

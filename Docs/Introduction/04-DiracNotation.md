@@ -295,8 +295,8 @@ and Z are all Hermitian (§4.4), so their expectation values against any state a
 real. The closed forms `sin θ cos φ`, `sin θ sin φ`, `cos θ` agree with the bra–ket computation
 to about 15 significant figures — two independent routes to the same three numbers.
 
-`BlochVector` — the app's own type (`SwiftQiskitApp/BlochVector.swift`) — computes the identical
-point straight from the amplitudes, without going through `Bra`/`Matrix` at all:
+`BlochVector` — from the `SwiftQiskit` package's `SwiftQiskitViews` product — computes the
+identical point straight from the amplitudes, without going through `Bra`/`Matrix` at all:
 `x = 2·Re(ᾱβ)`, `y = 2·Im(ᾱβ)`, `z = |α|² − |β|²`:
 
 ```swift

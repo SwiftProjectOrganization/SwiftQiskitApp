@@ -67,7 +67,6 @@ SwiftQiskitApp/
 │   ├── ParameterPopover.swift
 │   ├── ResultsView.swift
 │   ├── HistogramView.swift
-│   ├── BlochVector.swift
 │   ├── BlochSphereView.swift
 │   ├── Bloch3DSphereView.swift
 │   ├── BlochDisplayView.swift

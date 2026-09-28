@@ -51,8 +51,9 @@ y = 2·Im(ᾱβ)
 z = |α|² − |β|²
 ```
 
-of a point on the unit sphere — the **Bloch sphere**. `BlochVector` (`SwiftQiskitApp/BlochVector.swift`)
-computes exactly this triple from a state's amplitudes, with no dependence on `Bra`/`Matrix`
+of a point on the unit sphere — the **Bloch sphere**. `BlochVector` (from the `SwiftQiskit`
+package's `SwiftQiskitViews` product) computes exactly this triple from a state's amplitudes,
+with no dependence on `Bra`/`Matrix`
 at all; it is the same formula Chapter 4 verified against the bra–ket computation to the last
 printed digit.
 
@@ -253,7 +254,7 @@ you'd rather match `02Bloch2d` exactly, one wire at a time: drop **Qubits** to 1
 gates for one state, **Display** → **Final**, **Clear**, repeat for the next state.)
 
 The subtlety worth naming, not hiding: `BlochDisplayView` calls `BlochVector(state, qubit:)`
-(`SwiftQiskitApp/BlochVector.swift`), the *reduced* single-qubit vector for one wire of a
+(from `SwiftQiskitViews`), the *reduced* single-qubit vector for one wire of a
 6-qubit state — a partial trace over the other five. Every card above prints no `|r|` line
 because every one of these six wires is a genuinely unentangled product state, so the reduced
 vector still has length exactly 1; the same machinery gives `|r| = 0` for a wire of an entangled

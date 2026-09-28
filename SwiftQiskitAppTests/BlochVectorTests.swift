@@ -1,6 +1,7 @@
 import Testing
 @testable import SwiftQiskitApp
 import SwiftQiskit
+import SwiftQiskitViews
 
 @MainActor
 @Suite("BlochVector")

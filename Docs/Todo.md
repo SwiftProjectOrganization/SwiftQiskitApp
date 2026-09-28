@@ -6,7 +6,7 @@ Project status and roadmap for SwiftQiskitApp.
 
 **SwiftQiskitApp is v1: a working circuit builder, front-end only.**
 
-- All quantum simulation is delegated to the `SwiftQiskit` package (currently v0.1,
+- All quantum simulation is delegated to the `SwiftQiskit` package (currently v0.2,
   experimental — its API may change under this app).
 - The UI supports placing/removing gates, live state-vector display, and shot-based
   measurement with a histogram.
@@ -43,14 +43,18 @@ Project status and roadmap for SwiftQiskitApp.
 - [ ] More gates once `SwiftQiskit` supports them (CZ, SWAP, Toffoli) — see the package's
       own `STATUSandTODO.md` for its roadmap.
 - [ ] Gate-count / circuit-depth readout alongside the state vector.
-- [x] A Bloch-sphere view, covering multi-qubit circuits — `BlochVector`/`BlochSphereView`
-      were ported from the package playground's `Sources/` folder (not importable as-is) into
-      the app, plus a new reduced (partial-trace) `BlochVector` init for qubits beyond the
-      first. Promoting these into a shared `SwiftQiskitViews` package target instead of
-      vendoring them remains open — see "De-duplicate" below.
+- [x] A Bloch-sphere view, covering multi-qubit circuits — `BlochSphereView`
+      was ported from the package playground's `Sources/` folder (not importable as-is) into
+      the app; `BlochVector` (with the reduced, partial-trace init for qubits beyond the
+      first) originally was too, but has since moved to the package's own shared
+      `SwiftQiskitViews` product (`0.2.0`) — this app now imports it from there instead of
+      vendoring a copy.
 - [x] 3D Bloch sphere / rotatable view — `Bloch3DSphereView`, ported from the package
       playground's `Bloch3DView` the same way the 2D view was, added as a third Display mode
       ("3D") alongside Final/Steps.
+- [x] Adopt the shared `SwiftQiskitViews` package product for `BlochVector`/`CHSHChartView`,
+      replacing this app's own vendored `BlochVector.swift` — done as part of `SwiftQiskit`
+      `0.2.0`; the package dependency requirement now starts at `0.2.0`.
 - [ ] iPad-specific layout polish (currently shares the macOS 3-pane layout as-is).
 - [ ] UI tests via XCUIAutomation (current tests only cover the model/geometry, not views).
 - [ ] VoiceOver and Dynamic Type accessibility audit.

@@ -10,6 +10,7 @@
 //
 
 import SwiftUI
+import SwiftQiskitViews
 
 /// Camera model for `Bloch3DSphereView`: the camera sits `cameraDistance`
 /// sphere-radii from the origin, orbiting by an azimuth angle about the

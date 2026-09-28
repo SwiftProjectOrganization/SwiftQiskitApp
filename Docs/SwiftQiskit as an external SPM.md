@@ -288,3 +288,36 @@ in outline:
 `CLAUDE.md` (this repo and the package's) and the roughly thirty other `.md` files listed in
 step 6 above were updated for both the SPM change and these four items together, in one pass,
 rather than twice.
+
+## Follow-up: `0.2.0` adds a second product, `SwiftQiskitViews`
+
+A second package product, `SwiftQiskitViews` (`BlochVector`, `CHSHChartView` — shared,
+UI-free-Core-preserving SwiftUI views), landed in the `SwiftQiskit` repo and was tagged
+`0.2.0`.
+
+**Deviation from "The version rule" above:** re-adding the dependency through Xcode's UI (to
+add the `SwiftQiskitViews` product) reset the requirement's kind to `upToNextMajorVersion`
+rather than the previously-set `upToNextMinorVersion` — the same auto-fill quirk step 3
+already documented above. This time it was kept rather than corrected: a deliberate choice
+for the simpler, broader default (`0.2.0..<1.0.0`) over re-tightening it back to
+`upToNextMinorVersion`, accepting that a future `1.0.0` would be picked up automatically
+without a manual dependency edit. The *minimum version* still moves from `0.1.0` to `0.2.0`,
+since `SwiftQiskitViews` doesn't exist at `0.1.x`.
+
+Steps taken in this repo:
+
+- `SwiftQiskitApp/BlochVector.swift` deleted; `BlochSphereView.swift`,
+  `Bloch3DSphereView.swift`, `BlochDisplayView.swift`, and
+  `SwiftQiskitAppTests/BlochVectorTests.swift` gained `import SwiftQiskitViews` (all four
+  call sites already matched `SwiftQiskitViews.BlochVector`'s signatures exactly, so no
+  other source change was needed).
+- The `XCRemoteSwiftPackageReference "SwiftQiskit"` requirement's `minimumVersion` moves to
+  `0.2.0`, and the `SwiftQiskitViews` product was added to the `SwiftQiskitApp` target's
+  package product dependencies, alongside the existing `SwiftQiskit` one — **done in Xcode's
+  UI** (Project ▸ Package Dependencies, and the target's Frameworks, Libraries, and Embedded
+  Content list), not by hand-editing `project.pbxproj`: with the project open in Xcode,
+  editing that file directly risks corrupting the open session, so this step needed a human
+  in Xcode rather than the agent.
+- `Package.resolved` picks up the `0.2.0` pin the next time Xcode resolves package versions
+  (File ▸ Packages ▸ Resolve Package Versions), which happens automatically once the
+  dependency's minimum version is edited in the UI above.

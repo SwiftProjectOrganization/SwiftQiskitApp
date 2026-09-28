@@ -153,8 +153,8 @@ different units.
 
 Three Bloch points side by side make the whole chapter visible at once: the pure `|+⟩` on the
 equator, its dephased image shrunk toward the center along the same direction, and the fully
-depolarized point sitting exactly at the origin. This reuses the app's own additive
-`BlochVector(x:y:z:)` initializer (`BlochVector.swift`) — the same one that lets `BlochSphereView`
+depolarized point sitting exactly at the origin. This reuses `SwiftQiskitViews`'s additive
+`BlochVector(x:y:z:)` initializer — the same one that lets `BlochSphereView`
 draw sub-unit arrows for the entangled/mixed states in Chapters 12 and 19 — so no new drawing
 code is needed; only the gallery layout itself (`NoiseGalleryView`) is vendored from the
 playground page's `Sources/`, per `AUTHORING.md`'s note that these aren't importable.
