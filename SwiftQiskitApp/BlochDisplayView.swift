@@ -3,9 +3,10 @@
 //  SwiftQiskitApp
 //
 //  2D Bloch-sphere view of the circuit: either the final state of every
-//  qubit, or one qubit's state after each column ("Steps"). Presented as a
-//  sheet from both CircuitBuilderView and CompactBuilderView, mirroring how
-//  ResultsView is presented.
+//  qubit, one qubit's state after each column ("Steps"), a tensor-network
+//  diagram of the circuit ("Tensor"), or an orbitable 3D sphere. Presented
+//  as a sheet from both CircuitBuilderView and CompactBuilderView,
+//  mirroring how ResultsView is presented.
 //
 
 import SwiftUI
@@ -18,6 +19,7 @@ struct BlochDisplayView: View {
     private enum Mode: String, CaseIterable, Identifiable {
         case final = "Final"
         case steps = "Steps"
+        case tensor = "Tensor"
         case threeD = "3D"
         var id: String { rawValue }
     }
@@ -34,12 +36,14 @@ struct BlochDisplayView: View {
             }
             .pickerStyle(.segmented)
 
-            ScrollView(mode == .steps ? .horizontal : .vertical) {
+            ScrollView(scrollAxes) {
                 switch mode {
                 case .final:
                     finalGrid
                 case .steps:
                     stepsRow
+                case .tensor:
+                    tensorCard
                 case .threeD:
                     threeDCard
                 }
@@ -47,6 +51,14 @@ struct BlochDisplayView: View {
         }
         .onChange(of: builder.qubitCount) {
             selectedQubit = min(selectedQubit, builder.qubitCount - 1)
+        }
+    }
+
+    private var scrollAxes: Axis.Set {
+        switch mode {
+        case .steps: .horizontal
+        case .tensor: [.horizontal, .vertical]
+        case .final, .threeD: .vertical
         }
     }
 
@@ -93,6 +105,12 @@ struct BlochDisplayView: View {
                 }
             }
         }
+    }
+
+    private var tensorCard: some View {
+        TensorNetworkView(TensorNetwork(builder.buildCircuit()))
+            .padding()
+            .glassEffect(in: .rect(cornerRadius: 16))
     }
 
     private var threeDCard: some View {

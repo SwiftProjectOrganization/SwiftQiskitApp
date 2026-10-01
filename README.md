@@ -43,8 +43,8 @@ Bell state.
 - **1–8 qubits**, adjustable with a stepper; shrinking the count drops gates that no longer fit.
 - **θ editor** — tap a placed parameterized gate to open a popover with a 0–2π slider.
 - **Bloch sphere display** — a **Display** button opens a Bloch-sphere view: every qubit's
-  final state at once, one chosen qubit's state after each column, or a rotatable 3D sphere
-  you orbit by dragging.
+  final state at once, one chosen qubit's state after each column, a tensor-network diagram
+  of the circuit, or a rotatable 3D sphere you orbit by dragging.
 
 ## Layouts
 

@@ -59,12 +59,15 @@ exactly; `measure(shots:)` is probabilistic.
 
 ## Viewing Bloch spheres
 
-Tap **Display** to open a Bloch-sphere view of the circuit, with three modes:
+Tap **Display** to open a Bloch-sphere view of the circuit, with four modes:
 
 - **Final** shows one sphere per qubit, for the circuit's current final state.
 - **Steps** shows a single chosen qubit's sphere after each column, so you can watch it move
   gate by gate. Pick the qubit with the segmented control above the row (hidden if there's
   only one qubit).
+- **Tensor** shows the circuit as a tensor-network diagram instead of a sphere: one node per
+  `|0⟩` input, one per gate, one per open output leg, wired together by the qubit each edge
+  carries — the same circuit, read as a graph rather than a trajectory on a sphere.
 - **3D** shows a single chosen qubit's final-state sphere as a rotatable 3D wireframe — drag
   the sphere to orbit the camera around it. Useful for reading an angle that the fixed 2D
   projection foreshortens (see Chapter 6 of `INTRODUCTION.md`).

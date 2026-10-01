@@ -14,9 +14,10 @@ a small front-end model that replays placed gates onto a `QuantumCircuit`.
 This project depends on **`SwiftQiskit` as a remote package**. The library product and module
 are both named `SwiftQiskit`. As of `0.2.0` the package also ships a second product,
 `SwiftQiskitViews` — a shared, UI-free-Core-preserving SwiftUI library (`BlochVector`,
-`CHSHChartView`) also used by `SwiftQiskit`'s own `Playgrounds.playground`, added to this
-target so `BlochSphereView.swift`/`Bloch3DSphereView.swift`/`BlochDisplayView.swift` can use
-its `BlochVector` instead of a locally vendored copy:
+`CHSHChartView`, and as of `0.3.0` `TensorNetworkView`) also used by `SwiftQiskit`'s own
+`Playgrounds.playground`, added to this target so
+`BlochSphereView.swift`/`Bloch3DSphereView.swift`/`BlochDisplayView.swift` can use its
+`BlochVector` instead of a locally vendored copy:
 
 ```swift
 import SwiftQiskit
@@ -62,7 +63,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 | `HistogramView.swift` | Bar chart of `SimulationResult` counts |
 | `BlochSphereView.swift` | 2D oblique-projection `Canvas` drawing of one `BlochVector` (from `SwiftQiskitViews`) |
 | `Bloch3DSphereView.swift` | Rotatable, perspective-projected 3D `Canvas` drawing of one `BlochVector`; drag to orbit the camera |
-| `BlochDisplayView.swift` | Final/Steps/3D segmented view showing a grid, a column-by-column row of `BlochSphereView`s, or an orbitable `Bloch3DSphereView`; opened via the "Display" button |
+| `BlochDisplayView.swift` | Final/Steps/Tensor/3D segmented view showing a grid, a column-by-column row of `BlochSphereView`s, a `TensorNetworkView` diagram of the circuit, or an orbitable `Bloch3DSphereView`; opened via the "Display" button |
 | `ContentView.swift` | Owns the `CircuitBuilder` and `armedGate` state; picks `CircuitBuilderView` vs. `CompactBuilderView` by size class on iOS |
 | `SwiftQiskitAppApp.swift` | `@main App`; sets a minimum/default window size on macOS |
 
@@ -93,7 +94,10 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   `SwiftQiskit/Playgrounds.playground/Sources/BlochSphereView.swift`/`Bloch3DView.swift`,
   since those stay playground-only. The 3D mode's camera math lives in `Bloch3DProjection`, a
   pure struct pulled out of `Bloch3DSphereView` so its perspective projection is unit-testable
-  (`Bloch3DProjectionTests.swift`) independent of the `Canvas`/`DragGesture` view code.
+  (`Bloch3DProjectionTests.swift`) independent of the `Canvas`/`DragGesture` view code. The
+  Tensor mode feeds `builder.buildCircuit()` straight into `TensorNetworkView(TensorNetwork(_:))`
+  — both types from the package (`TensorNetwork` in `SwiftQiskit`, the drawing in
+  `SwiftQiskitViews`, added in `0.3.0`) — so this app owns no tensor-network code of its own.
 
 ## Conventions & gotchas
 

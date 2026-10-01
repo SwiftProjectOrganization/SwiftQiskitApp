@@ -132,7 +132,7 @@ API: `center(column:qubit:) -> CGPoint`, `wireY(_:) -> CGFloat`,
 - `HistogramView` scales each bar to `maxBarHeight` proportional to the largest count in the
   `SimulationResult`.
 
-## Bloch sphere display (`BlochVector.swift`, `BlochSphereView.swift`, `Bloch3DSphereView.swift`, `BlochDisplayView.swift`)
+## Bloch sphere display (`BlochVector.swift`, `BlochSphereView.swift`, `Bloch3DSphereView.swift`, `BlochDisplayView.swift`, `TensorNetworkView`)
 
 Opened via the **Display** button (next to Clear on macOS/iPad, next to Results in the
 iPhone bottom bar), mirroring how `ResultsView` is presented as a sheet.
@@ -152,14 +152,18 @@ iPhone bottom bar), mirroring how `ResultsView` is presented as a sheet.
   projection math is a separate pure struct, `Bloch3DProjection`
   (`azimuth`/`elevation`/`cameraDistance` in, a projected `CGPoint` + depth out), so the camera
   geometry is unit-testable without a live `Canvas`.
-- `BlochDisplayView` has three modes: **Final** shows a `LazyVGrid` of every qubit's sphere from
+- `BlochDisplayView` has four modes: **Final** shows a `LazyVGrid` of every qubit's sphere from
   `builder.buildCircuit().run()`; **Steps** shows one chosen qubit across every column, via
   `builder.buildCircuit(throughColumn:)` for each prefix (index `-1` is "Start", the initial
-  `|0…0⟩` state); **3D** shows one chosen qubit's final state in the orbitable
-  `Bloch3DSphereView`. Sphere cards use `.glassEffect(in:)`/`GlassEffectContainer`.
+  `|0…0⟩` state); **Tensor** shows `TensorNetworkView(TensorNetwork(builder.buildCircuit()))`,
+  a circuit-aligned diagram with one node per input/gate/output and one edge per wire segment;
+  **3D** shows one chosen qubit's final state in the orbitable `Bloch3DSphereView`. Sphere
+  cards use `.glassEffect(in:)`/`GlassEffectContainer`.
 - **Origin of the code:** `BlochVector`/`BlochSphereView`/`Bloch3DSphereView` are ported from
   `SwiftQiskit/Playgrounds.playground/Sources/`, which is not an importable SwiftPM target, so
-  vendoring a copy here is the only option.
+  vendoring a copy here is the only option. `TensorNetwork`/`TensorNetworkView` are not ported —
+  they're used directly from the package's `SwiftQiskit`/`SwiftQiskitViews` products (added in
+  `0.3.0`), so this app has no tensor-network code of its own.
 
 ## Extending
 

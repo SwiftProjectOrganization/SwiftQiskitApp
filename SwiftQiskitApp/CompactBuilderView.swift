@@ -81,7 +81,7 @@ struct CompactBuilderView: View {
                 NavigationStack {
                     BlochDisplayView(builder: builder)
                         .padding()
-                        .navigationTitle("Bloch Spheres")
+                        .navigationTitle("Bloch Spheres and Tensor Network")
                         .toolbar {
                             ToolbarItem(placement: .confirmationAction) {
                                 Button("Done") { showingDisplay = false }
