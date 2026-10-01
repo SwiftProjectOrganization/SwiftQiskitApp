@@ -152,7 +152,7 @@ no sales-pitch framing. Applies to prose written for this project: `INTRODUCTION
 ## Documentation index
 
 - `README.md` — project overview, getting started, features.
-- `INTRODUCTION.md` — a 26-chapter introduction to quantum computing (plus a Chapter 0 opener)
+- `INTRODUCTION.md` — a 27-chapter introduction to quantum computing (plus a Chapter 0 opener)
   built on this app and the SwiftQiskit playgrounds; each chapter lives in `Docs/Introduction/`.
   Chapters run from qubits and gates through the named algorithms (Deutsch, Grover, the QFT,
   Shor, teleportation, error correction, the CHSH inequality, ...) and on to noise, tomography,

@@ -7,7 +7,7 @@ It is the only file you need alongside the chapter's own stub and its source pla
 
 1. Open the chapter's stub in `Docs/Introduction/`, its **Source** page under
    `../SwiftQiskit/Playgrounds.playground/Pages/`, and the matching
-   `../SwiftQiskit/PlaygroundDocs/NN…HELP.md` (and `…PLAN.md`, where one exists — pages 09–22).
+   `../SwiftQiskit/PlaygroundDocs/NN…HELP.md` (and `…PLAN.md`, where one exists — pages 09–23).
 2. Draft the sections listed in the stub. Follow the page's own structure section-by-section;
    don't reorganize it unless the stub's section list says otherwise.
 3. Write "Build it in the app" — see below for what to do at each app-badge level.
@@ -58,11 +58,12 @@ is real.
 
 - Use `RunCodeSnippet` with `SwiftQiskitApp/CircuitModel.swift` as the context file (it already
   `import SwiftQiskit`) for anything expressible with the public API.
-- For Chapters 21–25, the playground pages define their own local helpers (`expm`, the Kraus
+- For Chapters 21–26, the playground pages define their own local helpers (`expm`, the Kraus
   operators, `partialTraceLast`, `entropy`, the VQE `ansatz`/`energy`/`parameterShiftGradient`,
-  Trotter's `zzViaGates`/`trotterUnitary`) — these live in the page body, not in
-  `SwiftQiskit`. Copy the helpers the chapter needs directly into its "Run it in code" block
-  so the snippet is self-contained; don't reference the playground file by path.
+  Trotter's `zzViaGates`/`trotterUnitary`, Chapter 26's `maxAmplitudeError`/`cp`) — these live in
+  the page body, not in `SwiftQiskit`. Copy the helpers the chapter needs directly into its "Run
+  it in code" block so the snippet is self-contained; don't reference the playground file by
+  path.
 - Paste the real output beneath each snippet (or inline as a comment), not a value copied from a
   HELP doc — cross-check against the HELP doc as a sanity check, not as the source of truth.
 - If a result is probabilistic, run it, paste what you got, and note that a re-run will differ.
@@ -112,7 +113,7 @@ Verified output pasted below each snippet.
 
 ## Reading order
 
-Chapters build on each other numerically; write and read them 0 → 26. Chapters 1–3 establish
+Chapters build on each other numerically; write and read them 0 → 27. Chapters 1–3 establish
 setup and notation that every later chapter assumes without re-explaining.
 
 ## Chapter 0 is a special case

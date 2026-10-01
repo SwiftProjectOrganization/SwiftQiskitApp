@@ -82,7 +82,8 @@ Every chapter shows its examples in whichever of these ways apply, and says so w
 | 23 | [Variational Algorithms: VQE](Docs/Introduction/23-VQE.md) | ◐ | done | [`18VQE`](../SwiftQiskit/PlaygroundDocs/18VQEHELP.md) |
 | 24 | [Hamiltonian Simulation and Trotter Error](Docs/Introduction/24-Trotter.md) | ◐ | done | [`21Trotter`](../SwiftQiskit/PlaygroundDocs/21TROTTERHELP.md) |
 | 25 | [Discrete-Time Quantum Walks](Docs/Introduction/25-QuantumWalks.md) | ◐ | done | [`22Walk`](../SwiftQiskit/PlaygroundDocs/22WALKHELP.md) |
-| 26 | [Epilogue: Where to Go Next](Docs/Introduction/26-Epilogue.md) | — | stub | — |
+| 26 | [Tensor Diagrams](Docs/Introduction/26-TensorDiagrams.md) | ● | draft | [`23TensorNetwork`](../SwiftQiskit/PlaygroundDocs/23TENSORNETWORKHELP.md) |
+| 27 | [Epilogue: Where to Go Next](Docs/Introduction/27-Epilogue.md) | — | stub | — |
 
 Status moves `stub` → `draft` → `done` as each chapter is written; this table is the single
 progress tracker (see [Docs/Introduction/AUTHORING.md](Docs/Introduction/AUTHORING.md) for the
@@ -94,15 +95,15 @@ per-chapter workflow).
   algorithm: qubits, gates, phase, measurement, tensor products, entanglement.
 - **Algorithms** (13–20) — the classic results: Deutsch/Deutsch–Jozsa, Grover, the QFT, Shor,
   teleportation, error correction, and the CHSH inequality's link to entanglement.
-- **Beyond pure states** (21–25) — where the state-vector simulator's assumptions start to show:
-  noise and density matrices, tomography, variational methods, Trotterized simulation, and
-  quantum walks.
+- **Beyond pure states** (21–26) — where the state-vector simulator's assumptions start to show:
+  noise and density matrices, tomography, variational methods, Trotterized simulation, quantum
+  walks, and reading a circuit as a tensor network instead of a sequence of full matrices.
 
 ## Related documentation
 
 - [README.md](README.md), [Docs/Tutorial.md](Docs/Tutorial.md), [Docs/Help.md](Docs/Help.md) —
   the app itself, not the physics.
 - [../SwiftQiskit/README.md](../SwiftQiskit/README.md) and its `PlaygroundDocs/` — the simulator
-  and the original 22 playground pages this introduction is built from.
+  and the original 23 playground pages this introduction is built from.
 - [Docs/Introduction/AUTHORING.md](Docs/Introduction/AUTHORING.md) — chapter template, style
   rules, and verification workflow for anyone (human or Claude) writing the next chapter.

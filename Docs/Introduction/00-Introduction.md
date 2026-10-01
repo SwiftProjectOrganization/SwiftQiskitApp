@@ -22,7 +22,8 @@ measurement, tensor products, entanglement — using both the app and the underl
 Chapters 13–20 cover the classic named algorithms. Most of these can be, at least partially,
 demonstrated using the SwiftQiskitApp.
 
-Chapters 21–25 look at where a pure-state simulator's assumptions start to show. 
+Chapters 21–26 look at where a pure-state simulator's assumptions start to show, and at a second
+way to read a circuit as a graph of small tensors rather than one big matrix. 
 
 Every chapter's examples are things you run yourself, in the app or in Swift, not equations 
 to take on faith.

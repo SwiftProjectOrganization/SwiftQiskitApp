@@ -407,4 +407,4 @@ permutation agree bit for bit, the same cross-check Chapter 24 ran for its Trott
    spreading forever.</details>
 
 ---
-[← Chapter 24](24-Trotter.md) · [Contents](../../INTRODUCTION.md) · [Chapter 26 →](26-Epilogue.md)
+[← Chapter 24](24-Trotter.md) · [Contents](../../INTRODUCTION.md) · [Chapter 26 →](26-TensorDiagrams.md)

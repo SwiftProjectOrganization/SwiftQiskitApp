@@ -96,7 +96,7 @@ using the Swift `Testing` framework (not XCTest).
 
 ## Documentation
 
-- [INTRODUCTION.md](INTRODUCTION.md) — a 26-chapter, book-length introduction to quantum
+- [INTRODUCTION.md](INTRODUCTION.md) — a 27-chapter, book-length introduction to quantum
   computing (plus a Chapter 0 opener) taught through this app and the SwiftQiskit playgrounds,
   chapter by chapter, from qubits and gates through the named algorithms (Deutsch, Grover, the
   QFT, Shor, teleportation, error correction, the CHSH inequality, ...) and on to noise,

@@ -418,7 +418,7 @@ re-explain each time, here is the complete list, checked directly against both s
 | Arithmetic (`+`, scalar `*`) on plain `[Complex]` vectors | §2.5 above — one-line `zip`/`map` helpers |
 
 Where a chapter needs one of these, it defines a small local helper rather than extending the
-library — see `AUTHORING.md`'s note that Chapters 21–25 keep such helpers self-contained in the
+library — see `AUTHORING.md`'s note that Chapters 21–26 keep such helpers self-contained in the
 chapter text.
 
 ## Build it in the app
