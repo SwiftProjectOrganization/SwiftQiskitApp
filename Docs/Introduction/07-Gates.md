@@ -1,13 +1,14 @@
-# Chapter 7 — Single-Qubit Gates, One at a Time
+# Chapter 7 — Gates
 
-> A gentle, gate-by-gate tour of the built-in gate set — `x h z y s sdg t tdg p rx ry rz` — each
-> shown individually on a 1-qubit circuit, ending with a one-line Bell-state teaser.
+> A gentle, gate-by-gate tour of the built-in gate set — the single-qubit gates
+> `x h z y s sdg t tdg p rx ry rz`, then the multi-qubit gates `cx ccx mcx rzz rxx ryy` — each
+> shown individually on a small circuit, ending with a one-line Bell-state teaser.
 
 | | |
 |---|---|
 | Playground page | [`05Gates`](../../../SwiftQiskit/PlaygroundDocs/05GATESHELP.md) |
-| In the app | ● — every gate here is in the palette |
-| Library APIs | `QuantumCircuit.h/x/y/z/s/sdg/t/tdg`, `p/rx/ry/rz(_:_:)` |
+| In the app | ◐ — every gate here is in the palette except CCX and MCX (§7.10, code only) |
+| Library APIs | `QuantumCircuit.h/x/y/z/s/sdg/t/tdg`, `p/rx/ry/rz(_:_:)`, `cx`, `ccx`, `mcx`, `rzz/rxx/ryy(_:_:_:)` |
 | Prerequisites | Chapters 3, 5 |
 
 ## 7.1 Why one gate at a time
@@ -20,7 +21,27 @@ fact makes the whole catalog below readable two ways at once — as a matrix act
 amplitudes, and as a rotation moving an arrow — and this chapter deliberately keeps both readings
 in view, gate by gate, before Chapter 8 needs both at once.
 
-Two distinctions are worth having before the list starts. First, fixed turns versus continuous
+Each built-in gate is a `public enum` in the package's `Sources/SwiftQiskit/Gates/`, exposing
+`static let matrix: Matrix` (or `static func matrix(theta:)` for the parameterized ones), with a
+matching convenience method on `QuantumCircuit` — the one column this chapter's examples
+actually call:
+
+| Gate | Circuit API | Type | In the app | § |
+|---|---|---|---|---|
+| Hadamard (H) | `h(qubit)` | `HadamardGate` | H | 7.3 |
+| Pauli-X (X) | `x(qubit)` | `PauliXGate` | X | 7.2 |
+| Pauli-Y (Y) | `y(qubit)` | `PauliYGate` | Y | 7.5 |
+| Pauli-Z (Z) | `z(qubit)` | `PauliZGate` | Z | 7.4 |
+| S / S† | `s(qubit)` / `sdg(qubit)` | `SGate` / `SDaggerGate` | S, S† | 7.6 |
+| T / T† | `t(qubit)` / `tdg(qubit)` | `TGate` / `TDaggerGate` | T, T† | 7.6 |
+| Phase P(θ) | `p(theta, qubit)` | `PhaseGate` | P | 7.7 |
+| RX / RY / RZ (θ) | `rx/ry/rz(theta, qubit)` | `RXGate` / `RYGate` / `RZGate` | RX, RY, RZ | 7.8 |
+| CNOT (CX) | `cx(control, target)` | `CNOTGate` | CX | 7.9 |
+| Toffoli (CCX) | `ccx(control1, control2, target)` | `ToffoliGate` | — (code only) | 7.10 |
+| MCX | `mcx(controls, target)` | `MultiControlledXGate` | — (code only) | 7.10 |
+| RZZ / RXX / RYY (θ) | `rzz/rxx/ryy(theta, q0, q1)` | `RZZGate` / `RXXGate` / `RYYGate` | RZZ, RXX, RYY | 7.11 |
+
+Three distinctions are worth having before the list starts. First, fixed turns versus continuous
 families: `X`, `Y`, `Z`, `H`, `S`, `S†`, `T`, `T†` are each one specific rotation, while `P(θ)`,
 `RX(θ)`, `RY(θ)`, `RZ(θ)` are continuous rotations that reproduce several of the fixed gates at
 particular angles — `P(π/2) ≡ S`, `P(π) ≡ Z`, and so on. Second, gates that move measurement
@@ -28,7 +49,12 @@ probabilities versus gates that only move phase: `X` and `H` change what a measu
 `Z` alone, applied to `|0⟩`, changes nothing a measurement can detect at all. That second fact is
 not a dead end — it is a deliberately unresolved puzzle. §7.4 states it plainly and stops there;
 Chapter 8 is the chapter that resolves it, by showing what a *second* gate does with the phase `Z`
-leaves behind.
+leaves behind. Third, single-qubit versus multi-qubit: every gate through §7.8 acts on one qubit
+alone. §7.9–7.11 add gates that act on two or three qubits at once, and split the same way the
+app's own two-qubit tiles do (`GateKind.isControlled` in `CircuitModel.swift`) — `CX` and
+`CCX`/`MCX` only flip their target conditioned on their control(s), control and target playing
+distinct roles, while `RZZ`/`RXX`/`RYY` rotate both qubits symmetrically, with no control/target
+distinction at all.
 
 | § | What happens |
 |---|---|
@@ -39,7 +65,9 @@ leaves behind.
 | 7.6 | `S`, `S†`, `T`: quarter- and eighth-turns around the equator |
 | 7.7 | `P(θ)`: the general phase gate the quarter/eighth turns are special cases of |
 | 7.8 | `RX`, `RY`, `RZ`: continuous rotations about all three axes |
-| 7.9 | A first two-qubit gate, `CX`, as a teaser for Chapter 12 |
+| 7.9 | `CX`: the first two-qubit gate, as a teaser for Chapter 12 |
+| 7.10 | `CCX`, `MCX`: multi-controlled flips |
+| 7.11 | `RZZ`, `RXX`, `RYY`: two-qubit rotations, and the `cx;rz;cx` identity Chapter 24 builds on |
 
 ## 7.2 The bit flip: X
 
@@ -115,16 +143,60 @@ a global phase that no on-circuit measurement can detect, but that the State Vec
 anyway. `RZ` after `H` matches `P`'s probabilities (`[0.500, 0.500]`) but not its raw amplitudes —
 the two differ by the global phase factor `e^{−iθ/2}` baked into `RZ`'s definition.
 
-## 7.9 A Bell-state teaser
+## 7.9 CX and a Bell-state teaser
 
-One `H` and one `CX` (Chapter 12's subject) reach past a single qubit for the first time in this
-chapter: `H` on `q0`, then `CX` with `q0` as control and `q1` as target, gives probabilities
-`[0.5, 0.0, 0.0, 0.5]` on `|00⟩` and `|11⟩` — the two qubits' outcomes are perfectly correlated,
-even though each one individually is undetermined. Recall the app's bit-ordering convention
-(Chapter 3): qubit 0 is the leftmost, most-significant bit of each label, so `|00⟩` means `q0=0,
-q1=0` and `|11⟩` means `q0=1, q1=1` — the two qubits always agree, never `|01⟩` or `|10⟩`. Each
-qubit's own reduced Bloch vector has length 0 (`BlochVector`'s `|r|` line, first seen here) — the
-full walkthrough, including what that zero-length vector means, is Chapter 12's territory.
+`CX` flips its target qubit exactly when its control qubit is `1`, leaving it alone otherwise —
+the matrix is a permutation, `CNOTGate.matrix(qubits:control:target:)`, and it works for any
+distinct control/target pair, not only adjacent qubits (`CircuitBuilder`'s own `cx` tile is the
+same way). One `H` and one `CX` (Chapter 12's subject) reach past a single qubit for the first
+time in this chapter: `H` on `q0`, then `CX` with `q0` as control and `q1` as target, gives
+probabilities `[0.5, 0.0, 0.0, 0.5]` on `|00⟩` and `|11⟩` — the two qubits' outcomes are perfectly
+correlated, even though each one individually is undetermined. Recall the app's bit-ordering
+convention (Chapter 3): qubit 0 is the leftmost, most-significant bit of each label, so `|00⟩`
+means `q0=0, q1=0` and `|11⟩` means `q0=1, q1=1` — the two qubits always agree, never `|01⟩` or
+`|10⟩`. Each qubit's own reduced Bloch vector has length 0 (`BlochVector`'s `|r|` line, first seen
+here) — the full walkthrough, including what that zero-length vector means, is Chapter 12's
+territory.
+
+## 7.10 Multi-controlled flips: CCX, MCX
+
+`CCX` (the Toffoli gate) flips its target only when *both* control qubits are `1` — `X` with two
+controls instead of `CX`'s one. `MCX` generalizes further to any number of controls:
+`mcx([], target)` with zero controls is plain `X`, `mcx([c], target)` with one control is `CX`,
+and `mcx([c1, c2], target)` with two is `CCX` — all four built from the same
+`MultiControlledXGate`. Neither gate changes the *kind* of transformation, a target bit flip —
+only how many conditions have to hold before it fires. On `|110⟩` (both controls set),
+`ccx(0, 1, 2)` gives `|111⟩` with probability 1; on `|100⟩` (only one control set), it leaves the
+state untouched. `MCX` with three controls, all set to `1`, behaves the same way one level up:
+`|1110⟩` goes to `|1111⟩`.
+
+Toffoli and MCX are the workhorses behind classical-style conditional logic inside a quantum
+circuit: Chapter 19's 3-qubit error correction uses three X-conjugated Toffolis to apply a
+syndrome-driven correction, and `QuantumCircuit`'s `increment`/`decrement(register:
+controlledBy:)` (ripple-carry ±1 on a register) are built from `MultiControlledXGate`
+underneath.
+
+## 7.11 Two-qubit rotations: RZZ, RXX, RYY
+
+`RZZ(θ)`, `RXX(θ)`, `RYY(θ)` are fixed two-qubit rotations, `exp(−iθ·P⊗P/2)` for `P = Z, X, Y`
+respectively — each symmetric in its two qubits (swapping them leaves the gate unchanged), unlike
+`CX`'s control/target asymmetry. `RZZ` alone on a basis state repeats §7.4's lesson one level up:
+`RZZ(π/2)` on `|00⟩` leaves the probabilities at `[1.0, 0.0, 0.0, 0.0]` — a diagonal gate can only
+touch phase, and a single basis amplitude has no second amplitude to show that phase against.
+Putting an `H` on each qubit first gives both qubits something to interfere with: `H;H;RZZ(π/2)`
+spreads probability evenly across all four basis states, `[0.250, 0.250, 0.250, 0.250]`. `RZZ(θ)`
+is defined so that `cx(a, b); rz(θ, b); cx(a, b)` matches it exactly, not merely to
+floating-point rounding (measured below) — the identity Chapter 24's Trotter steps are built
+from.
+
+`RXX` and `RYY` repeat the pattern with `X⊗X` and `Y⊗Y` in place of `Z⊗Z`, and because they don't
+fix the `|00⟩`/`|11⟩` basis the way `RZZ` does, they entangle the two qubits straight from the
+all-zero state with no `H` needed first: `RXX(π/2)` on `|00⟩` gives amplitudes
+`(0.7071, 0, 0, −0.7071i)`, probabilities `[0.500, 0.0, 0.0, 0.500]` — the same `|00⟩`/`|11⟩`
+correlation §7.9's Bell state showed, reached by one gate instead of two, and each qubit's
+reduced Bloch vector again has length 0. `RYY(π/2)` lands on the same probabilities with the
+sign on `|11⟩`'s amplitude flipped — `+0.7071i` instead of `−0.7071i` — a difference no
+measurement on its own can see.
 
 ## Build it in the app
 
@@ -175,12 +247,31 @@ is one gate at a time, mirroring `05Gates`'s own structure.
     `|11⟩: 0.707…  (p=0.500)`. **Display** → **Final** shows both `q0` and `q1` cards printing an
     extra line, `|r| 0.000` — the first entangled, zero-length reduced Bloch vector this
     introduction has produced.
+11. **RZZ** — Clear, **Qubits: 2**. Arm **RZZ** (Two-qubit rotation section, θ = π/2 default).
+    Tap `q0` then `q1` in column 0. Panel: `|00⟩: 0.707… − 0.707…i  (p=1.000)` — phase only,
+    same lesson as step 3's **Z alone**. Card: both qubits still parked at their poles,
+    `z +1.000`. Now Clear and rebuild with an `H` first: arm **H**, tap `q0`'s column-0 cell,
+    tap `q1`'s column-0 cell, then arm **RZZ**, tap `q0` then `q1` at column 1. Panel: four rows,
+    each `p=0.250`, amplitudes `0.354 ∓ 0.354i` on `|00⟩`/`|11⟩` and `0.354 ± 0.354i` on
+    `|01⟩`/`|10⟩`. **Display** → **Final**: both qubit cards read
+    `x +0.000  y +0.000  z +0.000  θ 1.571 rad  |r| 0.000` — entangled, just like step 10's Bell
+    pair.
+12. **RXX and RYY** — Clear, **Qubits: 2**. Arm **RXX** (same Two-qubit rotation section), tap
+    `q0` then `q1` in column 0 — no `H` needed first. Panel: `|00⟩: 0.707…  (p=0.500)`,
+    `|11⟩: -0.707…i  (p=0.500)` — the same `|00⟩`/`|11⟩` split as step 10's Bell state, reached
+    in one tap instead of two. Card: both qubits again `|r| 0.000`. Clear, arm **RYY** instead:
+    panel is the same probabilities with `|11⟩`'s amplitude `+0.707…i` rather than `−0.707…i` —
+    the sign is the only difference a measurement can't see.
 
-Two genuine limits worth naming, not a missing-capability paragraph — every gate above really is
-one tap away: the θ popover only gives a three-decimal readout over `0…2π`, so an exact `π` or
-`π/4` can only be approximated (step 8's small deviation is a direct consequence); and a placed
-tile can only be edited in place or removed, never dragged to a different column — reordering a
-sequence means clearing and re-placing.
+Three limits worth naming, not a missing-capability paragraph — most of the catalog above really
+is one tap away: the θ popover only gives a three-decimal readout over `0…2π`, so an exact `π` or
+`π/4` can only be approximated (step 8's small deviation is a direct consequence); a placed tile
+can only be edited in place or removed, never dragged to a different column — reordering a
+sequence means clearing and re-placing; and `CCX`/`MCX` aren't in the palette at all — there's no
+three-or-more-qubit controlled tile, only `CX`'s single control and `RZZ`/`RXX`/`RYY`'s symmetric
+pair. Toffoli does have a tappable decomposition (`H` on the target, six `CX`s, and `T`/`T†`s
+threaded in between), but it runs six tiles deep for one logical gate, long enough that §7.10's
+examples go straight to `ccx`/`mcx` in code instead.
 
 ## Run it in code
 
@@ -254,6 +345,43 @@ print(stateRZ.amplitudes, stateRZ.probabilities)        // 9 — H;RZ(π/2)
 
 let qcBell = QuantumCircuit(qubits: 2); qcBell.h(0); qcBell.cx(0, 1)
 print(qcBell.run().probabilities)                       // 10 — Bell teaser
+
+let qcCCX = QuantumCircuit(qubits: 3); qcCCX.x(0); qcCCX.x(1); qcCCX.ccx(0, 1, 2)
+print(qcCCX.run().probabilities)                        // 11 — CCX, both controls set
+
+let qcCCXMiss = QuantumCircuit(qubits: 3); qcCCXMiss.x(0); qcCCXMiss.ccx(0, 1, 2)
+print(qcCCXMiss.run().probabilities)                    // 11 — CCX, only one control set
+
+let qcMCX0 = QuantumCircuit(qubits: 1); qcMCX0.mcx([], 0)
+print(qcMCX0.run().probabilities)                       // 11 — MCX, 0 controls == X
+
+let qcMCX1 = QuantumCircuit(qubits: 2); qcMCX1.x(0); qcMCX1.mcx([0], 1)
+print(qcMCX1.run().probabilities)                       // 11 — MCX, 1 control == CX
+
+let qcMCX3 = QuantumCircuit(qubits: 4)
+qcMCX3.x(0); qcMCX3.x(1); qcMCX3.x(2); qcMCX3.mcx([0, 1, 2], 3)
+print(qcMCX3.run().probabilities)                       // 11 — MCX, 3 controls all set
+
+let qcRZZbasis = QuantumCircuit(qubits: 2); qcRZZbasis.rzz(.pi / 2, 0, 1)
+print(qcRZZbasis.run().probabilities)                   // 12 — RZZ alone on |00⟩
+
+let qcHHRZZ = QuantumCircuit(qubits: 2)
+qcHHRZZ.h(0); qcHHRZZ.h(1); qcHHRZZ.rzz(.pi / 2, 0, 1)
+let stateHHRZZ = qcHHRZZ.run()
+print(stateHHRZZ.amplitudes, stateHHRZZ.probabilities)  // 12 — H;H;RZZ(π/2)
+
+let qcRZZIdentity = QuantumCircuit(qubits: 2)
+qcRZZIdentity.h(0); qcRZZIdentity.h(1)
+qcRZZIdentity.cx(0, 1); qcRZZIdentity.rz(.pi / 2, 1); qcRZZIdentity.cx(0, 1)
+let diffRZZ = zip(stateHHRZZ.amplitudes, qcRZZIdentity.run().amplitudes).map { ($0 - $1).magnitude }.max()!
+print("RZZ vs cx;rz;cx max abs diff:", diffRZZ)          // 12 — RZZ == cx;rz;cx identity
+
+let qcRXX = QuantumCircuit(qubits: 2); qcRXX.rxx(.pi / 2, 0, 1)
+let stateRXX = qcRXX.run()
+print(stateRXX.amplitudes, stateRXX.probabilities)       // 12 — RXX(π/2) on |00⟩
+
+let qcRYY = QuantumCircuit(qubits: 2); qcRYY.ryy(.pi / 2, 0, 1)
+print(qcRYY.run().amplitudes)                            // 12 — RYY(π/2) on |00⟩
 ```
 
 ```text
@@ -276,12 +404,24 @@ P(π) vs H;Z max abs diff: 8.659560562354932e-17
 ["1": 510, "0": 490]
 [0.5 - 0.4999999999999999i, 0.5 + 0.4999999999999999i] [0.4999999999999999, 0.4999999999999999]
 [0.4999999999999999, 0.0, 0.0, 0.4999999999999999]
+[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+[0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]
+[0.0, 1.0]
+[0.0, 0.0, 0.0, 1.0]
+[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+[1.0, 0.0, 0.0, 0.0]
+[0.35355339059327373 - 0.3535533905932737i, 0.35355339059327373 + 0.3535533905932737i, 0.35355339059327373 + 0.3535533905932737i, 0.35355339059327373 - 0.3535533905932737i] [0.24999999999999992, 0.24999999999999992, 0.24999999999999992, 0.24999999999999992]
+RZZ vs cx;rz;cx max abs diff: 0.0
+[0.7071067811865474, 0.0, 0.0, -0.7071067811865472i] [0.4999999999999998, 0.0, 0.0, 0.4999999999999996]
+[0.7071067811865474, 0.0, 0.0, 0.7071067811865472i]
 ```
 
 `T² = S` and `P(θ)`'s three special-angle identities all check out to between `4×10⁻¹⁷` and
 `1×10⁻¹⁶` — matching `05GATESHELP.md`'s "~1e-16"/"~1e-17" estimates as measured, not asserted,
 numbers. `qcRX.measure(shots: 1000)` printed `510`/`490` on this run; re-running gives a
-different, still roughly-even split.
+different, still roughly-even split. `RZZ(θ)` versus `cx;rz;cx`, by contrast, measured an exact
+`0.0` — unlike the floating-point-only agreements above, that one is an algebraic identity, not a
+numerical coincidence.
 
 The app-path walkthrough behind every "Build it in the app" step, driving `CircuitBuilder`
 directly and formatting output exactly as `ResultsView`'s panel and `BlochSphereView`'s card do:
@@ -318,6 +458,36 @@ state = b.buildCircuit().run()
 print("Bell panel:", panelRows(state, qubits: 2))
 print("Bell card q0: " + card(BlochVector(state, qubit: 0)))
 print("Bell card q1: " + card(BlochVector(state, qubit: 1)))
+
+b = CircuitBuilder(qubitCount: 2)
+b.place(.rzz(.pi / 2), qubits: [0, 1], column: 0)
+state = b.buildCircuit().run()
+print("RZZ alone panel:", panelRows(state, qubits: 2))
+print("RZZ alone card q0: " + card(BlochVector(state, qubit: 0)))
+print("RZZ alone card q1: " + card(BlochVector(state, qubit: 1)))
+
+b = CircuitBuilder(qubitCount: 2)
+b.place(.h, qubits: [0], column: 0)
+b.place(.h, qubits: [1], column: 0)
+b.place(.rzz(.pi / 2), qubits: [0, 1], column: 1)
+state = b.buildCircuit().run()
+print("H;H;RZZ(π/2) panel:", panelRows(state, qubits: 2))
+print("H;H;RZZ(π/2) card q0: " + card(BlochVector(state, qubit: 0)))
+print("H;H;RZZ(π/2) card q1: " + card(BlochVector(state, qubit: 1)))
+
+b = CircuitBuilder(qubitCount: 2)
+b.place(.rxx(.pi / 2), qubits: [0, 1], column: 0)
+state = b.buildCircuit().run()
+print("RXX(π/2) panel:", panelRows(state, qubits: 2))
+print("RXX(π/2) card q0: " + card(BlochVector(state, qubit: 0)))
+print("RXX(π/2) card q1: " + card(BlochVector(state, qubit: 1)))
+
+b = CircuitBuilder(qubitCount: 2)
+b.place(.ryy(.pi / 2), qubits: [0, 1], column: 0)
+state = b.buildCircuit().run()
+print("RYY(π/2) panel:", panelRows(state, qubits: 2))
+print("RYY(π/2) card q0: " + card(BlochVector(state, qubit: 0)))
+print("RYY(π/2) card q1: " + card(BlochVector(state, qubit: 1)))
 ```
 
 ```text
@@ -326,9 +496,21 @@ H;RZ(π/2) card: x +0.000  y +1.000  z +0.000  θ 1.571 rad
 Bell panel: ["|00⟩: 0.7071067811865475  (p=0.500)", "|11⟩: 0.7071067811865475  (p=0.500)"]
 Bell card q0: x +0.000  y +0.000  z +0.000  θ 1.571 rad  |r| 0.000
 Bell card q1: x +0.000  y +0.000  z +0.000  θ 1.571 rad  |r| 0.000
+RZZ alone panel: ["|00⟩: 0.7071067811865476 - 0.7071067811865475i  (p=1.000)"]
+RZZ alone card q0: x +0.000  y +0.000  z +1.000  θ 0.000 rad
+RZZ alone card q1: x +0.000  y +0.000  z +1.000  θ 0.000 rad
+H;H;RZZ(π/2) panel: ["|00⟩: 0.35355339059327373 - 0.3535533905932737i  (p=0.250)", "|01⟩: 0.35355339059327373 + 0.3535533905932737i  (p=0.250)", "|10⟩: 0.35355339059327373 + 0.3535533905932737i  (p=0.250)", "|11⟩: 0.35355339059327373 - 0.3535533905932737i  (p=0.250)"]
+H;H;RZZ(π/2) card q0: x +0.000  y +0.000  z +0.000  θ 1.571 rad  |r| 0.000
+H;H;RZZ(π/2) card q1: x +0.000  y +0.000  z +0.000  θ 1.571 rad  |r| 0.000
+RXX(π/2) panel: ["|00⟩: 0.7071067811865474  (p=0.500)", "|11⟩: -0.7071067811865472i  (p=0.500)"]
+RXX(π/2) card q0: x +0.000  y +0.000  z +0.000  θ 1.571 rad  |r| 0.000
+RXX(π/2) card q1: x +0.000  y +0.000  z +0.000  θ 1.571 rad  |r| 0.000
+RYY(π/2) panel: ["|00⟩: 0.7071067811865474  (p=0.500)", "|11⟩: 0.7071067811865472i  (p=0.500)"]
+RYY(π/2) card q0: x +0.000  y +0.000  z +0.000  θ 1.571 rad  |r| 0.000
+RYY(π/2) card q1: x +0.000  y +0.000  z +0.000  θ 1.571 rad  |r| 0.000
 ```
 
-Both match the readouts quoted in steps 9 and 10 above.
+All of this matches the readouts quoted in steps 9–12 above.
 
 ## Try it yourself
 
@@ -359,6 +541,22 @@ Both match the readouts quoted in steps 9 and 10 above.
    phase factor `e^{−iπ/4}` that `S` and `P(π/2)` don't, which is why its amplitudes
    (`0.5 ∓ 0.5i`) look nothing like the other two's (`0.7071`, `0.7071i`) even though the card is
    identical.</details>
+
+5. Predict `mcx([], target)` on `|0⟩` before checking — what single-qubit gate does zero controls
+   reduce to?
+   <details><summary>Answer</summary>`X` — with zero controls there's nothing left to condition
+   on, so the flip always fires. Measured above: `mcx([], 0)` on `|0⟩` gives probabilities
+   `[0.0, 1.0]`, identical to a plain `X`.</details>
+
+6. Why does `RZZ(θ)` alone leave every Display card exactly at the poles, no matter what θ is,
+   while `RXX(θ)`/`RYY(θ)` alone entangle `|00⟩` immediately, with no `H` first?
+   <details><summary>Answer</summary>`RZZ` is diagonal in the computational basis (built from
+   `Z⊗Z`), so it fixes every basis state including `|00⟩` — exactly as §7.4's `Z` fixed `|0⟩` —
+   moving only a relative phase between basis states, and `|00⟩` alone has no second amplitude
+   to show that phase against. `RXX` and `RYY` are built from `X⊗X` and `Y⊗Y`, which don't fix
+   the `|00⟩`/`|11⟩` basis the same way, so they mix `|00⟩` and `|11⟩` together immediately — the
+   same entangling behavior §7.9's `H`-then-`CX` pair needed two separate gates to
+   produce.</details>
 
 ---
 [← Chapter 6](06-BlochSphere3D.md) · [Contents](../../INTRODUCTION.md) · [Chapter 8 →](08-Interference.md)

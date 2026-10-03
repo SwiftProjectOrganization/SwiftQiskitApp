@@ -14,7 +14,8 @@ It is the only file you need alongside the chapter's own stub and its source pla
 4. Write "Run it in code" — every snippet must actually run; see Verification below.
 5. Write 2–4 "Try it yourself" exercises with answers in `<details>` blocks.
 6. Cross-check every "In the app" claim against `GateKind` in
-   `SwiftQiskitApp/CircuitModel.swift` (`h x y z s sdg t tdg p rx ry rz cx`, 1–8 qubits) — don't
+   `SwiftQiskitApp/CircuitModel.swift` (`h x y z s sdg t tdg p rx ry rz cx rzz rxx ryy`, 1–8
+   qubits) — don't
    claim a step is tappable if it isn't.
 7. Flip the chapter's **Status** cell in `INTRODUCTION.md` from `stub` to `draft`, then to `done`
    once verified.

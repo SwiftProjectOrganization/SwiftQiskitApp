@@ -36,7 +36,7 @@
 		D4959372304EEBC4004855D2 /* 04-DiracNotation.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "04-DiracNotation.md"; sourceTree = "<group>"; };
 		D4959373304EEBCA004855D2 /* 05-BlochSphere2D.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "05-BlochSphere2D.md"; sourceTree = "<group>"; };
 		D4959374304EEBD0004855D2 /* 06-BlochSphere3D.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "06-BlochSphere3D.md"; sourceTree = "<group>"; };
-		D4959375304EEBD8004855D2 /* 07-SingleQubitGates.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "07-SingleQubitGates.md"; sourceTree = "<group>"; };
+		D4959375304EEBD8004855D2 /* 07-Gates.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "07-Gates.md"; sourceTree = "<group>"; };
 		D4959376304EEBDE004855D2 /* 08-Interference.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "08-Interference.md"; sourceTree = "<group>"; };
 		D4959377304EEBE4004855D2 /* 09-Measurement.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "09-Measurement.md"; sourceTree = "<group>"; };
 		D4959378304EEBE9004855D2 /* 10-Superposition.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "10-Superposition.md"; sourceTree = "<group>"; };
@@ -142,7 +142,7 @@
 				D4959372304EEBC4004855D2 /* 04-DiracNotation.md */,
 				D4959373304EEBCA004855D2 /* 05-BlochSphere2D.md */,
 				D4959374304EEBD0004855D2 /* 06-BlochSphere3D.md */,
-				D4959375304EEBD8004855D2 /* 07-SingleQubitGates.md */,
+				D4959375304EEBD8004855D2 /* 07-Gates.md */,
 				D4959376304EEBDE004855D2 /* 08-Interference.md */,
 				D4959377304EEBE4004855D2 /* 09-Measurement.md */,
 				D4959378304EEBE9004855D2 /* 10-Superposition.md */,

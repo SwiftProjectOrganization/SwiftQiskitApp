@@ -485,4 +485,4 @@ oracle+diffuser probs:      [0.0, 0.0, 0.0, 0.9999999999999984]
    tested, even though their raw amplitudes differ.</details>
 
 ---
-[← Chapter 7](07-SingleQubitGates.md) · [Contents](../../INTRODUCTION.md) · [Chapter 9 →](09-Measurement.md)
+[← Chapter 7](07-Gates.md) · [Contents](../../INTRODUCTION.md) · [Chapter 9 →](09-Measurement.md)

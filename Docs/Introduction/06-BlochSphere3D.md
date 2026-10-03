@@ -306,4 +306,4 @@ Identical to what step 3 reads on the Display card.
    foreshortened tilt.</details>
 
 ---
-[← Chapter 5](05-BlochSphere2D.md) · [Contents](../../INTRODUCTION.md) · [Chapter 7 →](07-SingleQubitGates.md)
+[← Chapter 5](05-BlochSphere2D.md) · [Contents](../../INTRODUCTION.md) · [Chapter 7 →](07-Gates.md)
