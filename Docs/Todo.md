@@ -15,11 +15,11 @@ Project status and roadmap for SwiftQiskitApp.
 ## What Works (v1)
 
 - Gate palette: `H X Y Z` (Pauli/Hadamard), `S S† T T†` (phase), `P RX RY RZ` (rotations,
-  each with a θ parameter), `CX` (two-qubit CNOT), `RZZ RXX RYY` (two-qubit rotations, each
+  each with a θ parameter), `CX`/`CZ`/`SWAP` (two-qubit), `RZZ RXX RYY` (two-qubit rotations, each
   with a θ parameter).
 - Tap-to-arm-then-tap-cell placement; CX's two-tap control→target flow, RZZ/RXX/RYY's
   two-tap flow on an unordered qubit pair.
-- Multi-controlled CX: tapping a placed CX opens a "Controls: n" stepper popover; **+** adds
+- Multi-controlled CX and CZ: tapping a placed CX or CZ opens a "Controls: n" stepper popover; **+** adds
   a control on any free qubit in the column, **−** removes the newest. Two controls is the
   Toffoli (CCX), more replay through the package's `mcx`. Delete is in the context menu.
 - θ editor popover for parameterized gates (0–2π slider).
@@ -30,7 +30,7 @@ Project status and roadmap for SwiftQiskitApp.
 - Bloch-sphere display (`BlochDisplayView`, opened via a **Display** button): a 2D grid of
   every qubit's final-state sphere, a column-by-column row for one chosen qubit, or a rotatable
   3D view (`Bloch3DSphereView`, orbited by dragging).
-- 33 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
+- 37 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
   `Bloch3DProjectionTests`) covering the model, geometry, and Bloch-vector math.
 
 ## Roadmap
@@ -45,9 +45,9 @@ Project status and roadmap for SwiftQiskitApp.
 - [ ] Drag-and-drop gate placement as an alternative to tap-to-arm-then-tap-cell.
 - [x] Toffoli and other multi-controlled X gates — done by adding controls to a placed CX,
       using the package's `ccx`/`mcx`.
-- [ ] More gates once `SwiftQiskit` supports them (CZ, SWAP) — see the package's own
-      `STATUSandTODO.md` for its roadmap.
-- [ ] Multi-controlled versions of other gates (CZ, controlled rotations), and mixed
+- [x] CZ and SWAP — package `0.4.0` added `cz`/`mcz`/`swap`; CZ takes extra controls through
+      the same popover as CX (CCZ and beyond replay through `mcz`).
+- [ ] Multi-controlled versions of other gates (controlled rotations), and mixed
       open/closed controls (a control that fires on `0`).
 - [ ] Gate-count / circuit-depth readout alongside the state vector.
 - [x] A Bloch-sphere view, covering multi-qubit circuits — `BlochSphereView`

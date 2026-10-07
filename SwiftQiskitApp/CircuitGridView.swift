@@ -5,7 +5,7 @@
 //  Renders the circuit as a grid of qubit wires x columns, and handles
 //  tap-to-place: arm a gate in the palette, then tap an empty cell. Two-qubit
 //  gates need two taps in the same column — CX distinguishes control from
-//  target, while RZZ/RXX/RYY treat both taps the same way.
+//  target, while CZ, SWAP and RZZ/RXX/RYY treat both taps the same way.
 //
 
 import SwiftUI
@@ -76,7 +76,7 @@ struct CircuitGridView: View {
     @ViewBuilder
     private func occupiedCell(gate: PlacedGate, qubit: Int) -> some View {
         // Every qubit of a placed gate shows a GateTileView. A CX's target
-        // (always its last qubit) draws the ⊕ glyph; both it and the control
+        // (always its last qubit) draws the ⊕ glyph, a CZ's draws a dot; both it and the control
         // dots open the controls popover, and Delete lives in the context menu.
         GateTileView(
             gate: gate,
@@ -141,6 +141,8 @@ struct CircuitGridView: View {
     builder.place(.rx(.pi / 2), qubits: [1], column: 0)
     builder.place(.cx, qubits: [0, 2], column: 1)
     builder.place(.rzz(.pi / 2), qubits: [0, 2], column: 2)
+    builder.place(.cz, qubits: [0, 1], column: 3)
+    builder.place(.swap, qubits: [1, 2], column: 4)
 
     return CircuitGridView(builder: builder, armedGate: .constant(nil))
         .frame(width: 500, height: 300)

@@ -33,11 +33,11 @@ Bell state.
 ## Features
 
 - **Gate palette** — Hadamard/Pauli (`H X Y Z`), phase (`S S† T T†`), rotations
-  (`P RX RY RZ`, each with a θ parameter), the two-qubit `CX` (CNOT), and the two-qubit
-  rotations `RZZ RXX RYY` (each with a θ parameter).
+  (`P RX RY RZ`, each with a θ parameter), the two-qubit `CX` (CNOT), `CZ` and `SWAP`, and the
+  two-qubit rotations `RZZ RXX RYY` (each with a θ parameter).
 - **Tap-to-place** — arm a gate in the palette, then tap a wire to place it. Two-qubit gates
   need two taps in the same column: `CX` distinguishes control from target, while
-  `RZZ`/`RXX`/`RYY` treat the two taps the same way.
+  `CZ`, `SWAP` and `RZZ`/`RXX`/`RYY` treat the two taps the same way.
 - **Live state vector** — recomputed on every change, no explicit "run" step.
 - **Measure** — choose a shot count (1–10,000) and see a bar-chart histogram of the results.
 - **1–8 qubits**, adjustable with a stepper; shrinking the count drops gates that no longer fit.

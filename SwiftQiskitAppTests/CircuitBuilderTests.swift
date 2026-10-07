@@ -270,6 +270,68 @@ struct CircuitBuilderTests {
 
         #expect(builder.gates.isEmpty)
     }
+
+    @Test("CZ on non-adjacent qubits matches H-CX-H on the target")
+    func czMatchesHCXH() {
+        let builder = CircuitBuilder(qubitCount: 3)
+        builder.place(.h, qubits: [0], column: 0)
+        builder.place(.h, qubits: [2], column: 0)
+        builder.place(.cz, qubits: [0, 2], column: 1)
+
+        let direct = QuantumCircuit(qubits: 3)
+        direct.h(0)
+        direct.h(2)
+        direct.h(2)
+        direct.cx(0, 2)
+        direct.h(2)
+        expectStatesMatch(builder.buildCircuit().run(), direct.run())
+    }
+
+    @Test("a CZ with added controls replays as MCZ and reverts on removeLastControl")
+    func czMultiControl() throws {
+        let builder = CircuitBuilder(qubitCount: 3)
+        for qubit in 0..<3 { builder.place(.h, qubits: [qubit], column: 0) }
+        builder.place(.cz, qubits: [0, 2], column: 1)
+        let id = try #require(builder.gates.last?.id)
+        #expect(builder.addControl(id: id, qubit: 1))
+        #expect(builder.gates.last?.qubits == [0, 1, 2])
+
+        let ccz = QuantumCircuit(qubits: 3)
+        for qubit in 0..<3 { ccz.h(qubit) }
+        ccz.h(2)
+        ccz.ccx(0, 1, 2)
+        ccz.h(2)
+        expectStatesMatch(builder.buildCircuit().run(), ccz.run())
+
+        builder.removeLastControl(id: id)
+        let cz = QuantumCircuit(qubits: 3)
+        for qubit in 0..<3 { cz.h(qubit) }
+        cz.cz(0, 2)
+        expectStatesMatch(builder.buildCircuit().run(), cz.run())
+    }
+
+    @Test("SWAP moves an X excitation between non-adjacent qubits")
+    func swapMovesExcitation() {
+        let builder = CircuitBuilder(qubitCount: 3)
+        builder.place(.x, qubits: [0], column: 0)
+        builder.place(.swap, qubits: [0, 2], column: 1)
+
+        let state = builder.buildCircuit().run()
+        #expect(abs(state[1].magnitude - 1) < 1e-9)
+    }
+
+    @Test("CZ and SWAP reject occupied cells and drop on qubit-count shrink")
+    func czSwapPlacementRules() {
+        let builder = CircuitBuilder(qubitCount: 3)
+        builder.place(.h, qubits: [1], column: 0)
+        #expect(!builder.place(.cz, qubits: [0, 1], column: 0))
+        #expect(!builder.place(.swap, qubits: [1, 2], column: 0))
+        #expect(builder.place(.cz, qubits: [0, 2], column: 1))
+        #expect(builder.place(.swap, qubits: [0, 1], column: 2))
+
+        builder.qubitCount = 2
+        #expect(builder.gates.map(\.kind) == [.h, .swap])
+    }
 }
 
 /// Compares two state vectors entrywise within a fixed tolerance.
