@@ -103,6 +103,12 @@ public struct PlacedGate: Identifiable, Equatable {
         self.qubits = qubits
         self.column = column
     }
+
+    /// For a CX: every qubit but the last. A plain CX has one control.
+    public var controls: [Int] { Array(qubits.dropLast()) }
+
+    /// For a CX: the target, which is always stored last.
+    public var target: Int? { qubits.last }
 }
 
 // MARK: - CircuitBuilder
@@ -161,6 +167,32 @@ public final class CircuitBuilder {
         gates.removeAll { $0.id == id }
     }
 
+    /// True if some qubit is still free in the gate's column, so a control could be added.
+    public func canAddControl(id: UUID) -> Bool {
+        guard let gate = gates.first(where: { $0.id == id }), gate.kind.isControlled else { return false }
+        return (0..<qubitCount).contains { !isOccupied(column: gate.column, qubit: $0) }
+    }
+
+    /// Adds `qubit` as a further control of a CX. The target stays last, so the
+    /// new control is inserted just before it.
+    @discardableResult
+    public func addControl(id: UUID, qubit: Int) -> Bool {
+        guard let index = gates.firstIndex(where: { $0.id == id }),
+              gates[index].kind.isControlled,
+              qubit >= 0, qubit < qubitCount,
+              !isOccupied(column: gates[index].column, qubit: qubit) else { return false }
+        gates[index].qubits.insert(qubit, at: gates[index].qubits.count - 1)
+        return true
+    }
+
+    /// Removes the most recently added control; a no-op when only one control is left.
+    public func removeLastControl(id: UUID) {
+        guard let index = gates.firstIndex(where: { $0.id == id }),
+              gates[index].kind.isControlled,
+              gates[index].qubits.count > 2 else { return }
+        gates[index].qubits.remove(at: gates[index].qubits.count - 2)
+    }
+
     public func updateTheta(id: UUID, theta: Double) {
         guard let index = gates.firstIndex(where: { $0.id == id }) else { return }
         gates[index].kind = gates[index].kind.withTheta(theta)
@@ -205,7 +237,13 @@ public final class CircuitBuilder {
         case .rx(let theta): circuit.rx(theta, gate.qubits[0])
         case .ry(let theta): circuit.ry(theta, gate.qubits[0])
         case .rz(let theta): circuit.rz(theta, gate.qubits[0])
-        case .cx: circuit.cx(gate.qubits[0], gate.qubits[1])
+        case .cx:
+            guard let target = gate.target else { return }
+            if gate.controls.count == 1 {
+                circuit.cx(gate.controls[0], target)
+            } else {
+                circuit.mcx(gate.controls, target)
+            }
         case .rzz(let theta): circuit.rzz(theta, gate.qubits[0], gate.qubits[1])
         case .rxx(let theta): circuit.rxx(theta, gate.qubits[0], gate.qubits[1])
         case .ryy(let theta): circuit.ryy(theta, gate.qubits[0], gate.qubits[1])

@@ -29,9 +29,10 @@ struct CircuitWiresView: View {
                 context.stroke(path, with: .color(.secondary.opacity(0.5)), lineWidth: 1)
             }
 
-            for gate in gates where gate.kind.qubitSpan == 2 {
-                let start = layout.center(column: gate.column, qubit: gate.qubits[0])
-                let end = layout.center(column: gate.column, qubit: gate.qubits[1])
+            for gate in gates where gate.qubits.count >= 2 {
+                guard let top = gate.qubits.min(), let bottom = gate.qubits.max() else { continue }
+                let start = layout.center(column: gate.column, qubit: top)
+                let end = layout.center(column: gate.column, qubit: bottom)
                 var path = Path()
                 path.move(to: start)
                 path.addLine(to: end)

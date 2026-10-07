@@ -16,6 +16,8 @@ struct CircuitGridView: View {
 
     @State private var pendingControl: (column: Int, qubit: Int)?
     @State private var selectedGateID: UUID?
+    /// Set while the next tap should add a control to this CX.
+    @State private var addingControlTo: UUID?
 
     private let layout = CircuitLayout()
 
@@ -46,7 +48,10 @@ struct CircuitGridView: View {
             }
             .frame(width: size.width, height: size.height)
         }
-        .onChange(of: armedGate) { pendingControl = nil }
+        .onChange(of: armedGate) {
+            pendingControl = nil
+            addingControlTo = nil
+        }
     }
 
     @ViewBuilder
@@ -58,7 +63,10 @@ struct CircuitGridView: View {
                 .frame(width: layout.cellSize, height: layout.cellSize)
                 .position(point)
         } else {
-            EmptyCellView(isPendingControl: pendingControl?.column == column && pendingControl?.qubit == qubit)
+            EmptyCellView(
+                isPendingControl: pendingControl?.column == column && pendingControl?.qubit == qubit,
+                isControlCandidate: isControlCandidate(column: column)
+            )
                 .frame(width: layout.cellSize, height: layout.cellSize)
                 .position(point)
                 .onTapGesture { handleTap(column: column, qubit: qubit) }
@@ -67,32 +75,43 @@ struct CircuitGridView: View {
 
     @ViewBuilder
     private func occupiedCell(gate: PlacedGate, qubit: Int) -> some View {
-        let isPrimary = gate.qubits.first == qubit
-
-        // A controlled gate's non-primary qubit (CX's target) renders the ⊕
-        // glyph instead of the tile; symmetric two-qubit rotations (RZZ/RXX/
-        // RYY) show the tile — and its θ popover — on both qubits.
-        if isPrimary || !gate.kind.isControlled {
-            GateTileView(
-                gate: gate,
-                isSelected: selectedGateID == gate.id,
-                onSelect: { selectedGateID = gate.id },
-                onDelete: { deleteGate(gate) },
-                onThetaChange: { builder.updateTheta(id: gate.id, theta: $0) }
-            )
-        } else {
-            CXTargetView()
-                .contentShape(Rectangle())
-                .onTapGesture { deleteGate(gate) }
-        }
+        // Every qubit of a placed gate shows a GateTileView. A CX's target
+        // (always its last qubit) draws the ⊕ glyph; both it and the control
+        // dots open the controls popover, and Delete lives in the context menu.
+        GateTileView(
+            gate: gate,
+            isSelected: selectedGateID == gate.id,
+            onSelect: { selectedGateID = gate.id },
+            onDelete: { deleteGate(gate) },
+            onThetaChange: { builder.updateTheta(id: gate.id, theta: $0) },
+            isTarget: gate.kind.isControlled && qubit == gate.target,
+            canAddControl: builder.canAddControl(id: gate.id),
+            onAddControl: { addingControlTo = gate.id },
+            onRemoveControl: { builder.removeLastControl(id: gate.id) }
+        )
     }
 
     private func deleteGate(_ gate: PlacedGate) {
         builder.remove(id: gate.id)
         if selectedGateID == gate.id { selectedGateID = nil }
+        if addingControlTo == gate.id { addingControlTo = nil }
+    }
+
+    /// True for free cells in the column of the CX that is waiting for a new control.
+    private func isControlCandidate(column: Int) -> Bool {
+        guard let id = addingControlTo,
+              let gate = builder.gates.first(where: { $0.id == id }) else { return false }
+        return gate.column == column
     }
 
     private func handleTap(column: Int, qubit: Int) {
+        // Add-control mode: one tap either adds the control or cancels the mode.
+        if let id = addingControlTo {
+            builder.addControl(id: id, qubit: qubit)
+            addingControlTo = nil
+            return
+        }
+
         guard let armed = armedGate else { return }
 
         guard armed.qubitSpan == 2 else {

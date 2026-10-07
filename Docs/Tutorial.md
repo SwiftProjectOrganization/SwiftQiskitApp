@@ -86,8 +86,9 @@ center after the `CX`.
   placed tile again to open a popover with a θ slider (0 to 2π); dragging it updates the
   State Vector panel live.
 - **Deleting a gate.** Open the context menu on a placed single-qubit tile (long-press on
-  iOS, right-click/⌃-click on macOS) and choose **Delete**. For a CX gate, tapping *either*
-  the control dot or the target ⊕ removes the whole gate.
+  iOS, right-click/⌃-click on macOS) and choose **Delete**. For a CX gate, open the context
+  menu on either the control dot or the target ⊕; **Delete** removes the whole gate. Tapping
+  a CX opens its controls popover instead (see "A Toffoli gate" below).
 - **Growing the circuit.** Use the **Qubits** stepper (1–8) to add rows. Shrinking it drops
   any placed gates that no longer fit — there's no undo, so note the recipe before shrinking
   if you want to keep it.
@@ -95,6 +96,31 @@ center after the `CX`.
 - **A 3-qubit GHZ state.** Bump **Qubits** to 3, place `H` on `q0`, then `CX(q0, q1)` and
   `CX(q0, q2)` in the next two columns — the State Vector panel should settle on `|000⟩` and
   `|111⟩` only, each ≈ 0.500.
+
+## A Toffoli gate: adding controls to a CX
+
+A CX can have more than one control. With two controls it is the Toffoli (CCX) gate, which
+flips the target only when both controls are `1`. This builds it on three qubits.
+
+1. Set **Qubits** to 3. Arm **X** and place it on `q0` and on `q1` in the first column, so
+   both controls start as `1`.
+2. Arm **CX**. In the next column tap `q0` (the control), then `q2` (the target). The State
+   Vector panel shows only `|111⟩`: the control `q0` is `1`, so `q2` has flipped, and `q1`
+   is still `1` from the X gate.
+3. Tap the control dot on `q0` (or the target ⊕). A popover opens with a **Controls: 1**
+   stepper. Press **+**. The popover closes and the free cells in that column show a dashed
+   ring.
+4. Tap the `q1` cell in that column. It becomes a second control dot, and the vertical line
+   now spans all three qubits. The State Vector panel still shows `|111⟩`, because both
+   controls are `1` and the target flips.
+5. To see the second control matter, delete the X on `q1` (context menu, **Delete**). With
+   `q1` at `0` that control is not satisfied, the target does not flip, and the panel shows
+   `|100⟩`.
+
+Press **−** in the popover to remove the most recently added control; the gate then goes back
+to a plain CX. A gate can have up to *qubits − 1* controls. Controls may sit on any free qubit
+in the column, not only on adjacent ones. If you shrink **Qubits** so that any of the gate's
+qubits no longer exists, the whole gate is dropped.
 
 ## Learn more about the underlying quantum mechanics
 

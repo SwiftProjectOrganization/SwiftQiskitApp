@@ -192,6 +192,84 @@ struct CircuitBuilderTests {
         #expect(!builder.place(.rzz(0.5), qubits: [0, 1], column: 0))
         #expect(builder.gates.count == 1)
     }
+
+    @Test("a CX with a second control replays as CCX")
+    func twoControlsMatchCCX() throws {
+        let builder = CircuitBuilder(qubitCount: 3)
+        builder.place(.x, qubits: [0], column: 0)
+        builder.place(.x, qubits: [1], column: 0)
+        builder.place(.cx, qubits: [0, 2], column: 1)
+        let id = try #require(builder.gates.last?.id)
+        #expect(builder.addControl(id: id, qubit: 1))
+        #expect(builder.gates.last?.qubits == [0, 1, 2])
+
+        let direct = QuantumCircuit(qubits: 3)
+        direct.x(0)
+        direct.x(1)
+        direct.ccx(0, 1, 2)
+        expectStatesMatch(builder.buildCircuit().run(), direct.run())
+    }
+
+    @Test("three controls on non-adjacent qubits replay as MCX")
+    func threeControlsMatchMCX() throws {
+        let builder = CircuitBuilder(qubitCount: 4)
+        for qubit in [0, 2, 3] { builder.place(.x, qubits: [qubit], column: 0) }
+        builder.place(.cx, qubits: [3, 1], column: 1)
+        let id = try #require(builder.gates.last?.id)
+        #expect(builder.addControl(id: id, qubit: 0))
+        #expect(builder.addControl(id: id, qubit: 2))
+        #expect(builder.gates.last?.controls == [3, 0, 2])
+        #expect(builder.gates.last?.target == 1)
+
+        let direct = QuantumCircuit(qubits: 4)
+        for qubit in [0, 2, 3] { direct.x(qubit) }
+        direct.mcx([3, 0, 2], 1)
+        expectStatesMatch(builder.buildCircuit().run(), direct.run())
+    }
+
+    @Test("addControl rejects occupied, out-of-range, duplicate and non-CX cases")
+    func addControlRejections() throws {
+        let builder = CircuitBuilder(qubitCount: 4)
+        builder.place(.h, qubits: [1], column: 0)
+        builder.place(.cx, qubits: [0, 2], column: 0)
+        builder.place(.h, qubits: [0], column: 1)
+        let cxID = try #require(builder.gates.first { $0.kind == .cx }?.id)
+        let hID = try #require(builder.gates.last?.id)
+
+        #expect(!builder.addControl(id: cxID, qubit: 1))
+        #expect(!builder.addControl(id: cxID, qubit: 9))
+        #expect(!builder.addControl(id: cxID, qubit: 0))
+        #expect(!builder.addControl(id: hID, qubit: 3))
+        #expect(builder.canAddControl(id: cxID))
+        #expect(!builder.canAddControl(id: hID))
+        #expect(builder.gates.first { $0.id == cxID }?.qubits == [0, 2])
+    }
+
+    @Test("removeLastControl removes the newest control and stops at one")
+    func removeLastControl() throws {
+        let builder = CircuitBuilder(qubitCount: 3)
+        builder.place(.cx, qubits: [0, 2], column: 0)
+        let id = try #require(builder.gates.first?.id)
+        builder.addControl(id: id, qubit: 1)
+
+        builder.removeLastControl(id: id)
+        #expect(builder.gates.first?.qubits == [0, 2])
+
+        builder.removeLastControl(id: id)
+        #expect(builder.gates.first?.qubits == [0, 2])
+    }
+
+    @Test("shrinking qubitCount drops a CX whose added control no longer fits")
+    func shrinkDropsMultiControlGate() throws {
+        let builder = CircuitBuilder(qubitCount: 4)
+        builder.place(.cx, qubits: [0, 1], column: 0)
+        let id = try #require(builder.gates.first?.id)
+        builder.addControl(id: id, qubit: 3)
+
+        builder.qubitCount = 3
+
+        #expect(builder.gates.isEmpty)
+    }
 }
 
 /// Compares two state vectors entrywise within a fixed tolerance.

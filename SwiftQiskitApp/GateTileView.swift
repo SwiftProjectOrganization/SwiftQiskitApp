@@ -14,8 +14,14 @@ struct GateTileView: View {
     var onSelect: () -> Void
     var onDelete: () -> Void
     var onThetaChange: (Double) -> Void
+    /// True for a CX's ⊕ target, drawn by this same tile so it shares the popover and menu.
+    var isTarget = false
+    var canAddControl = false
+    var onAddControl: () -> Void = {}
+    var onRemoveControl: () -> Void = {}
 
     @State private var showingParameters = false
+    @State private var showingControls = false
 
     private var thetaBinding: Binding<Double> {
         Binding(
@@ -40,9 +46,23 @@ struct GateTileView: View {
                 if gate.kind.isParameterized {
                     showingParameters = true
                 }
+                if gate.kind.isControlled {
+                    showingControls = true
+                }
             }
             .popover(isPresented: $showingParameters) {
                 ParameterPopover(theta: thetaBinding)
+            }
+            .popover(isPresented: $showingControls) {
+                ControlsPopover(
+                    count: gate.controls.count,
+                    canAdd: canAddControl,
+                    onAdd: {
+                        showingControls = false
+                        onAddControl()
+                    },
+                    onRemove: onRemoveControl
+                )
             }
             .contextMenu {
                 Button("Delete", role: .destructive, action: onDelete)
@@ -67,7 +87,9 @@ struct GateTileView: View {
 
     @ViewBuilder
     private var content: some View {
-        if gate.kind.isControlled {
+        if gate.kind.isControlled && isTarget {
+            CXTargetView()
+        } else if gate.kind.isControlled {
             Circle()
                 .fill(Color.accentColor)
                 .frame(width: 14, height: 14)
@@ -101,11 +123,15 @@ struct CXTargetView: View {
 
 struct EmptyCellView: View {
     let isPendingControl: Bool
+    var isControlCandidate = false
 
     var body: some View {
         Circle()
-            .stroke(Color.orange, lineWidth: 2)
-            .opacity(isPendingControl ? 1 : 0)
+            .stroke(
+                isControlCandidate ? Color.accentColor : Color.orange,
+                style: StrokeStyle(lineWidth: 2, dash: isControlCandidate ? [3, 3] : [])
+            )
+            .opacity(isPendingControl || isControlCandidate ? 1 : 0)
             .frame(width: 20, height: 20)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .contentShape(Rectangle())

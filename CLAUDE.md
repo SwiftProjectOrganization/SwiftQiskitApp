@@ -44,7 +44,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 | Target | Product type | Notes |
 |---|---|---|
 | `SwiftQiskitApp` | Application | `com.robertgoedman.SwiftQiskitApp`; App Sandbox enabled, read-only user-selected file access |
-| `SwiftQiskitAppTests` | Unit Test Bundle | Swift `Testing` framework; 28 tests across 4 files |
+| `SwiftQiskitAppTests` | Unit Test Bundle | Swift `Testing` framework; 33 tests across 4 files |
 
 ## File map (`SwiftQiskitApp/`)
 
@@ -58,7 +58,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 | `GatePaletteView.swift` | Gate buttons, grouped by category; arms a `GateKind`; `.sidebar` or `.strip` layout |
 | `CircuitGridView.swift` | The qubit-wire grid; tap-to-place and the CX two-tap state machine |
 | `GateTileView.swift` | `GateTileView` (a placed single-qubit tile, or either qubit of a symmetric two-qubit rotation, or CX's control), `CXTargetView` (CX's target only), `EmptyCellView` |
-| `ParameterPopover.swift` | θ slider for `.p/.rx/.ry/.rz/.rzz/.rxx/.ryy` tiles |
+| `ParameterPopover.swift` | θ slider for `.p/.rx/.ry/.rz/.rzz/.rxx/.ryy` tiles; `ControlsPopover` stepper for a CX's control count |
 | `ResultsView.swift` | Live state vector + shots/Measure/histogram |
 | `HistogramView.swift` | Bar chart of `SimulationResult` counts |
 | `BlochSphereView.swift` | 2D oblique-projection `Canvas` drawing of one `BlochVector` (from `SwiftQiskitViews`) |
@@ -112,6 +112,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   when the clamped value differs from the current one, and returns immediately after so the
   gate-filtering line runs once, against the already-clamped value. Range is 1...8
   (`CircuitBuilder.minQubits`/`.maxQubits`); shrinking silently drops gates that no longer fit.
+- **CX qubit order:** a CX `PlacedGate` stores `qubits = controls + [target]`, target always last. A plain CX is `[c, t]`; extra controls are added via the control dot's popover (`addControl`/`removeLastControl`) and replay through `QuantumCircuit.mcx`. Shrinking `qubitCount` drops the whole gate if any of its qubits no longer fits.
 - **`measure(shots:)` is probabilistic** — expect the histogram split to jitter between runs,
   not land on an exact ratio.
 - **No persistence, no undo, no drag-and-drop** — see `Docs/Todo.md` for the roadmap.
@@ -124,12 +125,13 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 
 ## Testing
 
-- `SwiftQiskitAppTests/CircuitBuilderTests.swift` (15 tests) — Bell-state replay via
+- `SwiftQiskitAppTests/CircuitBuilderTests.swift` (20 tests) — Bell-state replay via
   `buildCircuit()`, occupied/out-of-range placement rejection, qubit-count clamping and
   gate-dropping on shrink, `updateTheta`, `clear`, `measure(shots:)` populating `lastResult`,
   a qubit-count shrink discarding a prior measurement, and RZZ/RXX/RYY replay on non-adjacent
   qubits checked against a directly built `QuantumCircuit` (RZZ also against the `cx;rz;cx`
-  identity), plus `updateTheta`/occupied-cell coverage for RZZ.
+  identity), plus `updateTheta`/occupied-cell coverage for RZZ, and multi-control CX
+  (`addControl`/`removeLastControl` against `ccx`/`mcx`, rejections, shrink).
 - `SwiftQiskitAppTests/CircuitLayoutTests.swift` (3 tests) — pure `CircuitLayout` geometry:
   center spacing, `wireY` agreement with `center`, `canvasSize` growth in each dimension.
 - `SwiftQiskitAppTests/BlochVectorTests.swift` (7 tests) — single-qubit Bloch coordinates for
@@ -140,7 +142,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   geometry: pole projection direction, near- vs far-hemisphere perspective scale, the
   silhouette-scale formula.
 - Swift **`Testing`** framework (`import Testing`, `@Test`, `#expect`), not XCTest.
-- Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 28 tests are in its
+- Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 33 tests are in its
   test plan (no scheme-switching gotcha, unlike the package).
 
 ## Writing style

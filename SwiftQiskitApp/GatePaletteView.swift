@@ -86,7 +86,7 @@ struct GatePaletteView: View {
             return "Tap a wire to place \(gate.symbol)."
         }
         return gate.isControlled
-            ? "Tap a control qubit, then a target qubit in the same column."
+            ? "Tap a control qubit, then a target qubit in the same column. Tap a placed control dot to add more controls."
             : "Tap two qubits in the same column."
     }
 

@@ -19,6 +19,9 @@ Project status and roadmap for SwiftQiskitApp.
   with a θ parameter).
 - Tap-to-arm-then-tap-cell placement; CX's two-tap control→target flow, RZZ/RXX/RYY's
   two-tap flow on an unordered qubit pair.
+- Multi-controlled CX: tapping a placed CX opens a "Controls: n" stepper popover; **+** adds
+  a control on any free qubit in the column, **−** removes the newest. Two controls is the
+  Toffoli (CCX), more replay through the package's `mcx`. Delete is in the context menu.
 - θ editor popover for parameterized gates (0–2π slider).
 - Qubit count 1–8, adjustable via stepper; shrinking drops out-of-range gates.
 - Live state vector (amplitudes + probabilities), recomputed on every change.
@@ -27,7 +30,7 @@ Project status and roadmap for SwiftQiskitApp.
 - Bloch-sphere display (`BlochDisplayView`, opened via a **Display** button): a 2D grid of
   every qubit's final-state sphere, a column-by-column row for one chosen qubit, or a rotatable
   3D view (`Bloch3DSphereView`, orbited by dragging).
-- 28 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
+- 33 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
   `Bloch3DProjectionTests`) covering the model, geometry, and Bloch-vector math.
 
 ## Roadmap
@@ -40,8 +43,12 @@ Project status and roadmap for SwiftQiskitApp.
       the diagram.
 - [ ] Undo/redo for gate placement, deletion, and qubit-count changes.
 - [ ] Drag-and-drop gate placement as an alternative to tap-to-arm-then-tap-cell.
-- [ ] More gates once `SwiftQiskit` supports them (CZ, SWAP, Toffoli) — see the package's
-      own `STATUSandTODO.md` for its roadmap.
+- [x] Toffoli and other multi-controlled X gates — done by adding controls to a placed CX,
+      using the package's `ccx`/`mcx`.
+- [ ] More gates once `SwiftQiskit` supports them (CZ, SWAP) — see the package's own
+      `STATUSandTODO.md` for its roadmap.
+- [ ] Multi-controlled versions of other gates (CZ, controlled rotations), and mixed
+      open/closed controls (a control that fires on `0`).
 - [ ] Gate-count / circuit-depth readout alongside the state vector.
 - [x] A Bloch-sphere view, covering multi-qubit circuits — `BlochSphereView`
       was ported from the package playground's `Sources/` folder (not importable as-is) into
