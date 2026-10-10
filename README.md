@@ -94,7 +94,7 @@ SwiftQiskitApp/
 
 ## Testing
 
-Run via ⌘U or the `RunAllTests` MCP tool under the `SwiftQiskitApp` scheme — 28 tests total,
+Run via ⌘U or the `RunAllTests` MCP tool under the `SwiftQiskitApp` scheme — 37 tests total,
 using the Swift `Testing` framework (not XCTest).
 
 ---
