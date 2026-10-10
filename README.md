@@ -1,8 +1,14 @@
 # SwiftQiskitApp
 
 **SwiftQiskitApp** is a SwiftUI app for building quantum circuits by tapping gates onto a
-grid instead of writing code. Place gates, watch the state vector update live, then measure
-with as many shots as you like and see a histogram of the outcomes.
+grid (circuit)  instead of writing code.
+
+Place gates, watch the state vector update live, then measure
+with as many shots as you like and see a histogram of the outcomes. Display the Bloch sphere(s)
+ (final and after each step) and a tensor network representation.
+
+ It is intended as a "get familiar" tool for playing around with
+quantum circuits. SwiftQiskit playgrounds allow you to go a few steps further, but soon e.g. Julia's Yao (see reference 5) will be a better option.
 
 > This app is a thin front end. All quantum simulation — state vectors, gates, measurement —
 > is implemented by the [SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)
@@ -35,8 +41,7 @@ Bell state.
 - **Gate palette** — Hadamard/Pauli (`H X Y Z`), phase (`S S† T T†`), rotations
   (`P RX RY RZ`, each with a θ parameter), the two-qubit `CX` (CNOT), `CZ` and `SWAP`, and the
   two-qubit rotations `RZZ RXX RYY` (each with a θ parameter).
-- **Tap-to-place** — arm a gate in the palette, then tap a wire to place it. Two-qubit gates
-  need two taps in the same column: `CX` distinguishes control from target, while
+- **Tap-to-place** — arm a gate in the palette, then tap a wire to place it. Multi qubit gates need multiple taps in the same column: `CX` distinguishes control from target, while
   `CZ`, `SWAP` and `RZZ`/`RXX`/`RYY` treat the two taps the same way.
 - **Live state vector** — recomputed on every change, no explicit "run" step.
 - **Measure** — choose a shot count (1–10,000) and see a bar-chart histogram of the results.
@@ -120,3 +125,14 @@ checkout is convenient for browsing these but not required to build this app):
 
 v1 scope: no persistence, no undo, no drag-and-drop. See [Docs/Todo.md](Docs/Todo.md) for the
 full roadmap.
+
+---
+
+## References
+
+1. [Ali Nasser](https://github.com/a360n/SwiftQiskit) - The parent repository for SwiftQiskit.
+2. [Quantum Computing for everyone](https://www.amazon.com/Quantum-Computing-Everyone-Mit-Press/dp/0262539535/ref=sr_1_1?crid=2FZXZMKUHTCMY&dib=eyJ2IjoiMSJ9.P7qqxqmMDjw-ATyR5LpVdh5xPQ4Y0b2Dzmdh3sxSRGv9O0zg3c4tC3cxXmuFSARdd16gdrlAtvEt4sjIXeZS4pYp3-V78bvNcF2QvOz5I8GsSjxKQvXwCqZE3pb_p8kHyldF_pJ2hZW2HNzJmFYV_MWw4BFvDKddzLBrDhMzSWEH8F_MRHIb2nt27dEMEVnUZNOByHEF6ZmBu_-HunbuU8Z7zWhQF2AvZUFBhHNOtHU.JVmku_grNC3YTp28qmqeX5hDii-RdfSijIAJlmX2gGE&dib_tag=se&keywords=chris+bernhardt%2C+quantum+computing+for+everyone&qid=1790170950&sprefix=Chris+Bern%2Caps%2C224&sr=8-1) - Good starting book.
+3. [Medium](https://medium.com/@brianenochson/our-quantum-future-part-1-quantum-computing-introduction-f03aa4fc5f7f) - Short introductions, part 1 to 4.
+4. [Quantum Mechanics](https://www.amazon.com/Quantum-Mechanics-Theoretical-Leonard-Susskind-ebook/dp/B00FD36G1Q?ref_=ast_author_dp_rw&th=1&psc=1&dib=eyJ2IjoiMSJ9.RkHbIvheK8CPtFzsBgBe7r23a7uhLIlprKHFiYC4BOCvoD6WBdvaQA79CYfZj1_xwUNgGM2xOFd-NGea4XGiB8p7tZll3hdPz1B1IWaIf9jLZuA7h2hoqtpM43Ebaii5rpmm3tHvNMEoAEbVniy-PWV35vm2I2ePmaG4bFhykzpwVySzN3XKJPylPmR4lL1GdKme919H-EXrNmLDhJZ7p8eEeOHQzQIdUK8zwBuPWQY.BXHnclSf8mfD4zk9Rtha8_j22VdyFHEKXfjT5yVZ2Ew&dib_tag=AUTHOR) - Leonard Susskind's lectures at Stanford, many years ago, triggered my interest.
+5. [Yao](https://yaoquantum.org) - For me, a Julia supporter, a great next step.
+6. [Quantum Computing made simple](https://www.amazon.com/Quantum-Computing-Made-Simple-Plain-English/dp/B0FWYKVRJN) - Another good introductory book.

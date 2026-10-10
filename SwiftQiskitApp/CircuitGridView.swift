@@ -50,6 +50,7 @@ struct CircuitGridView: View {
         }
         .onChange(of: armedGate) {
             pendingControl = nil
+            if addingControlTo != nil { selectedGateID = nil }
             addingControlTo = nil
         }
     }
@@ -109,6 +110,7 @@ struct CircuitGridView: View {
         if let id = addingControlTo {
             builder.addControl(id: id, qubit: qubit)
             addingControlTo = nil
+            selectedGateID = nil
             return
         }
 
