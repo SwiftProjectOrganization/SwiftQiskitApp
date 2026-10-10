@@ -119,7 +119,7 @@ and the playground pages that teach quantum computing algorithm by algorithm —
 [SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit) package (a sibling
 checkout is convenient for browsing these but not required to build this app):
 
-- [../SwiftQiskit/README.md](../SwiftQiskit/README.md)
+- [/SwiftQiskit/README.md](https://github.com/SwiftProjectOrganization/SwiftQiskit/README.md)
 
 ## Status
 
