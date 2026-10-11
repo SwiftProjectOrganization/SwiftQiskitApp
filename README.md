@@ -8,7 +8,7 @@ with as many shots as you like and see a histogram of the outcomes. Display the 
  (final and after each step) and a tensor network representation.
 
  It is intended as a "get familiar" tool for playing around with
-quantum circuits. SwiftQiskit playgrounds allow you to go a few steps further, but soon e.g. Julia's Yao (see reference 5) will be a better option.
+quantum circuits. SwiftQiskit playgrounds allow you to go a few steps further, but soon e.g. Julia's Yao (see reference 5), or Qiskit, Cirq or PennyLane (see references 7 to 9), will be a better option.
 
 > This app is a thin front end. All quantum simulation — state vectors, gates, measurement —
 > is implemented by the [SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)
@@ -136,3 +136,6 @@ full roadmap.
 4. [Quantum Mechanics](https://www.amazon.com/Quantum-Mechanics-Theoretical-Leonard-Susskind-ebook/dp/B00FD36G1Q?ref_=ast_author_dp_rw&th=1&psc=1&dib=eyJ2IjoiMSJ9.RkHbIvheK8CPtFzsBgBe7r23a7uhLIlprKHFiYC4BOCvoD6WBdvaQA79CYfZj1_xwUNgGM2xOFd-NGea4XGiB8p7tZll3hdPz1B1IWaIf9jLZuA7h2hoqtpM43Ebaii5rpmm3tHvNMEoAEbVniy-PWV35vm2I2ePmaG4bFhykzpwVySzN3XKJPylPmR4lL1GdKme919H-EXrNmLDhJZ7p8eEeOHQzQIdUK8zwBuPWQY.BXHnclSf8mfD4zk9Rtha8_j22VdyFHEKXfjT5yVZ2Ew&dib_tag=AUTHOR) - Leonard Susskind's lectures at Stanford, many years ago, triggered my interest.
 5. [Yao](https://yaoquantum.org) - For me, a Julia supporter, a great next step.
 6. [Quantum Computing made simple](https://www.amazon.com/Quantum-Computing-Made-Simple-Plain-English/dp/B0FWYKVRJN) - Another good introductory book.
+7. [Qiskit](https://www.ibm.com/quantum/qiskit) - The Python library SwiftQiskit is modelled on; it also runs on IBM's quantum hardware.
+8. [Cirq](https://quantumai.google/cirq) - Google Quantum AI's Python framework, close to the hardware, with explicit qubit layouts and noise models.
+9. [PennyLane](https://pennylane.ai) - A Python framework for differentiable circuits, suited to variational algorithms such as VQE.
