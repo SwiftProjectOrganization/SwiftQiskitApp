@@ -310,6 +310,54 @@ struct CircuitBuilderTests {
         expectStatesMatch(builder.buildCircuit().run(), cz.run())
     }
 
+    @Test("CY on non-adjacent qubits matches S†-CX-S on the target")
+    func cyMatchesSdgCXS() {
+        let builder = CircuitBuilder(qubitCount: 3)
+        builder.place(.h, qubits: [0], column: 0)
+        builder.place(.h, qubits: [2], column: 0)
+        builder.place(.cy, qubits: [0, 2], column: 1)
+
+        let direct = QuantumCircuit(qubits: 3)
+        direct.h(0)
+        direct.h(2)
+        direct.sdg(2)
+        direct.cx(0, 2)
+        direct.s(2)
+        expectStatesMatch(builder.buildCircuit().run(), direct.run())
+    }
+
+    @Test("a CY with added controls replays as MCY and reverts on removeLastControl")
+    func cyMultiControl() throws {
+        let builder = CircuitBuilder(qubitCount: 3)
+        for qubit in 0..<3 { builder.place(.h, qubits: [qubit], column: 0) }
+        builder.place(.cy, qubits: [0, 2], column: 1)
+        let id = try #require(builder.gates.last?.id)
+        #expect(builder.addControl(id: id, qubit: 1))
+        #expect(builder.gates.last?.qubits == [0, 1, 2])
+
+        let mcy = QuantumCircuit(qubits: 3)
+        for qubit in 0..<3 { mcy.h(qubit) }
+        mcy.mcy([0, 1], 2)
+        expectStatesMatch(builder.buildCircuit().run(), mcy.run())
+
+        builder.removeLastControl(id: id)
+        let cy = QuantumCircuit(qubits: 3)
+        for qubit in 0..<3 { cy.h(qubit) }
+        cy.cy(0, 2)
+        expectStatesMatch(builder.buildCircuit().run(), cy.run())
+    }
+
+    @Test("CY rejects occupied cells and drops on qubit-count shrink")
+    func cyPlacementRules() {
+        let builder = CircuitBuilder(qubitCount: 3)
+        builder.place(.h, qubits: [1], column: 0)
+        #expect(!builder.place(.cy, qubits: [0, 1], column: 0))
+        #expect(builder.place(.cy, qubits: [0, 2], column: 1))
+
+        builder.qubitCount = 2
+        #expect(builder.gates.map(\.kind) == [.h])
+    }
+
     @Test("SWAP moves an X excitation between non-adjacent qubits")
     func swapMovesExcitation() {
         let builder = CircuitBuilder(qubitCount: 3)

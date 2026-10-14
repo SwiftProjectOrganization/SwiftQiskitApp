@@ -26,7 +26,7 @@ struct GatePaletteView: View {
             ("Pauli / Hadamard", [.h, .x, .y, .z]),
             ("Phase", [.s, .sdg, .t, .tdg]),
             ("Rotation (θ = π/2)", [.p(defaultAngle), .rx(defaultAngle), .ry(defaultAngle), .rz(defaultAngle)]),
-            ("Multi-qubit", [.cx, .cz, .swap]),
+            ("Multi-qubit", [.cx, .cy, .cz, .swap]),
             ("Two-qubit rotation (θ = π/2)", [.rzz(defaultAngle), .rxx(defaultAngle), .ryy(defaultAngle)])
         ]
     }

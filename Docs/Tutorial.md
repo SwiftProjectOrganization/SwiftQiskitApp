@@ -118,7 +118,8 @@ flips the target only when both controls are `1`. This builds it on three qubits
    `|100⟩`.
 
 Press **−** in the popover to remove the most recently added control; the gate then goes back
-to a plain CX. A gate can have up to *qubits − 1* controls. Controls may sit on any free qubit
+to a plain CX. A gate can have up to *qubits − 1* controls. The same popover works on **CY** (controlled-Y, whose
+target is drawn as a boxed `Y`) and **CZ**; with extra controls they replay as multi-controlled Y and Z. Controls may sit on any free qubit
 in the column, not only on adjacent ones. If you shrink **Qubits** so that any of the gate's
 qubits no longer exists, the whole gate is dropped.
 

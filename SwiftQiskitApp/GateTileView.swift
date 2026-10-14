@@ -31,8 +31,12 @@ struct GateTileView: View {
     }
 
     // Every single-qubit gate is boxed, as is each qubit of a symmetric
-    // two-qubit rotation (RZZ/RXX/RYY); CX/CZ dots and SWAP's × are unboxed.
-    private var isBoxed: Bool { !gate.kind.isControlled && gate.kind != .swap }
+    // two-qubit rotation (RZZ/RXX/RYY), and CY's target; CX/CY/CZ dots and SWAP's ×
+    // are unboxed.
+    private var isBoxed: Bool {
+        if gate.kind == .cy && isTarget { return true }
+        return !gate.kind.isControlled && gate.kind != .swap
+    }
 
     var body: some View {
         content
@@ -89,8 +93,11 @@ struct GateTileView: View {
     private var content: some View {
         if gate.kind == .cx && isTarget {
             CXTargetView()
+        } else if gate.kind == .cy && isTarget {
+            Text("Y")
+                .font(.system(.body, design: .monospaced, weight: .semibold))
         } else if gate.kind.isControlled {
-            // CX's controls, and every qubit of a CZ (its target is also a dot).
+            // The controls of a CX or CY, and every qubit of a CZ (its target is also a dot).
             Circle()
                 .fill(Color.accentColor)
                 .frame(width: 14, height: 14)

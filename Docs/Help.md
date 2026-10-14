@@ -24,7 +24,7 @@ run. No `SwiftQiskit` changes were needed for this feature.
 | `CompactBuilderView.swift` | iPhone-compact layout (`#if os(iOS)`): full-bleed grid + horizontal gate strip, results in a sheet |
 | `GatePaletteView.swift` | Gate buttons, grouped by category; arms a `GateKind`; `.sidebar` (macOS/iPad) or `.strip` (iPhone) layout |
 | `CircuitGridView.swift` | The qubit-wire grid; tap-to-place and the CX two-tap state machine |
-| `GateTileView.swift` | `GateTileView` (a placed single-qubit tile, either qubit of a symmetric two-qubit rotation, or CX's control), `CXTargetView` (the ⊕ half of a CX only), `EmptyCellView` |
+| `GateTileView.swift` | `GateTileView` (a placed single-qubit tile, either qubit of a symmetric two-qubit rotation, a CX or CY control, CY's target as a boxed Y, or any qubit of a CZ), `CXTargetView` (the ⊕ half of a CX only), `EmptyCellView` |
 | `ParameterPopover.swift` | θ slider for `.p/.rx/.ry/.rz/.rzz/.rxx/.ryy` tiles |
 | `ResultsView.swift` | Live state vector + shots/Measure/histogram |
 | `HistogramView.swift` | Bar chart of `SimulationResult` counts |
@@ -43,8 +43,8 @@ public enum GateKind: Equatable, Hashable {
     case p(Double), rx(Double), ry(Double), rz(Double)
     case cx
     case rzz(Double), rxx(Double), ryy(Double)
-    // .symbol, .qubitSpan (1, or 2 for .cx/.rzz/.rxx/.ryy), .isControlled (true only
-    // for .cx), .isParameterized, .theta, .withTheta(_:)
+    // .symbol, .qubitSpan (1, or 2 for .cx/.cy/.cz/.swap/.rzz/.rxx/.ryy), .isControlled (true only
+    // for .cx/.cy/.cz), .isParameterized, .theta, .withTheta(_:)
 }
 
 public struct PlacedGate: Identifiable, Equatable {
@@ -95,7 +95,7 @@ below):
   qubits play the same role, so which one is tapped first doesn't matter.
 - A `PlacedGate` is drawn once, at its "primary" qubit (`gate.qubits.first`) — that's where
   `GateTileView` renders. `CXTargetView` (the ⊕ glyph) only ever stands in for the *non-primary*
-  qubit of a **controlled** gate (`.cx`'s target); the non-primary qubit of a symmetric
+  qubit of a **controlled** gate (`.cx`'s target; `.cy`'s target is a boxed `Y` tile instead); the non-primary qubit of a symmetric
   rotation (`.rzz`/`.rxx`/`.ryy`) gets its own `GateTileView` instead, showing the same symbol
   and θ popover as the primary qubit's tile. Deleting works from either half.
 - The grid sits on two layers sharing one `CircuitLayout`: `CircuitWiresView` (a `Canvas`)
@@ -177,7 +177,7 @@ iPhone bottom bar), mirroring how `ResultsView` is presented as a sheet.
 No changes needed anywhere else — `CircuitGridView`/`GateTileView` render any `GateKind`
 generically via `.symbol`/`.qubitSpan`/`.isControlled`. A new span-2 gate is symmetric
 (both placed qubits render a tile, like `.rzz`/`.rxx`/`.ryy`) unless it distinguishes
-control from target like `.cx`, in which case also add it to `isControlled`'s switch.
+control from target like `.cx`/`.cy`, in which case also add it to `isControlled`'s switch.
 
 **Adding a chart type / result view:** follow `HistogramView.swift`'s pattern (a small,
 stateless `View` taking a value type, not the whole `CircuitBuilder`) and wire it into

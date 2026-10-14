@@ -39,9 +39,9 @@ Bell state.
 ## Features
 
 - **Gate palette** — Hadamard/Pauli (`H X Y Z`), phase (`S S† T T†`), rotations
-  (`P RX RY RZ`, each with a θ parameter), the two-qubit `CX` (CNOT), `CZ` and `SWAP`, and the
+  (`P RX RY RZ`, each with a θ parameter), the two-qubit `CX` (CNOT), `CY`, `CZ` and `SWAP`, and the
   two-qubit rotations `RZZ RXX RYY` (each with a θ parameter).
-- **Tap-to-place** — arm a gate in the palette, then tap a wire to place it. Multi qubit gates need multiple taps in the same column: `CX` distinguishes control from target, while
+- **Tap-to-place** — arm a gate in the palette, then tap a wire to place it. Multi qubit gates need multiple taps in the same column: `CX` and `CY` distinguish control from target, while
   `CZ`, `SWAP` and `RZZ`/`RXX`/`RYY` treat the two taps the same way.
 - **Live state vector** — recomputed on every change, no explicit "run" step.
 - **Measure** — choose a shot count (1–10,000) and see a bar-chart histogram of the results.
@@ -94,7 +94,7 @@ SwiftQiskitApp/
 
 ## Testing
 
-Run via ⌘U or the `RunAllTests` MCP tool under the `SwiftQiskitApp` scheme — 38 tests total,
+Run via ⌘U or the `RunAllTests` MCP tool under the `SwiftQiskitApp` scheme — 41 tests total,
 using the Swift `Testing` framework (not XCTest).
 
 ---

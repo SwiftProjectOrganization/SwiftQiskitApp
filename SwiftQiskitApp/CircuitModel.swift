@@ -20,6 +20,7 @@ public enum GateKind: Equatable, Hashable {
     case ry(Double)
     case rz(Double)
     case cx
+    case cy
     case cz
     case swap
     case rzz(Double)
@@ -41,6 +42,7 @@ public enum GateKind: Equatable, Hashable {
         case .ry: return "RY"
         case .rz: return "RZ"
         case .cx: return "CX"
+        case .cy: return "CY"
         case .cz: return "CZ"
         case .swap: return "SWAP"
         case .rzz: return "RZZ"
@@ -50,19 +52,19 @@ public enum GateKind: Equatable, Hashable {
     }
 
     /// Number of qubits this gate occupies (1 for single-qubit gates, 2 for the
-    /// two-qubit gates: CX, CZ, SWAP and the RZZ/RXX/RYY rotations).
+    /// two-qubit gates: CX, CY, CZ, SWAP and the RZZ/RXX/RYY rotations).
     public var qubitSpan: Int {
         switch self {
-        case .cx, .cz, .swap, .rzz, .rxx, .ryy: return 2
+        case .cx, .cy, .cz, .swap, .rzz, .rxx, .ryy: return 2
         default: return 1
         }
     }
 
-    /// True for CX and CZ: they store `controls + [target]` and accept extra controls,
+    /// True for CX, CY and CZ: they store `controls + [target]` and accept extra controls,
     /// unlike SWAP and RZZ/RXX/RYY, whose two qubits are symmetric and fixed.
     public var isControlled: Bool {
         switch self {
-        case .cx, .cz: return true
+        case .cx, .cy, .cz: return true
         default: return false
         }
     }
@@ -110,10 +112,10 @@ public struct PlacedGate: Identifiable, Equatable {
         self.column = column
     }
 
-    /// For a CX or CZ: every qubit but the last. A plain CX or CZ has one control.
+    /// For a CX, CY or CZ: every qubit but the last. A plain CX, CY or CZ has one control.
     public var controls: [Int] { Array(qubits.dropLast()) }
 
-    /// For a CX or CZ: the target, which is always stored last.
+    /// For a CX, CY or CZ: the target, which is always stored last.
     public var target: Int? { qubits.last }
 }
 
@@ -179,7 +181,7 @@ public final class CircuitBuilder {
         return (0..<qubitCount).contains { !isOccupied(column: gate.column, qubit: $0) }
     }
 
-    /// Adds `qubit` as a further control of a CX or CZ. The target stays last, so the
+    /// Adds `qubit` as a further control of a CX, CY or CZ. The target stays last, so the
     /// new control is inserted just before it.
     @discardableResult
     public func addControl(id: UUID, qubit: Int) -> Bool {
@@ -249,6 +251,13 @@ public final class CircuitBuilder {
                 circuit.cx(gate.controls[0], target)
             } else {
                 circuit.mcx(gate.controls, target)
+            }
+        case .cy:
+            guard let target = gate.target else { return }
+            if gate.controls.count == 1 {
+                circuit.cy(gate.controls[0], target)
+            } else {
+                circuit.mcy(gate.controls, target)
             }
         case .cz:
             guard let target = gate.target else { return }
