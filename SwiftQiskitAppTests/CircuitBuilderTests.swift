@@ -332,6 +332,34 @@ struct CircuitBuilderTests {
         builder.qubitCount = 2
         #expect(builder.gates.map(\.kind) == [.h, .swap])
     }
+
+    @Test("an 8-qubit, 20-column circuit runs, including every Steps prefix, well within budget")
+    func eightQubitRunStaysFast() {
+        let builder = CircuitBuilder(qubitCount: 8)
+        let columns = 20
+        for column in 0..<columns {
+            for qubit in 0..<8 {
+                if column % 2 == 0 {
+                    builder.place(.h, qubits: [qubit], column: column)
+                } else if qubit % 2 == 0 {
+                    builder.place(.cx, qubits: [qubit, qubit + 1], column: column)
+                }
+            }
+        }
+
+        var final = StateVector(qubits: 1)
+        let elapsed = ContinuousClock().measure {
+            // The same work the Steps display does: one prefix replay per column.
+            for column in -1..<columns {
+                final = builder.buildCircuit(throughColumn: column).run()
+            }
+        }
+
+        #expect(abs(final.probabilities.reduce(0, +) - 1) < 1e-9)
+        // Generous bound: the real cost is milliseconds; this only catches a regression
+        // back to per-gate dense matrices.
+        #expect(elapsed < .milliseconds(500))
+    }
 }
 
 /// Compares two state vectors entrywise within a fixed tolerance.

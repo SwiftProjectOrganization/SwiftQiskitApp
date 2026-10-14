@@ -44,7 +44,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 | Target | Product type | Notes |
 |---|---|---|
 | `SwiftQiskitApp` | Application | `com.robertgoedman.SwiftQiskitApp`; App Sandbox enabled, read-only user-selected file access |
-| `SwiftQiskitAppTests` | Unit Test Bundle | Swift `Testing` framework; 37 tests across 4 files |
+| `SwiftQiskitAppTests` | Unit Test Bundle | Swift `Testing` framework; 38 tests across 4 files |
 
 ## File map (`SwiftQiskitApp/`)
 
@@ -125,7 +125,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 
 ## Testing
 
-- `SwiftQiskitAppTests/CircuitBuilderTests.swift` (24 tests) — Bell-state replay via
+- `SwiftQiskitAppTests/CircuitBuilderTests.swift` (25 tests) — Bell-state replay via
   `buildCircuit()`, occupied/out-of-range placement rejection, qubit-count clamping and
   gate-dropping on shrink, `updateTheta`, `clear`, `measure(shots:)` populating `lastResult`,
   a qubit-count shrink discarding a prior measurement, and RZZ/RXX/RYY replay on non-adjacent
@@ -142,7 +142,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   geometry: pole projection direction, near- vs far-hemisphere perspective scale, the
   silhouette-scale formula.
 - Swift **`Testing`** framework (`import Testing`, `@Test`, `#expect`), not XCTest.
-- Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 37 tests are in its
+- Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 38 tests are in its
   test plan (no scheme-switching gotcha, unlike the package).
 
 ## Writing style

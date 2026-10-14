@@ -6,7 +6,7 @@ Project status and roadmap for SwiftQiskitApp.
 
 **SwiftQiskitApp is v1: a working circuit builder, front-end only.**
 
-- All quantum simulation is delegated to the `SwiftQiskit` package (currently v0.2,
+- All quantum simulation is delegated to the `SwiftQiskit` package (currently v0.5,
   experimental — its API may change under this app).
 - The UI supports placing/removing gates, live state-vector display, and shot-based
   measurement with a histogram.
@@ -30,7 +30,7 @@ Project status and roadmap for SwiftQiskitApp.
 - Bloch-sphere display (`BlochDisplayView`, opened via a **Display** button): a 2D grid of
   every qubit's final-state sphere, a column-by-column row for one chosen qubit, or a rotatable
   3D view (`Bloch3DSphereView`, orbited by dragging).
-- 37 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
+- 38 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
   `Bloch3DProjectionTests`) covering the model, geometry, and Bloch-vector math.
 
 ## Roadmap
@@ -65,8 +65,12 @@ Project status and roadmap for SwiftQiskitApp.
 - [ ] iPad-specific layout polish (currently shares the macOS 3-pane layout as-is).
 - [ ] UI tests via XCUIAutomation (current tests only cover the model/geometry, not views).
 - [ ] VoiceOver and Dynamic Type accessibility audit.
-- [ ] Performance check at high qubit counts (8 qubits → 256×256 matrices per gate; the
-      package's Core is not performance-optimized — see its own roadmap).
+- [x] Performance check at high qubit counts — since package `0.5.0`, gates apply in place to
+      the amplitudes rather than as 2ⁿ×2ⁿ matrices. `CircuitBuilderTests` has a timing guard
+      for an 8-qubit, 20-column circuit, including the Steps display's per-column replays.
+- [ ] Steps display replays a prefix circuit per column (cost grows with the square of the
+      column count). Fixing it needs a package API that returns intermediate states in one
+      pass; `QuantumCircuit`'s operation list is internal. Not needed at 8 qubits.
 - [x] De-duplicate against `SwiftQiskitGUI` — resolved by removing that target from the
       `SwiftQiskit` package rather than extracting a shared module: it had drifted behind this
       app (no Bloch-sphere Display button, an older `CircuitModel`, no measurement-model
@@ -76,10 +80,7 @@ Project status and roadmap for SwiftQiskitApp.
 ## Known limitations
 
 - No undo on `Clear` or on a qubit-count shrink that drops gates.
-- The state vector is recomputed on every render rather than cached/invalidated — fine at
-  current scale, worth revisiting if it becomes a performance issue at high qubit counts.
-- `measure(shots:)` replays the full circuit per shot in the package's simulator; very high
-  shot counts at high qubit counts may be slow (see the package's own notes on this in
-  `PlaygroundDocs/12SHORHELP.md`).
+- The state vector is recomputed on every render rather than cached or invalidated. This is
+  deliberate: with the in-place kernels in package `0.5.0` it costs microseconds at the
+  8-qubit cap. Revisit only if `maxQubits` grows well beyond 8.
 - Name and persistently store circuits.
-- 
