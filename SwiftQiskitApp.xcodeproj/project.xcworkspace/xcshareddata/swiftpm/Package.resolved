@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftProjectOrganization/SwiftQiskit.git",
       "state" : {
-        "revision" : "3b09ac998018e6632302ccf75ca75b5c968b0c27",
-        "version" : "0.7.0"
+        "revision" : "d68068e0a2cd4ff73ca2b28e6be8c972c3df8de3",
+        "version" : "0.7.2"
       }
     }
   ],
