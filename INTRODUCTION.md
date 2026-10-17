@@ -1,8 +1,8 @@
 # An Introduction to Quantum Computing, with SwiftQiskitApp
 
 A book-length walkthrough of quantum computing, taught through this app, its underlying
-simulator ([SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)), the playgrounds in SwiftQiskit and standalone applications, possibly
-) generated from playground templates, e.g. [SwiftQiskitWalkDemo](https://github.com/SwiftProjectOrganization/SwiftQiskit).
+simulator ([SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)), the playgrounds in SwiftQiskit and [SwiftQiskitPlaygounds](https://github.com/SwiftProjectOrganization/SwiftQiskit) and standalone applications, possibly
+generated from playground templates, e.g. [SwiftQiskitWalkDemo](https://github.com/SwiftProjectOrganization/SwiftQiskitWalkDemo).
 
 It teaches the math, how to confirm the math using the simulator and finally Swift.
 Every claim in every chapter is something you can run yourself and see for real, either by
@@ -20,7 +20,7 @@ modeling can be used to describe quantum computing — wanting to understand qub
 entanglement and a handful of famous algorithms (Deutsch, Grover, Shor, teleportation, VQE,
 …) by building and running small circuits rather than by reading equations alone.
 
-## Three ways to run everything
+## Four ways to run everything
 
 Every chapter shows its examples in whichever of these ways apply, and says so with an **app badge**
 (below):
@@ -28,13 +28,18 @@ Every chapter shows its examples in whichever of these ways apply, and says so w
 1. **The app (`SwiftQiskitApp`)** — tap gates onto the circuit grid, watch the state vector and
    Bloch spheres update live. Good for anything the gate palette can express: see
    [Docs/Tutorial.md](Docs/Tutorial.md) for the controls.
-2. **A playground page** — open `../SwiftQiskit/Playgrounds.playground` in Xcode, pick the page
+2. **A playground page** — open any of the playgrounds included in [SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit) in Xcode, pick the page
    named in the chapter's table, and run it. This is where the chapters' code originates; the
    playground's own `PlaygroundDocs/NN…HELP.md` guide is the answer key.
-3. **Plain code** — `import SwiftQiskit` and write a few lines directly (in a Swift file, a
-   playground, or via the `RunCodeSnippet` tool). This is the only option for anything beyond the
-   app's fixed gate set — custom matrices via `apply(_:)`, mid-circuit measurement, density
-   matrices — and every such chapter says so explicitly.
+3. **The SwiftQiskitPlaygrounds project** — open
+   `../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.xcodeproj` (or clone
+   [SwiftQiskitPlaygrounds](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds)),
+   build the `PlaygroundDeps` scheme on My Mac, then run a page. It uses `SwiftQiskit` as a
+   remote package, like the app, so it needs no `SwiftQiskit` checkout. It currently contains three
+   example pages (`01Qubits`, `02StateVectorCPU`, `03ApplyingGates`); it is intended as a starting 
+point for new users to experiment with the  SwiftQiskit library and Swift.
+4. **Plain code** — `import SwiftQiskit` and write a few lines directly (in a Swift file or an app). This is good option for anything beyond the
+   as an example.app's fixed gate set. See [SwiftQiskitWalkDemo](https://github.com/SwiftProjectOrganization/SwiftQiskit) to see an example. 
 
 ## Conventions
 

@@ -72,6 +72,23 @@ can't express, such as a custom matrix or mid-circuit measurement — is plain S
 write a few lines directly. This chapter's own "Run it in code" section below is the smallest
 possible example of that.
 
+## 1.5 The SwiftQiskitPlaygrounds project
+
+The fourth way is `../SwiftQiskitPlaygrounds`
+([GitHub](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds)), a separate
+project that holds playground pages for `SwiftQiskit`. To use it:
+
+1. Open `SwiftQiskitPlaygrounds.xcodeproj`.
+2. Select the `PlaygroundDeps` scheme (My Mac) and build. It links `SwiftQiskit` and
+   `SwiftQiskitViews`, which the pages import.
+3. Open a page under `SwiftQiskitPlaygrounds.playground/Pages/` and run it.
+
+It currently has three pages: `01Qubits`, `02StateVectorCPU` and `03ApplyingGates`. Unlike the
+playground in §1.3, which lives inside the `SwiftQiskit` repo and builds against its source
+under the `SwiftQiskit` scheme, this project uses `SwiftQiskit` as a remote package (from
+0.7.2), the same way the app does, so it needs no sibling checkout. `01Qubits` still links to
+the `PlaygroundDocs/` guides in the `SwiftQiskit` repo.
+
 ## Build it in the app
 
 ● Full. This is the "does everything work" smoke test before Chapter 3 begins teaching amplitudes
