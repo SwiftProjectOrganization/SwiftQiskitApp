@@ -6,9 +6,9 @@
 
 | | |
 |---|---|
-| Playground page | [`40ComplexAndMatrices`](../../../SwiftQiskit/Playgrounds.playground/Pages/40ComplexAndMatrices.xcplaygroundpage/Contents.swift) (see also [`09Tensor`](../../../SwiftQiskit/PlaygroundDocs/09TENSORHELP.md) for `⊗` in depth) |
+| Playground page | [`40ComplexAndMatrices`](../../../SwiftQiskit/Playgrounds.playground/Pages/40ComplexAndMatrices.xcplaygroundpage/Contents.swift), with its [help guide](../../../SwiftQiskit/PlaygroundDocs/40COMPLEXANDMATRICESHELP.md) (see also [`09Tensor`](../../../SwiftQiskit/PlaygroundDocs/09TENSORHELP.md) for `⊗` in depth) |
 | In the app | ○ — the app has no matrix-entry UI; only the results of gates applied to it are visible |
-| Library APIs | `Math/Complex.swift`, `Math/Matrix.swift` (`+ - * /`, `multiply(by:)`, `identity(size:)`, `tensor(_:)`/`⊗`), `Quantum/Dirac.swift` (`.adjoint`, postfix `†`) |
+| Library APIs | `Math/Complex.swift`, `Math/Matrix.swift` (`+ - * /`, `multiply(by:)`, `identity(size:)`, `tensor(_:)`/`⊗`), `Quantum/Dirac.swift` (`.adjoint`, postfix `†`), `Utils/Angles.swift` (`rad2deg`, `deg2rad`; package 0.7.3 or later) |
 | Prerequisites | Chapter 1 |
 
 ## 2.1 Why these mathematical tools
@@ -113,17 +113,21 @@ same magnitude but different phases — same "size," different direction.
 To get a pure phase `e^{iθ}`, you write it out with Euler's formula:
 
 ```swift
-let theta = 0.7
+let theta = Double.pi / 3
+print("rad2deg(theta) = \(rad2deg(theta))")
 let phase = Complex(cos(theta), sin(theta))
 print(phase, phase.magnitude)
 print(PhaseGate.matrix(theta: theta)[1, 1])
 ```
 
 ```text
-0.7648421872844885 + 0.644217687237691i
-1.0
-0.7648421872844885 + 0.644217687237691i
+rad2deg(theta) = 59.99999999999999
+0.5000000000000001 + 0.8660254037844386i 1.0
+0.5000000000000001 + 0.8660254037844386i
 ```
+
+`rad2deg` (and its inverse `deg2rad`) converts between the radians the trigonometric functions
+use and degrees: `π/3` is 60° (up to rounding), so the phase is `≈ 0.5 + 0.866i`.
 
 The hand-built value matches the library's own `PhaseGate.matrix(theta:)` at row 1, column 1,
 bit for bit — that's not a coincidence, it's literally how `Phase.swift` builds the gate, and how
@@ -354,6 +358,15 @@ print(maxDiff(H.adjoint * H, I2))
 Well under `1e-10`, the tolerance this book uses from here on whenever two matrices need to be
 compared "close enough."
 
+**Hermitian matrices** are the unitaries' close cousins. A square matrix `A` is Hermitian when it
+equals its own conjugate transpose, `A† = A`. Their eigenvalues are always real, which makes them
+the natural representation of measurable quantities (observables) such as energy, spin, and
+momentum — a measurement outcome has to be a real number. Gates are unitary (`U†U = I`); the two
+classes are linked through the same conjugate transpose, and every unitary can be written
+`U = e^{-iθA}` for some Hermitian `A` (Chapter 24 builds gates this way). `X`, `Y`, `Z`, and `H`
+are both Hermitian and unitary, so each is its own inverse; `S` and `T` are unitary but not
+Hermitian.
+
 ## 2.10 The tensor product `⊗`
 
 The article this chapter follows holds tensor products for its next installment, and this book
@@ -365,13 +378,26 @@ matrix multiplication, `⊗` places no constraint on shapes — an `m×n` matrix
 `p×q` matrix always gives an `mp×nq` result:
 
 ```swift
-let a23 = Matrix([[Complex(1), Complex(2), Complex(3)], [Complex(4), Complex(5), Complex(6)]])
-print(a23.tensor(I2).rows, a23.tensor(I2).cols)
+let mat1 = Matrix([[Complex(1), Complex(2)], [Complex(3), Complex(4)]])
+print(mat1 ⊗ H)
+```
+
+
+```text
+[0.7071067811865475, 0.7071067811865475, 1.414213562373095, 1.414213562373095]
+[0.7071067811865475, -0.7071067811865475, 1.414213562373095, -1.414213562373095]
+[2.1213203435596424, 2.1213203435596424, 2.82842712474619, 2.82842712474619]
+[2.1213203435596424, -2.1213203435596424, 2.82842712474619, -2.82842712474619]
+```
+
+A 2×2 matrix tensored with `H` gives a 4×4: the top-left block is `1 · H` and the bottom-right
+block is `-1 · H:`
+
+```swift
 print(H.tensor(I2))
 ```
 
 ```text
-4 6
 [0.7071067811865475, 0.0, 0.7071067811865475, 0.0]
 [0.0, 0.7071067811865475, 0.0, 0.7071067811865475]
 [0.7071067811865475, 0.0, -0.7071067811865475, -0.0]
