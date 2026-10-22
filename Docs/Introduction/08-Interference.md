@@ -208,8 +208,10 @@ unknown state's phase, but three well-chosen ones together do.
 Interference is not just a curiosity about single qubits — it is the mechanism every quantum
 speedup in this book runs on. A minimal two-qubit teaser, using `CZ` (not in the palette,
 decomposed as `H` on the target, `CX`, `H` on the target — Chapter 7's ◐-style decomposition):
-uniform superposition, then `CZ` phase-marks `|11⟩` alone. That mark is completely invisible to
-measurement on its own — every outcome is still equally likely:
+uniform superposition, then `CZ` phase-marks `|11⟩` alone. In this role the `CZ` is an *oracle* — the
+name later chapters use for a gate that encodes the answer to a question as a phase, without
+revealing it directly; Chapter 13 §13.1 defines the term properly. That mark is completely
+invisible to measurement on its own — every outcome is still equally likely:
 
 ```text
 oracle only probabilities: [0.25, 0.25, 0.25, 0.25]

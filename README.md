@@ -1,5 +1,8 @@
 # SwiftQiskitApp
 
+SwiftQiskitApp contains a large set of introductory documents (see INTRODUCTION.md) which
+are illustrated in an IOS/iPadOS/MacOS App and in a set of Xcode playgrounds:
+
 **SwiftQiskitApp** is a SwiftUI app for building quantum circuits by tapping gates onto a
 grid (circuit)  instead of writing code.
 
@@ -7,8 +10,9 @@ Place gates, watch the state vector update live, then measure
 with as many shots as you like and see a histogram of the outcomes. Display the Bloch sphere(s)
  (final and after each step) and a tensor network representation.
 
- It is intended as a "get familiar" tool for playing around with
-quantum circuits. SwiftQiskit playgrounds allow you to go a few steps further, but soon e.g. Julia's Yao (see reference 5), or Qiskit, Cirq or PennyLane (see references 7 to 9), will be a better option.
+ It is intended as a "get familiar" tool for playing around with quantum circuits. 
+
+**SwiftQiskitPlaygrounds** allow you to go a further, but at some point you might want to switch to e.g. Julia's Yao (see reference 5), or Qiskit, Cirq or PennyLane (see references 7 to 9), and potentially run the code on a quantum computer (see 00-Introduction).
 
 > This app is a thin front end. All quantum simulation — state vectors, gates, measurement —
 > is implemented by the [SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)

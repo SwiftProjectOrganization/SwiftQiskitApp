@@ -16,8 +16,16 @@
 You are handed a black-box function f: {0,1} → {0,1} and asked only one thing about it: is it
 **constant** (f(0) = f(1)) or **balanced** (f(0) ≠ f(1))? Classically there is no way around
 evaluating f twice — knowing f(0) alone says nothing about f(1). Deutsch's algorithm (David
-Deutsch, 1985) answers with a single query to a quantum oracle. It was the first demonstration
-that a quantum computer could do something a classical one provably could not do as cheaply, and
+Deutsch, 1985) answers with a single query to a quantum oracle. An *oracle* is the quantum form of
+the black box: a gate `U_f` that evaluates f inside a circuit, which the algorithm may apply but
+not look inside. Because every quantum gate must be reversible, the oracle cannot simply replace x
+with f(x) — for a constant f, two different inputs would map to the same output and the step could
+not be undone. Instead it keeps x unchanged and XORs f(x) into a second qubit (§13.2 gives the
+exact form). A qubit like that, added to hold intermediate or helper values rather than the input
+or the final answer, is called an *ancilla*. Here the ancilla is qubit 1; the answer is read from
+qubit 0.
+
+It was the first demonstration that a quantum computer could do something a classical one provably could not do as cheaply, and
 its 1-bit shape is the direct ancestor of Deutsch–Jozsa and Bernstein–Vazirani (Chapter 14) and,
 further out, the query structure Grover (Chapter 15) and Shor (Chapter 17) both build on. One
 historical detail worth being precise about: Deutsch's 1985 circuit was only *conclusive* half the

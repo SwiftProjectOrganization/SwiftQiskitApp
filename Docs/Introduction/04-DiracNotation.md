@@ -49,12 +49,18 @@ every multiplication.
 ```swift
 let plus = Ket.plus
 print(plus)
-print(plus†)
 ```
 
 ```text
 |0⟩: 0.7071067811865475
 |1⟩: 0.7071067811865475
+```
+
+```swift
+print(plus†)
+```
+
+```text
 ⟨0|: 0.7071067811865475
 ⟨1|: 0.7071067811865475
 ```
@@ -84,6 +90,7 @@ exact equality rather than an approximate one.
 `†` is the Unicode dagger, U+2020 (⌥T on a US keyboard layout). If you can't type it, every use
 in this chapter has an ASCII equivalent: `Bra(ket)` for `ket†`, `bra.ket` for `bra†`, and
 `matrix.adjoint` for `matrix†`.
+
 
 ## 4.3 Inner and outer products
 
