@@ -1,18 +1,20 @@
 # SwiftQiskitApp
 
 SwiftQiskitApp contains a large set of introductory documents (see INTRODUCTION.md) which
-are illustrated in an IOS/iPadOS/MacOS App and in a set of Xcode playgrounds:
+are illustrated in an iOS/iPadOS/macOS App and in a set of Xcode playgrounds:
 
 **SwiftQiskitApp** is a SwiftUI app for building quantum circuits by tapping gates onto a
-grid (circuit)  instead of writing code.
+grid (circuit) instead of writing code.
 
 Place gates, watch the state vector update live, then measure
 with as many shots as you like and see a histogram of the outcomes. Display the Bloch sphere(s)
- (final and after each step) and a tensor network representation.
+(final and after each step) and a tensor network representation.
 
- It is intended as a "get familiar" tool for playing around with quantum circuits. 
+It is intended as a "get familiar" tool for playing around with quantum circuits.
 
-**SwiftQiskitPlaygrounds** allow you to go a further, but at some point you might want to switch to e.g. Julia's Yao (see reference 5), or Qiskit, Cirq or PennyLane (see references 7 to 9), and potentially run the code on a quantum computer (see 00-Introduction).
+[**SwiftQiskitPlaygrounds**](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds) lets you go further by writing Swift code.
+
+At some point you might want to switch to e.g. Julia's Yao (see reference 5), or Qiskit, Cirq or PennyLane (see references 7 to 9), and potentially run the code on a quantum computer (see [Chapter 0](Docs/Introduction/00-Introduction.md)).
 
 > This app is a thin front end. All quantum simulation — state vectors, gates, measurement —
 > is implemented by the [SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)
@@ -45,8 +47,9 @@ Bell state.
 - **Gate palette** — Hadamard/Pauli (`H X Y Z`), phase (`S S† T T†`), rotations
   (`P RX RY RZ`, each with a θ parameter), the two-qubit `CX` (CNOT), `CY`, `CZ` and `SWAP`, and the
   two-qubit rotations `RZZ RXX RYY` (each with a θ parameter).
-- **Tap-to-place** — arm a gate in the palette, then tap a wire to place it. Multi qubit gates need multiple taps in the same column: `CX` and `CY` distinguish control from target, while
-  `CZ`, `SWAP` and `RZZ`/`RXX`/`RYY` treat the two taps the same way.
+- **Tap-to-place** — arm a gate in the palette, then tap a wire to place it. Multi-qubit gates need multiple taps in the same column: `CX` and `CY` distinguish control from target, while
+  `CZ`, `SWAP` and `RZZ`/`RXX`/`RYY` treat the two taps the same way. The popover on a control dot adds or
+  removes extra controls (multi-controlled `CX`, `CY` and `CZ`).
 - **Live state vector** — recomputed on every change, no explicit "run" step.
 - **Measure** — choose a shot count (1–10,000) and see a bar-chart histogram of the results.
 - **1–8 qubits**, adjustable with a stepper; shrinking the count drops gates that no longer fit.
@@ -75,6 +78,7 @@ SwiftQiskitApp/
 │   ├── GatePaletteView.swift
 │   ├── ParameterPopover.swift
 │   ├── ResultsView.swift
+│   ├── MeasurementView.swift
 │   ├── HistogramView.swift
 │   ├── BlochSphereView.swift
 │   ├── Bloch3DSphereView.swift
@@ -89,9 +93,14 @@ SwiftQiskitApp/
 │   ├── BlochVectorTests.swift
 │   └── Bloch3DProjectionTests.swift
 ├── Docs/
+│   ├── Introduction/
 │   ├── Tutorial.md
 │   ├── Help.md
-│   └── Todo.md
+│   ├── Todo.md
+│   ├── TemplatesPlan.md
+│   └── SwiftQiskit as an external SPM.md
+├── Templates/
+├── INTRODUCTION.md
 ├── README.md
 └── CLAUDE.md
 ```
@@ -114,6 +123,9 @@ using the Swift `Testing` framework (not XCTest).
 - [Docs/Tutorial.md](Docs/Tutorial.md) — how to use the app, step by step.
 - [Docs/Help.md](Docs/Help.md) — implementation reference, extension guide, troubleshooting.
 - [Docs/Todo.md](Docs/Todo.md) — status and roadmap.
+- [Docs/TemplatesPlan.md](Docs/TemplatesPlan.md) — design of the Xcode project template.
+- [Docs/SwiftQiskit as an external SPM.md](<Docs/SwiftQiskit as an external SPM.md>) — record of moving
+  from a local package path to a version-tagged remote dependency.
 - [Templates/README.md](Templates/README.md) — an Xcode project template for starting a new
   quantum-algorithm demo app, prefilled with a worked example.
 - [CLAUDE.md](CLAUDE.md) — guidance for Claude Code working in this repo.
@@ -121,9 +133,7 @@ using the Swift `Testing` framework (not XCTest).
 For everything about the simulator itself — the gate set, Dirac notation, tensor products,
 and the playground pages that teach quantum computing algorithm by algorithm — see the
 [SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit) package (a sibling
-checkout is convenient for browsing these but not required to build this app):
-
-- [SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)
+checkout is convenient for browsing these but not required to build this app).
 
 ## Status
 
