@@ -53,13 +53,14 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 | `CircuitModel.swift` | `GateKind`, `PlacedGate`, `CircuitBuilder` — the model, no SwiftUI import |
 | `CircuitLayout.swift` | Pure geometry — turns `(column, qubit)` into points shared by the wire layer and the interactive gate layer |
 | `CircuitWiresView.swift` | Background `Canvas` layer: one horizontal wire per qubit, plus a vertical connector for any two-qubit gate |
-| `CircuitBuilderView.swift` | Regular-width (macOS/iPad) 3-pane layout: palette, grid, results |
-| `CompactBuilderView.swift` | iPhone-compact layout (`#if os(iOS)`): full-bleed grid + horizontal gate strip, results in a sheet |
+| `CircuitBuilderView.swift` | Regular-width (macOS/iPad) layout: palette, grid, and a results/measurement pane that hides below 672 pt; floating Liquid Glass bottom bar with the Qubits stepper and Clear/Results/Measure/Display |
+| `CompactBuilderView.swift` | iPhone-compact layout (`#if os(iOS)`): full-bleed grid + horizontal gate strip; Qubits stepper top-left, Clear/Results/Measure/Display top-right, each panel in a sheet |
 | `GatePaletteView.swift` | Gate buttons, grouped by category; arms a `GateKind`; `.sidebar` or `.strip` layout |
 | `CircuitGridView.swift` | The qubit-wire grid; tap-to-place and the CX two-tap state machine |
 | `GateTileView.swift` | `GateTileView` (a placed single-qubit tile, either qubit of a symmetric two-qubit rotation, a CX or CY control, CY's target as a boxed Y, or any qubit of a CZ), `CXTargetView` (CX's target only), `SwapMarkView` (SWAP's ×), `EmptyCellView` |
 | `ParameterPopover.swift` | θ slider for `.p/.rx/.ry/.rz/.rzz/.rxx/.ryy` tiles; `ControlsPopover` stepper for a CX's control count |
-| `ResultsView.swift` | Live state vector + shots/Measure/histogram |
+| `ResultsView.swift` | Live state vector only |
+| `MeasurementView.swift` | Shots stepper, Measure button and histogram; reads `builder.shots`/`lastResult` |
 | `HistogramView.swift` | Bar chart of `SimulationResult` counts |
 | `BlochSphereView.swift` | 2D oblique-projection `Canvas` drawing of one `BlochVector` (from `SwiftQiskitViews`) |
 | `Bloch3DSphereView.swift` | Rotatable, perspective-projected 3D `Canvas` drawing of one `BlochVector`; drag to orbit the camera |
@@ -85,6 +86,10 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   `wireXRange(columns:)`, `canvasSize(columns:qubits:)`) shared by `CircuitWiresView` (drawn
   first, behind everything) and `CircuitGridView` (interactive cells on top) — so the two
   layers can't drift apart.
+- **Results vs. Measurement:** `ResultsView` shows only the state vector; `MeasurementView`
+  owns shots, **Measure** and the histogram. On wide windows both are stacked in the right-hand
+  pane; below the width threshold they open as sheets. **Measure** calls `builder.measure()` and
+  then presents the Measurement sheet.
 - **"Display" button** (`CircuitBuilderView`/`CompactBuilderView`) opens `BlochDisplayView` in
   a sheet, mirroring how Results is presented. `BlochVector(_ state:, qubit:)` — imported from
   the package's `SwiftQiskitViews` product — produces a reduced Bloch vector by summing over

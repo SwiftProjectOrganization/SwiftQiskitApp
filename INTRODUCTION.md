@@ -1,7 +1,7 @@
 # An Introduction to Quantum Computing, with SwiftQiskitApp
 
 A book-length walkthrough of quantum computing, taught through this app, its underlying
-simulator ([SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)), the playgrounds in SwiftQiskit and [SwiftQiskitPlaygounds](https://github.com/SwiftProjectOrganization/SwiftQiskit) and standalone applications, possibly
+simulator ([SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)), the playgrounds in SwiftQiskit and [SwiftQiskitPlaygrounds](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds) and standalone applications, possibly
 generated from playground templates, e.g. [SwiftQiskitWalkDemo](https://github.com/SwiftProjectOrganization/SwiftQiskitWalkDemo).
 
 It teaches the math, how to confirm the math using the simulator and finally Swift.
@@ -36,10 +36,12 @@ Every chapter shows its examples in whichever of these ways apply, and says so w
    [SwiftQiskitPlaygrounds](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds)),
    build the `PlaygroundDeps` scheme on My Mac, then run a page. It uses `SwiftQiskit` as a
    remote package, like the app, so it needs no `SwiftQiskit` checkout. It currently contains three
-   example pages (`01Qubits`, `02StateVectorCPU`, `03ApplyingGates`); it is intended as a starting 
-point for new users to experiment with the  SwiftQiskit library and Swift.
-4. **Plain code** — `import SwiftQiskit` and write a few lines directly (in a Swift file or an app). This is good option for anything beyond the
-   as an example.app's fixed gate set. See [SwiftQiskitWalkDemo](https://github.com/SwiftProjectOrganization/SwiftQiskit) to see an example. 
+   example pages (`01Qubits`, `02StateVectorCPU`, `03ApplyingGates`); it is intended as a starting
+   point for new users to experiment with the SwiftQiskit library and Swift.
+4. **Plain code** — `import SwiftQiskit` and write a few lines directly (in a Swift file or an
+   app). This is a good option for anything beyond the app's fixed gate set. See
+   [SwiftQiskitWalkDemo](https://github.com/SwiftProjectOrganization/SwiftQiskitWalkDemo) for an
+   example.
 
 ## Conventions
 
@@ -109,6 +111,6 @@ per-chapter workflow).
 - [README.md](README.md), [Docs/Tutorial.md](Docs/Tutorial.md), [Docs/Help.md](Docs/Help.md) —
   the app itself, not the physics.
 - [../SwiftQiskit/README.md](../SwiftQiskit/README.md) and its `PlaygroundDocs/` — the simulator
-  and the original 23 playground pages this introduction is built from.
+  and the playground pages this introduction is built from.
 - [Docs/Introduction/AUTHORING.md](Docs/Introduction/AUTHORING.md) — chapter template, style
   rules, and verification workflow for anyone (human or Claude) writing the next chapter.

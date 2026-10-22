@@ -6,7 +6,7 @@ Project status and roadmap for SwiftQiskitApp.
 
 **SwiftQiskitApp is v1: a working circuit builder, front-end only.**
 
-- All quantum simulation is delegated to the `SwiftQiskit` package (currently v0.5,
+- All quantum simulation is delegated to the `SwiftQiskit` package (currently 0.8.0,
   experimental — its API may change under this app).
 - The UI supports placing/removing gates, live state-vector display, and shot-based
   measurement with a histogram.
@@ -21,22 +21,28 @@ Project status and roadmap for SwiftQiskitApp.
   two-tap flow on an unordered qubit pair.
 - Multi-controlled CX, CY and CZ: tapping a placed CX, CY or CZ opens a "Controls: n" stepper popover; **+** adds
   a control on any free qubit in the column, **−** removes the newest. Two controls is the
-  Toffoli (CCX), more replay through the package's `mcx`. Delete is in the context menu.
+  Toffoli (CCX), more replay through the package's `mcx` (`mcy`/`mcz` for CY/CZ). Delete is in
+  the context menu.
 - θ editor popover for parameterized gates (0–2π slider).
 - Qubit count 1–8, adjustable via stepper; shrinking drops out-of-range gates.
 - Live state vector (amplitudes + probabilities), recomputed on every change.
-- Shot-based `measure(shots:)` with a bar-chart histogram.
-- Two layouts: 3-pane regular (macOS/iPad) and compact full-bleed (iPhone).
+- Shot-based `measure(shots:)` with a bar-chart histogram. The state vector (`ResultsView`) and
+  the measurement (`MeasurementView`) are separate: stacked in a right-hand pane on wide
+  windows, sheets otherwise.
+- Two layouts: regular (macOS/iPad; palette, grid, results pane, floating bottom bar with the
+  Qubits stepper and Clear/Results/Measure/Display) and compact full-bleed (iPhone; same
+  controls in the toolbar).
 - Bloch-sphere display (`BlochDisplayView`, opened via a **Display** button): a 2D grid of
-  every qubit's final-state sphere, a column-by-column row for one chosen qubit, or a rotatable
+  every qubit's final-state sphere, a column-by-column row for one chosen qubit, a
+  tensor-network diagram of the circuit (`TensorNetworkView` from the package), or a rotatable
   3D view (`Bloch3DSphereView`, orbited by dragging).
-- 38 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
+- 41 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
   `Bloch3DProjectionTests`) covering the model, geometry, and Bloch-vector math.
 
 ## Roadmap
 
-- [ ] `INTRODUCTION.md` — 27-chapter introduction to quantum computing; chapters are scaffolded
-      as stubs in `Docs/Introduction/`, with progress tracked in the Status column of
+- [ ] `INTRODUCTION.md` — 27-chapter introduction to quantum computing; every chapter exists
+      as a draft in `Docs/Introduction/` and most need substantial updates, with progress tracked in the Status column of
       `INTRODUCTION.md`'s chapter table, not duplicated here.
 - [ ] Persistence — save/load a built circuit between launches.
 - [ ] Export — as Swift source (`circuit.h(0); circuit.cx(0,1)`, etc.), JSON, or an image of
@@ -85,4 +91,4 @@ Project status and roadmap for SwiftQiskitApp.
 - The state vector is recomputed on every render rather than cached or invalidated. This is
   deliberate: with the in-place kernels in package `0.5.0` it costs microseconds at the
   8-qubit cap. Revisit only if `maxQubits` grows well beyond 8.
-- Name and persistently store circuits.
+- Circuits cannot be named or stored between launches (see the Persistence roadmap item).

@@ -16,16 +16,21 @@ architecture, extension points, and troubleshooting, see the companion
 | Panel | What it's for |
 |---|---|
 | **Gates** (left) | Tap a gate button to *arm* it (it highlights). |
-| **Circuit** (center) | A grid, one wire per qubit, drawn as a real horizontal line. Tap an empty cell to place the armed gate there. Has the qubit-count stepper and a **Clear** button. |
-| **State Vector** (right) | Live amplitudes/probabilities for the circuit as currently built, plus a **Measure** button and shot-count histogram. |
+| **Circuit** (center) | A grid, one wire per qubit, drawn as a real horizontal line. Tap an empty cell to place the armed gate there. |
+| **State Vector and Measurement** (right) | Live amplitudes/probabilities for the circuit as currently built, with a **Measurement** section below it: a **Shots** stepper, a **Measure** button and the resulting histogram. |
 
-A **Display** button next to **Clear** opens a sheet with a Bloch-sphere view of the
-circuit — see "Viewing Bloch spheres" below.
+A floating bar at the bottom of the window holds the **Qubits** stepper and four buttons:
+**Clear**, **Results**, **Measure** and **Display**. **Display** opens a sheet with a
+Bloch-sphere view of the circuit — see "Viewing Bloch spheres" below.
+
+When the window is narrow (a narrowed Mac window, Split View), the right-hand pane is hidden.
+**Results** then opens the state vector in a sheet, and **Measure** takes a measurement and
+opens the Measurement sheet.
 
 On iPhone (compact layout) the same controls are rearranged: the circuit grid fills the
-screen with the gate strip pinned below it; **Qubits** is a menu in the top-left toolbar item,
-**Clear** is top-right, and **Results** / **Display** open their respective panels in a sheet
-via bottom-bar buttons.
+screen with the gate strip pinned below it; the **Qubits** stepper is in the top-left toolbar,
+and **Clear**, **Results**, **Measure** and **Display** are grouped at the top right. Results,
+Measurement and Display each open in a sheet.
 
 Full control-by-control reference is in [Help.md](Help.md).
 
@@ -50,9 +55,11 @@ This builds the classic `h(0); cx(0, 1)` circuit by tapping instead of writing c
    The State Vector panel now shows only two states: `|00⟩` and `|11⟩`, each with
    probability ≈ 0.500 — the Bell state.
 
-4. **Measure it.** Set the **Shots** stepper to whatever you like (default 1000) and tap
-   **Measure**. A bar chart appears below, with counts split roughly evenly between `00`
-   and `11` and (statistically) nothing elsewhere.
+4. **Measure it.** Set the **Shots** stepper in the Measurement section to whatever you like
+   (default 1000) and tap **Measure**. A bar chart appears, with counts split roughly evenly
+   between `00` and `11` and (statistically) nothing elsewhere. If the right-hand pane is
+   hidden, tap **Measure** in the bottom bar instead; the histogram opens in a sheet, where
+   the Shots stepper is also available.
 
 Re-tapping **Measure** re-samples — expect the split to jitter around 50/50, not land on it
 exactly; `measure(shots:)` is probabilistic.
@@ -89,7 +96,10 @@ center after the `CX`.
   iOS, right-click/⌃-click on macOS) and choose **Delete**. For a CX gate, open the context
   menu on either the control dot or the target ⊕; **Delete** removes the whole gate. Tapping
   a CX opens its controls popover instead (see "A Toffoli gate" below).
-- **Growing the circuit.** Use the **Qubits** stepper (1–8) to add rows. Shrinking it drops
+- **A SWAP.** Arm **SWAP** (under "Multi-qubit") and tap two different qubits in the same
+  column. Both ends are drawn as ×, joined by a vertical line. The two qubits play the same
+  role, so the tap order does not matter. Delete works from either end.
+- **Growing the circuit.** Use the **Qubits** stepper (1–8) in the bottom bar to add rows. Shrinking it drops
   any placed gates that no longer fit — there's no undo, so note the recipe before shrinking
   if you want to keep it.
 - **Clear.** The **Clear** button removes every placed gate but keeps the current qubit count.
@@ -125,7 +135,9 @@ qubits no longer exists, the whole gate is dropped.
 
 ## Learn more about the underlying quantum mechanics
 
-This app only exercises the package's circuit API (`h/x/y/z/s/sdg/t/tdg/p/rx/ry/rz/cx`). For
+This app only exercises part of the package's circuit API
+(`h/x/y/z/s/sdg/t/tdg/p/rx/ry/rz/cx/cy/cz/swap/rzz/rxx/ryy`, plus `mcx/mcy/mcz` for extra
+controls). For
 a deeper look at what these gates actually do:
 
 - [../SwiftQiskit/PlaygroundDocs/05GATESHELP.md](../SwiftQiskit/PlaygroundDocs/05GATESHELP.md)
