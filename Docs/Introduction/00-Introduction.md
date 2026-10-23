@@ -8,8 +8,8 @@
 This book assumes you use Swift and Xcode. It assumes interest in quantum physics and how mathematical
 modeling can be used to describe quantum computing.
 
-Terms are explained before they are used, and the math that quantum computing does need — complex numbers,
-a little linear algebra — is introduced gradually, starting in Chapter 2. The associated macOS, iOS or 
+Terms are explained before they are used, and the math that quantum computing does need — complex numbers and
+some linear algebra — is introduced gradually, starting in Chapter 2. The associated macOS, iOS or 
 iPadOs app, [SwiftQiskitApp](https://github.com/SwiftProjectOrganization/SwiftQiskitApp), is used to illustrate the concepts.
 
 The plan for the book: this chapter and Chapter 1 orient you: what quantum computing is, and

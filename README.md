@@ -1,14 +1,12 @@
 # SwiftQiskitApp
 
 SwiftQiskitApp contains a large set of introductory documents (see INTRODUCTION.md) which
-are illustrated in an iOS/iPadOS/macOS App and in a set of Xcode playgrounds:
+are illustrated in an iOS/iPadOS/macOS based SwiftQiskitApp and in a set of Xcode playgrounds contained
+in SwiftQiskitPlaygrounds.
 
-**SwiftQiskitApp** is a SwiftUI app for building quantum circuits by tapping gates onto a
-grid (circuit) instead of writing code.
+[**SwiftQiskitApp**](https://github.com/SwiftProjectOrganization/SwiftQiskitApp) is a SwiftUI app for building quantum circuits by tapping gates onto a grid (circuit) instead of writing code.
 
-Place gates, watch the state vector update live, then measure
-with as many shots as you like and see a histogram of the outcomes. Display the Bloch sphere(s)
-(final and after each step) and a tensor network representation.
+Place gates, watch the state vector update live, then measure with as many shots as you like and see a histogram of the outcomes. Display the Bloch sphere(s) (final, after each step or in 3D) and a tensor network representation.
 
 It is intended as a "get familiar" tool for playing around with quantum circuits.
 
@@ -119,7 +117,7 @@ using the Swift `Testing` framework (not XCTest).
   chapter by chapter, from qubits and gates through the named algorithms (Deutsch, Grover, the
   QFT, Shor, teleportation, error correction, the CHSH inequality, ...) and on to noise,
   tomography, and VQE.
-- [Docs/Introduction](Docs/Introduction) — contains the actual chapters.
+- [Docs/Introduction/](Docs/Introduction) — contains the 27 actual chapters.
 - [Docs/Tutorial.md](Docs/Tutorial.md) — how to use the app, step by step.
 - [Docs/Help.md](Docs/Help.md) — implementation reference, extension guide, troubleshooting.
 - [Docs/Todo.md](Docs/Todo.md) — status and roadmap.

@@ -18,10 +18,9 @@
   automatically the first time you open or build the project — no sibling checkout, no manual
   setup.
 - **A sibling checkout is worth having anyway.** This book's second way of running examples,
-  §1.3 below, is `SwiftQiskit/Playgrounds.playground`, and its `PlaygroundDocs/*HELP.md` guides
-  are referenced throughout this book. Put a `SwiftQiskit` checkout next to `SwiftQiskitApp` on
-  disk if you want to follow those links locally — the app doesn't need it, but you'll want it
-  for the playground.
+  §1.3 below, is `using the SwiftQiskitPlaygrounds/Playgrounds/`. Put a `SwiftQiskitPlaygorun`
+checkout next to `SwiftQiskitApp` on disk if you want to follow those links locally — the app doesn't
+need it, but you'll want it for the playgrounds.
 
 ## 1.2 A five-minute tour of the app
 
@@ -49,20 +48,8 @@ what they already cover well.
 
 ## 1.3 A five-minute tour of the playground
 
-The second way to run this book's examples is `../SwiftQiskit/Playgrounds.playground`, opened in
-Xcode. Two things to know before you run any page:
-
-- **Make the `SwiftQiskit` scheme active first.** Every page sets `buildActiveScheme`, and won't
-  run under any other scheme.
-- **Start at `00TOC`.** It's a clickable table of contents linking every page, in order, with a
-  one-line description of each.
-
-Pages are named with an `NNName` convention — `01Qubits`, `02Bloch2d`, and so on up to `22Walk` —
-and each page's own guide lives in `../SwiftQiskit/PlaygroundDocs/NN…HELP.md`. Pages 09–22 also
-have a design-notes counterpart, `NN…PLAN.md`. One guide isn't tied to a single page:
-`90LIVEVIEWHELP.md` documents the Bloch-sphere and chart types shared across pages via the
-playground's own `Sources/` folder. If you're on an Xcode 27 beta and a live-view page misbehaves,
-check `../SwiftQiskit/PLAYGROUNDSUPPORT.md` for the current beta workarounds.
+The second way to run this book's examples is `../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds`, opened in
+Xcode. Please see the [README] there.
 
 ## 1.4 Running code on its own
 

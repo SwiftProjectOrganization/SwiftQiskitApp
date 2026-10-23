@@ -71,6 +71,7 @@ Project status and roadmap for SwiftQiskitApp.
       replacing this app's own vendored `BlochVector.swift` — done as part of `SwiftQiskit`
       `0.2.0`; the package dependency requirement now starts at `0.2.0`.
 - [ ] iPad-specific layout polish (currently shares the macOS 3-pane layout as-is).
+- [ ] iPhone Duo-specific layout polish  (currently display width dependent)..
 - [ ] UI tests via XCUIAutomation (current tests only cover the model/geometry, not views).
 - [ ] VoiceOver and Dynamic Type accessibility audit.
 - [x] Performance check at high qubit counts — since package `0.5.0`, gates apply in place to

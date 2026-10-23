@@ -1,14 +1,10 @@
-# An Introduction to Quantum Computing, with SwiftQiskitApp
+# An Introduction to Quantum Computing, with SwiftQiskitApp ("the App")
 
-A book-length walkthrough of quantum computing, taught through this app, its underlying
-simulator ([SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)), the playgrounds in SwiftQiskit and [SwiftQiskitPlaygrounds](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds) and standalone applications, possibly
+A book-length walkthrough of quantum computing, taught through this App, its underlying
+simulator ([SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)), the playgrounds in  [SwiftQiskitPlaygrounds](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds) and standalone applications, possibly
 generated from playground templates, e.g. [SwiftQiskitWalkDemo](https://github.com/SwiftProjectOrganization/SwiftQiskitWalkDemo).
 
-It teaches the math, how to confirm the math using the simulator and finally Swift.
-Every claim in every chapter is something you can run yourself and see for real, either by
-tapping gates onto the app's grid or by running a few lines of `SwiftQiskit` code.
-
-This illustrates *what quantum computing is*, using the app and the package as the running example.
+It teaches the underlying quantum computing math, how to confirm the math using the simulator and finally Swift if the App can't express it.
 
 > **Work in progress.** Most chapters need substantial updates. Completion is targeted,
 > optimistically, for late 2027.
@@ -20,22 +16,15 @@ modeling can be used to describe quantum computing — wanting to understand qub
 entanglement and a handful of famous algorithms (Deutsch, Grover, Shor, teleportation, VQE,
 …) by building and running small circuits rather than by reading equations alone.
 
-## Four ways to run everything
+## Three ways to run everything:
 
-Every chapter shows its examples in whichever of these ways apply, and says so with an **app badge**
-(below):
-
-1. **The app (`SwiftQiskitApp`)** — tap gates onto the circuit grid, watch the state vector and
+1. **The App (`SwiftQiskitApp`)** — tap gates onto the circuit grid, watch the state vector and
    Bloch spheres update live. Good for anything the gate palette can express: see
    [Docs/Tutorial.md](Docs/Tutorial.md) for the controls.
-2. **A playground page** — open any of the playgrounds included in [SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit) in Xcode, pick the page
-   named in the chapter's table, and run it. This is where the chapters' code originates; the
-   playground's own `PlaygroundDocs/NN…HELP.md` guide is the answer key.
-3. **The SwiftQiskitPlaygrounds project** — open
-   `../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.xcodeproj` (or clone
+3. **The Playgrounds (`SwiftQiskitPlaygrounds`)** open the Xcode project (or clone
    [SwiftQiskitPlaygrounds](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds)),
    build the `PlaygroundDeps` scheme on My Mac, then run a page. It uses `SwiftQiskit` as a
-   remote package, like the app, so it needs no `SwiftQiskit` checkout. It currently contains three
+   remote package, like the App, so it needs no `SwiftQiskit` checkout. It currently contains three
    example pages (`01Qubits`, `02StateVectorCPU`, `03ApplyingGates`); it is intended as a starting
    point for new users to experiment with the SwiftQiskit library and Swift.
 4. **Plain code** — `import SwiftQiskit` and write a few lines directly (in a Swift file or an
@@ -52,7 +41,7 @@ Every chapter shows its examples in whichever of these ways apply, and says so w
 - **App badge**, next to each chapter:
   **●** Full (every step is tappable in the app as described),
   **◐** Partial (some steps are tappable; the rest — and exactly what's missing — are called out),
-  **○** Not expressible (the chapter is code-only; the app's fixed single/two-qubit gate palette
+  **○** Not expressible (the chapter is code-only; the app's gate palette
   can't reach it).
 - **Statistical results jitter.** Anything from `measure(shots:)` is probabilistic — printed
   counts are one real run, not an exact ratio you should expect to reproduce bit-for-bit.
@@ -110,7 +99,5 @@ per-chapter workflow).
 
 - [README.md](README.md), [Docs/Tutorial.md](Docs/Tutorial.md), [Docs/Help.md](Docs/Help.md) —
   the app itself, not the physics.
-- [../SwiftQiskit/README.md](../SwiftQiskit/README.md) and its `PlaygroundDocs/` — the simulator
-  and the playground pages this introduction is built from.
 - [Docs/Introduction/AUTHORING.md](Docs/Introduction/AUTHORING.md) — chapter template, style
   rules, and verification workflow for anyone (human or Claude) writing the next chapter.

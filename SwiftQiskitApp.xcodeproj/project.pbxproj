@@ -161,8 +161,8 @@
 				D4959385304EEC3E004855D2 /* 23-VQE.md */,
 				D4959386304EEC45004855D2 /* 24-Trotter.md */,
 				D4959387304EEC4C004855D2 /* 25-QuantumWalks.md */,
-				D4D88DB9306F1D1800630AB5 /* 27-Epilogue.md */,
 				D4D88DBA306F1D3900630AB5 /* 26-TensorDiagrams.md */,
+				D4D88DB9306F1D1800630AB5 /* 27-Epilogue.md */,
 			);
 			path = Introduction;
 			sourceTree = "<group>";

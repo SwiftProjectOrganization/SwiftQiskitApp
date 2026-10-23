@@ -5,9 +5,8 @@ It is the only file you need alongside the chapter's own stub and its source pla
 
 ## Per-chapter checklist
 
-1. Open the chapter's stub in `Docs/Introduction/`, its **Source** page under
-   `../SwiftQiskit/Playgrounds.playground/Pages/`, and the matching
-   `../SwiftQiskit/PlaygroundDocs/NN…HELP.md` (and `…PLAN.md`, where one exists — pages 09–23).
+1. Open the chapter's stub in `Docs/Introduction/ and`its **playground** page under
+   `../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds/`.
 2. Draft the sections listed in the stub. Follow the page's own structure section-by-section;
    don't reorganize it unless the stub's section list says otherwise.
 3. Write "Build it in the app" — see below for what to do at each app-badge level.
@@ -20,9 +19,7 @@ It is the only file you need alongside the chapter's own stub and its source pla
 7. Flip the chapter's **Status** cell in `INTRODUCTION.md` from `stub` to `draft`, then to `done`
    once verified.
 8. Note in your summary whether the chapter surfaced anything (a bug, a clearer explanation,
-   corrected expected output) that should also change `../SwiftQiskit` — the playground pages and
-   `PlaygroundDocs/*HELP.md` this introduction draws from live in that repo, and this chapter may
-   find things worth fixing on both sides.
+   corrected expected output) that should also change `SwiftQiski`.
 
 ## Style rules
 
@@ -81,7 +78,7 @@ Copy this verbatim for a new chapter file:
 
 | | |
 |---|---|
-| Playground page | [`NNPageName`](../../../SwiftQiskit/PlaygroundDocs/NNXXXHELP.md) |
+| Playground page | [`NNPageName`](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds/`NNPAgeName`) |
 | In the app | ● / ◐ / ○ — one clause saying why |
 | Library APIs | the `SwiftQiskit` types/methods this chapter uses |
 | Prerequisites | Chapters X, Y |
