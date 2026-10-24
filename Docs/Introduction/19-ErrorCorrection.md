@@ -6,8 +6,8 @@
 
 | | |
 |---|---|
-| Playground page | [`14ErrorCorrection`](../../../SwiftQiskit/PlaygroundDocs/14ERRORCORRECTIONHELP.md) |
-| In the app | ● — encode, inject an error, decode, and correct all build from palette gates: `cx` for the code itself, `x`/`y`/`z`/`rx` for the error, and a Toffoli built from Chapter 15's CCZ for the correction. It's a different (but equivalent) circuit from the playground page's, which uses two separate syndrome ancillas and a hand-built permutation matrix — see "Build it in the app" |
+| Playground page | [`19ErrorCorrection`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/19ErrorCorrection.xcplaygroundpage) |
+| In the app | ● — encode, inject an error, decode, and correct all build from palette gates: `cx` for the code itself, `x`/`y`/`z`/`rx` for the error, and a CX tile with two controls (a Toffoli) for the correction. It's a different (but equivalent) circuit from the playground page's, which uses two separate syndrome ancillas and a hand-built permutation matrix — see "Build it in the app" |
 | Library APIs | `QuantumCircuit.h/x/y/z/rx/cx/t/tdg`, `.run()`, `measure(shots:)`, `Matrix`, `⊗`, `BlochVector(_:qubit:)` |
 | Prerequisites | Chapters 8, 11, 12, 15, 18 |
 
@@ -69,7 +69,7 @@ Reading two parities without collapsing the payload is only half the job — a c
 has to *act* on whichever qubit the syndrome accuses, without ever measuring the syndrome
 classically (measuring it would collapse the very superposition of "which qubit is wrong" that
 keeps α and β untouched). "Flip q0 if the syndrome is 10" is a Toffoli-with-mixed-controls,
-three times over, and `SwiftQiskit` has no Toffoli gate — so the playground page builds the
+three times over, and although `SwiftQiskit` does have `ccx`/`mcx`, the playground page builds the
 whole three-case correction as one 32×32 permutation matrix and applies it with `apply(_:)`.
 Checked against every single-error case:
 
@@ -186,9 +186,9 @@ dimension 2¹³ or higher, well beyond what a dense-matrix simulator handles com
 
 ## Build it in the app
 
-● Everything above is tappable, but not with the playground page's literal circuit — the app
-has no Toffoli-with-mixed-controls and no separate syndrome ancillas for it to act on. Instead,
-Chapter 15 §15.9's CCZ (built from `t`/`tdg`/`cx`) gives a Toffoli, and re-running the *decode*
+● Everything above is tappable, but not with the playground page's literal circuit — the playground's
+correction uses mixed-control Toffolis acting on separate syndrome ancillas, and the app's
+controls all fire on `1`. Instead, a CX tile with two controls gives a Toffoli, and re-running the *decode*
 step before correcting turns out to route the syndrome onto q1 and q2 themselves — no extra
 ancillas needed. The circuit is: encode, inject the error, decode again (the same two `cx`
 gates), then a Toffoli with controls q1, q2 and target q0. This reproduces every number in
@@ -209,19 +209,13 @@ Clear, set **Qubits: 3**. Worked example: error on q1.
    the syndrome.
 4. **The Toffoli correction.** This fires only when the syndrome is `11` (an error on q0
    itself), so for this worked example it changes nothing — but it has to be present for every
-   case to be corrected, so tap it in anyway: arm **H**, tap `q0` in column 7. Then Chapter
-   15's CCZ sequence with controls q1, q2 and target q0 (relabeled from §15.9's
-   controls-0,1/target-2 version): arm **CX**, tap `q2` then `q0` in column 8; arm **T†**, tap
-   `q0` in column 9; arm **CX**, tap `q1` then `q0` in column 10; arm **T**, tap `q0` in
-   column 11; arm **CX**, tap `q2` then `q0` in column 12; arm **T†**, tap `q0` in column 13;
-   arm **CX**, tap `q1` then `q0` in column 14; arm **T**, tap `q2` in column 15 (shares the
-   column with the next tile — different qubit); arm **T**, tap `q0` in column 15; arm **CX**,
-   tap `q1` then `q2` in column 16; arm **T**, tap `q1` in column 17 (shares the column); arm
-   **T†**, tap `q2` in column 17; arm **CX**, tap `q1` then `q2` in column 18; arm **H**, tap
-   `q0` in column 19. 20 columns total. Panel: unchanged from step 3 — confirming the Toffoli
-   is a no-op on this syndrome, exactly as it should be.
+   case to be corrected, so tap it in anyway: arm **CX**, tap `q1` (control) then `q0` (target) in
+   column 7, then tap the placed CX and use **+** in its **Controls** popover to add `q2` as a
+   second control. 8 columns total. Panel: unchanged from step 3 — confirming the Toffoli
+   is a no-op on this syndrome, exactly as it should be. (Chapter 15 §15.9's `t`/`tdg`/`cx` CCZ,
+   with `H` on `q0` either side, builds the same gate from single-qubit tiles in 13 more columns.)
 5. **Check the other syndromes.** Move the error tile from column 4 to `q0` or `q2` instead
-   (tap the tile, drag or retap) and re-check the panel after column 19: an error on q0 now
+   (delete the tile from its context menu and place it again) and re-check the panel after column 7: an error on q0 now
    shows the Toffoli actually firing, landing on `|011⟩: 0.8001 − 0.3314i` and
    `|111⟩: 0.4619 + 0.1913i` — q0 flipped back to agree with α and β.
 6. **Continuous error.** Swap the column-4 **X** tile for **RX** and drag its popover's θ —
@@ -247,8 +241,8 @@ What's still missing: a real classically-conditioned mid-circuit measurement —
 the correction coherently to every branch, exactly as §19.4 describes, rather than measuring
 the syndrome and branching on the classical result. To build the playground page's own
 ancilla-based version (two separate syndrome qubits, permutation-matrix correction via
-`apply(_:)`), see "Run it in code" below — its three mixed-control Toffolis would need roughly
-50 columns to tap out by hand, so that version stays in code.
+`apply(_:)`), see "Run it in code" below — its three mixed-control Toffolis would need `X` tiles on the controls that fire on `0`, so
+that version stays in code.
 
 ## Run it in code
 

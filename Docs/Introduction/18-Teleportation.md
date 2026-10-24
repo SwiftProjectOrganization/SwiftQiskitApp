@@ -7,8 +7,8 @@
 
 | | |
 |---|---|
-| Playground page | [`13Teleportation`](../../../SwiftQiskit/PlaygroundDocs/13TELEPORTATIONHELP.md) |
-| In the app | ◐ — every gate in both protocols is tappable (`ry`/`rz` for the payload, `h`, `cx`, and CZ as `h;cx;h`); what's missing is real mid-circuit measurement with a classically conditioned correction, and reading out one measurement branch without collapsing the rest |
+| Playground page | [`18Teleportation`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/18Teleportation.xcplaygroundpage) |
+| In the app | ◐ — every gate in both protocols is tappable (`ry`/`rz` for the payload, `h`, `cx`, and the CZ tile); what's missing is real mid-circuit measurement with a classically conditioned correction, and reading out one measurement branch without collapsing the rest |
 | Library APIs | `QuantumCircuit.ry/rz/h/x/z/cx`, `.run()`, `measure(shots:)`, `Ket`/`Bra` outer-product projectors, mixed `⊗`, `StateVector.apply(_:)`, postfix `†`, `Ket.plus`, `PauliXGate.matrix`/`PauliZGate.matrix`, `BlochVector` |
 | Prerequisites | Chapters 4, 9, 11, 12, 15 |
 
@@ -145,8 +145,8 @@ confirms this doesn't affect fidelity, as long as it's applied consistently).
 
 `SwiftQiskit` has no mid-circuit measurement, so instead of "measure (a,b), look up a
 correction, apply it," the protocol applies the corrections as *controlled* gates before ever
-measuring: `cx(1,2)` flips q2 exactly when q1 = 1 (the X^b part), and CZ(0,2) — built as
-`h(2); cx(0,2); h(2)`, Chapter 15's idiom — phases q2 exactly when q0 = 1 (the Z^a part). Every
+measuring: `cx(1,2)` flips q2 exactly when q1 = 1 (the X^b part), and CZ(0,2) — the app's CZ tile, which
+the code below writes as `h(2); cx(0,2); h(2)`, Chapter 15's idiom — phases q2 exactly when q0 = 1 (the Z^a part). Every
 branch gets its own correction at once, in superposition, because the controls do the "look
 up a correction" step for free:
 
@@ -217,9 +217,9 @@ The app's Display → Steps view over q2 alone tells the same story a different 
 the app" below walks through these columns): q2 starts pure at the north pole (|r| = 1),
 collapses to the sphere's center once it's entangled with q1 (|r| = 0, maximally mixed from
 q2's own point of view), climbs back out to a mixed |r| = 0.5 as each correction's first gate
-lands, and only settles on the ψ point once *both* corrections are fully applied — briefly
-passing through a *different* pure point (|r| = 1, but not yet ψ) along the way, once the CZ's
-`cx` lands before its closing `H` does. A qubit's reduced Bloch vector shrinking to 0 and
+lands, and settles on the ψ point once *both* corrections are applied. (Built from `h; cx; h`
+instead of the CZ tile, the circuit would briefly pass through a *different* pure point,
+|r| = 1 but not yet ψ, once the `cx` lands before its closing `H` does.) A qubit's reduced Bloch vector shrinking to 0 and
 growing back out is what entanglement and its resolution look like on a single sphere.
 
 ## 18.7 Superdense coding: the dual protocol
@@ -273,16 +273,14 @@ e-bit → 1 qubit" in one direction and "1 qubit + 1 e-bit → 2 classical bits"
    table — this is the state every later step reads off.
 3. **The corrections, deferred.** Arm **CX**, tap `q1` (control) then `q2` (target) in column 3
    (the X^b part — lands in the same column as the H above since they touch disjoint qubits).
-   Then the Z^a part as CZ(0,2): arm **H**, tap `q2` in column 4; arm **CX**, tap `q0` then
-   `q2` in column 5; arm **H**, tap `q2` in column 6. Panel: eight rows again, matching §18.4's
+   Then the Z^a part as CZ(0,2): arm **CZ**, tap `q0` then `q2` in column 4. Panel: eight rows again, matching §18.4's
    final state.
 4. **Check the factoring.** Tap **Display**, switch to **Steps**, and select qubit **q2**. The
-   cards step through exactly the sequence in §18.6: |r| = 1 at column 0 (q2 still |0⟩), drops
-   to |r| = 0 once the Bell pair forms (column 1) and stays there through Alice's `cx`
-   (column 2), climbs back to a genuinely mixed |r| = 0.5 as each half of the correction lands
-   (columns 3–4), jumps back to a *pure* |r| = 1 once the CZ's `cx` lands (column 5) — but at
-   the wrong point, `x 0.5000  y −0.6124  z 0.6124` — and only settles on the correct ψ point,
-   `x 0.6124  y 0.6124  z 0.5000`, once the closing `H` finishes the CZ (column 6).
+   cards step through the sequence in §18.6 (the `Start` card is the empty circuit): `Col 1`
+   shows |r| = 1 with q2 still |0⟩, `Col 2` drops to |r| = 0 once the Bell pair forms and `Col 3`
+   stays there through Alice's `cx`, `Col 4` climbs back to a mixed |r| = 0.500
+   (`x +0.000  y +0.000  z +0.500`) as the X^b correction lands, and `Col 5` jumps to a pure
+   |r| = 1 at the ψ point, `x +0.613  y +0.612  z +0.500`, once the CZ tile lands.
 5. **Measure it.** Back in the main view, set **Shots: 1000** and tap **Measure** — expect
    roughly 250 per ab prefix and a roughly 3-to-1 split within each, per §18.5 (a fresh tap will
    jitter).
@@ -291,7 +289,7 @@ e-bit → 1 qubit" in one direction and "1 qubit + 1 e-bit → 2 classical bits"
 `q0` column 0; arm **CX**, tap `q0` then `q1` column 1 (the Bell pair); arm **Z**, tap `q0`
 column 2; arm **X**, tap `q0` column 3 (Alice's encoding); arm **CX**, tap `q0` then `q1`
 column 4; arm **H**, tap `q0` column 5 (Bob's decode). Panel: a single row, `|11⟩` at
-p = 1.0000 — the message decoded with certainty. The other three messages use the same six
+`p=1.000` — the message decoded with certainty. The other three messages use the same six
 columns with column 2 and/or 3 dropped or swapped for the identity/X/Z you need.
 
 What's still missing: a real "measure now, branch the rest of the circuit on the result"

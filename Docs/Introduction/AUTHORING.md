@@ -5,21 +5,21 @@ It is the only file you need alongside the chapter's own stub and its source pla
 
 ## Per-chapter checklist
 
-1. Open the chapter's stub in `Docs/Introduction/ and`its **playground** page under
-   `../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds/`.
+1. Open the chapter's stub in `Docs/Introduction/` and its **playground** page under
+   `../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/`.
 2. Draft the sections listed in the stub. Follow the page's own structure section-by-section;
    don't reorganize it unless the stub's section list says otherwise.
 3. Write "Build it in the app" — see below for what to do at each app-badge level.
 4. Write "Run it in code" — every snippet must actually run; see Verification below.
 5. Write 2–4 "Try it yourself" exercises with answers in `<details>` blocks.
 6. Cross-check every "In the app" claim against `GateKind` in
-   `SwiftQiskitApp/CircuitModel.swift` (`h x y z s sdg t tdg p rx ry rz cx rzz rxx ryy`, 1–8
-   qubits) — don't
+   `SwiftQiskitApp/CircuitModel.swift` (`h x y z s sdg t tdg p rx ry rz cx cy cz swap rzz rxx ryy`, plus extra controls on
+   CX/CY/CZ through the controls popover, 1–8 qubits) — don't
    claim a step is tappable if it isn't.
 7. Flip the chapter's **Status** cell in `INTRODUCTION.md` from `stub` to `draft`, then to `done`
    once verified.
 8. Note in your summary whether the chapter surfaced anything (a bug, a clearer explanation,
-   corrected expected output) that should also change `SwiftQiski`.
+   corrected expected output) that should also change `SwiftQiskit`.
 
 ## Style rules
 
@@ -27,7 +27,7 @@ It is the only file you need alongside the chapter's own stub and its source pla
 - Unicode math in running text: `|ψ⟩`, `θ`, `⊗`, `√2`, `⟨ψ|X|ψ⟩`, `†`. No LaTeX — it doesn't
   render in a playground comment or a plain-text viewer.
 - Inside markdown tables, escape kets as `\|0⟩` so the pipe doesn't break the column, exactly as
-  `05GATESHELP.md` does.
+  the playground pages do.
 - Tables always have leading and trailing pipes.
 - 4-space indent in code blocks, matching the rest of the repo.
 - State every statistical claim as approximate ("roughly half-and-half", "≈ 0.500") — never
@@ -42,11 +42,10 @@ It is the only file you need alongside the chapter's own stub and its source pla
 - **◐ Partial** — write the steps that *are* tappable, then a short paragraph naming exactly
   which capability is missing (a custom matrix via `apply(_:)`, mid-circuit measurement, a
   density matrix, a decomposition the app doesn't do for you) and how to get it in code instead.
-  Prefer showing a decomposition that *is* tappable when one exists — e.g. CZ = `h; cx; h`,
-  controlled-phase via `p` + `cx`, ZZ(θ) via `cx; rz; cx` — before conceding defeat.
+  Prefer showing a decomposition that *is* tappable when one exists — e.g. controlled-phase via `p` + `cx`, ZZ(θ) via `cx; rz; cx` — before conceding defeat.
 - **○ Not expressible** — one sentence saying why (the app's palette is fixed single/two-qubit
-  gates; this needs `apply(_:)` with a hand-built matrix, or a density-matrix simulator the
-  package doesn't have), then move straight to "Run it in code."
+  gates; this needs `apply(_:)` with a hand-built matrix, or the package's density-matrix
+  simulator, which the app has no view for), then move straight to "Run it in code."
 
 ## Verification workflow
 
@@ -56,12 +55,13 @@ is real.
 
 - Use `RunCodeSnippet` with `SwiftQiskitApp/CircuitModel.swift` as the context file (it already
   `import SwiftQiskit`) for anything expressible with the public API.
-- For Chapters 21–26, the playground pages define their own local helpers (`expm`, the Kraus
-  operators, `partialTraceLast`, `entropy`, the VQE `ansatz`/`energy`/`parameterShiftGradient`,
-  Trotter's `zzViaGates`/`trotterUnitary`, Chapter 26's `maxAmplitudeError`/`cp`) — these live in
-  the page body, not in `SwiftQiskit`. Copy the helpers the chapter needs directly into its "Run
-  it in code" block so the snippet is self-contained; don't reference the playground file by
-  path.
+- For Chapters 21–26, some playground pages still define local helpers (check the page: for example `entropy`, the
+  VQE `ansatz`/`energy`, Trotter's `zzViaGates`/`trotterUnitary`, Chapter 26's
+  `maxAmplitudeError`/`cp`). Since package `0.8.1`, `Matrix.expm`, `DensityMatrix`, `KrausChannel`,
+  `NoiseModel`, `partialTrace(keeping:)`, `Hamiltonian`, `ParameterShift` and `StateTomography`
+  are in `SwiftQiskit` itself, so prefer those. Copy any remaining page-local helpers directly
+  into the chapter's "Run it in code" block so the snippet is self-contained; don't reference
+  the playground file by path.
 - Paste the real output beneath each snippet (or inline as a comment), not a value copied from a
   HELP doc — cross-check against the HELP doc as a sanity check, not as the source of truth.
 - If a result is probabilistic, run it, paste what you got, and note that a re-run will differ.
@@ -78,7 +78,7 @@ Copy this verbatim for a new chapter file:
 
 | | |
 |---|---|
-| Playground page | [`NNPageName`](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds/`NNPAgeName`) |
+| Playground page | [`NNPageName`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/NNPageName.xcplaygroundpage) |
 | In the app | ● / ◐ / ○ — one clause saying why |
 | Library APIs | the `SwiftQiskit` types/methods this chapter uses |
 | Prerequisites | Chapters X, Y |

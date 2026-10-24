@@ -1,7 +1,7 @@
 #!/bin/sh
 # Symlinks this repo's Xcode templates into ~/Library/Developer/Xcode/Templates/
-# so they show up in Xcode's File > New > Project sheet. Re-run after pulling
-# changes is not needed -- the symlink keeps them live.
+# so they show up in Xcode's File > New > Project sheet. There is no need to re-run it
+# after pulling changes -- the symlink keeps them live.
 
 set -e
 

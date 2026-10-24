@@ -6,10 +6,12 @@
 
 | | |
 |---|---|
-| Playground page | [`21Trotter`](../../../SwiftQiskit/PlaygroundDocs/21TROTTERHELP.md) |
+| Playground page | [`24Trotter`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/24Trotter.xcplaygroundpage) |
 | In the app | ◐ — the ZZ(θ) rotation decomposes exactly into `cx; rz; cx` and is tappable, and a full first-order Trotter step chains onto `rx`; the `expm` ground truth and the error-scaling sweep across step counts n are code-only |
 | Library APIs | `QuantumCircuit.cx/rz/rx`, `.run()`, `Matrix` `+`/scalar `*`/`⊗`, `†`, `Bra * Matrix * Ket`; the page's local `expm`, `zzViaGates`, `trotterUnitary` |
 | Prerequisites | Chapters 4, 7, 11 |
+
+> Since package `0.8.1`, `SwiftQiskit` also ships `Hamiltonian` with `trotterCircuit(time:steps:order:)`, and `Matrix.expm`; this chapter builds both by hand to show the arithmetic.
 
 ## 24.1 The spin-chain Hamiltonian
 
@@ -50,8 +52,8 @@ enough to compile.
 
 ## 24.2 An `expm` ground truth
 
-`Matrix` still has no matrix exponential, so one is built here, at the page level, by
-scaling-and-squaring Taylor series — built only from `Matrix *` and `+`, which now exist in
+`Matrix` now has its own `expm(terms:)` (package `0.8.1`); this chapter's page builds one at
+the page level instead, by scaling-and-squaring Taylor series — built only from `Matrix *` and `+`, which now exist in
 Core:
 
 ```swift
@@ -282,7 +284,7 @@ let X = PauliXGate.matrix
 let Z = PauliZGate.matrix
 let ZZ = Z ⊗ Z
 
-// Matrix has no expm; scaling-and-squaring Taylor series, built only on Matrix * and +.
+// Page-local copy of what `Matrix.expm(terms:)` now provides; scaling-and-squaring Taylor series, built only on Matrix * and +.
 func expm(_ A: Matrix, terms: Int = 20) -> Matrix {
     let n = A.rows
     var normEst = 0.0

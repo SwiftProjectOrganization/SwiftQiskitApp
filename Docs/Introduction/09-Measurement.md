@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | Playground page | — (drawn from `05Gates`/`06Superposition` and `Quantum/SimulationResult.swift`) |
-| In the app | ● — the Results panel's **Shots** stepper, **Measure** button, and histogram are exactly this |
+| In the app | ● — the Measurement panel's **Shots** stepper, **Measure** button, and histogram are exactly this |
 | Library APIs | `QuantumCircuit.run()`, `.runAndMeasure()`, `.measure(shots:)`, `StateVector.measure()`, `SimulationResult`, `.sortedCounts` |
 | Prerequisites | Chapters 3, 7 |
 

@@ -2,7 +2,7 @@
 
 Generated from the **Quantum Algorithm App** Xcode template. A multiplatform SwiftUI app
 prefilled with a discrete-time quantum walk — ported from
-`SwiftQiskit/Playgrounds.playground/Pages/22Walk.xcplaygroundpage`. See "Add the SwiftQiskit
+page `25QuantumWalks` of the `SwiftQiskitPlaygrounds` repository. See "Add the SwiftQiskit
 package" below before building — the template does not add it automatically.
 
 ## Layout
@@ -24,8 +24,8 @@ package" below before building — the template does not add it automatically.
 ## Porting a different SwiftQiskit playground algorithm
 
 1. Replace `QuantumWalk.swift` with a plain struct wrapping the target playground page's
-   math — see `SwiftQiskit/PlaygroundDocs/*PLAN.md` for the derivation behind each page, and
-   `SwiftQiskit/Playgrounds.playground/Pages/` for the runnable original.
+   math — see the `SwiftQiskitPlaygrounds` repository's `SwiftQiskitPlaygrounds.playground/Pages/`
+   for the derivation and the runnable original.
 2. Update `AlgorithmModel`'s inputs and outputs to match the new algorithm's parameters and
    results.
 3. Adjust `DistributionChartView` — rename it if the new algorithm doesn't produce a
@@ -42,7 +42,7 @@ by hand, after generating the project:
 
 1. Select the project in the navigator, then the project (not target) → **Package Dependencies**.
 2. Click **+**, enter `https://github.com/SwiftProjectOrganization/SwiftQiskit.git`.
-3. Choose **Up to Next Minor Version**, starting at `0.2.0`.
+3. Choose **Up to Next Major Version**, starting at `0.8.1`.
 4. Add the `SwiftQiskit` product to both the app target and the test target. Also add
    `SwiftQiskitViews` (same package) to the app target if you want `BlochVector`/
    `CHSHChartView` — not needed for this template's own Swift Charts view.

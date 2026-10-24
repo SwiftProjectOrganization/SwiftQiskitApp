@@ -6,10 +6,9 @@ document is its companion — how it's built, not how to drive it.
 
 ## Why a separate front-end model exists
 
-`QuantumCircuit` (in the `SwiftQiskit` package) records each operation as only the resulting
-full-dimension `Matrix` — no gate name, no target qubit, no column. That's enough to
+`QuantumCircuit` (in the `SwiftQiskit` package) keeps its operation list private/internal and has no notion of columns. That's enough to
 `run()`/`measure(shots:)`, but not enough to draw or edit a circuit diagram after the fact:
-there's nothing to inspect. So the app keeps its own record of *placed* gates
+there's nothing public to inspect. So the app keeps its own record of *placed* gates
 (`CircuitModel.swift`) and replays them onto a fresh `QuantumCircuit` whenever it needs to
 run. No `SwiftQiskit` changes were needed for this feature.
 
@@ -108,18 +107,18 @@ below):
   cancels the mode if the cell is not free. **−** calls `removeLastControl(id:)`.
   `CircuitBuilder.apply(_:to:)` replays one control as `cx`/`cy`/`cz` and more as
   `mcx`/`mcy`/`mcz`.
-- A `PlacedGate` is drawn once, at its "primary" qubit (`gate.qubits.first`) — that's where
-  `GateTileView` renders. `CXTargetView` (the ⊕ glyph) only ever stands in for the *non-primary*
-  qubit of a **controlled** gate (`.cx`'s target; `.cy`'s target is a boxed `Y` tile instead); the non-primary qubit of a symmetric
-  rotation (`.rzz`/`.rxx`/`.ryy`) gets its own `GateTileView` instead, showing the same symbol
-  and θ popover as the primary qubit's tile. Deleting works from either half.
+- Every qubit a `PlacedGate` touches gets its own `GateTileView` (`CircuitGridView` builds one per
+  cell). `GateTileView` picks the glyph: a dot for a control, `CXTargetView` (the ⊕ glyph) for a
+  `.cx` target, a boxed `Y` for a `.cy` target, a dot for either qubit of a `.cz`, `SwapMarkView`
+  for `.swap`, and the same symbol and θ popover on both qubits of a symmetric rotation
+  (`.rzz`/`.rxx`/`.ryy`). Deleting works from any of them.
 - The grid sits on two layers sharing one `CircuitLayout`: `CircuitWiresView` (a `Canvas`)
   draws the horizontal qubit wires and the vertical connector between any two-qubit gate's two
   qubits *behind* everything, and `CircuitGridView` `.position()`s labels/cells on top from the
   same `center(column:qubit:)` geometry, so the two layers can't drift apart. Boxed tiles
-  (every single-qubit gate, and both qubits of `.rzz`/`.rxx`/`.ryy`) paint an opaque backing
-  (`GateTileView.boxedBackground`) so they read clearly over the wire; CX's dot/⊕ and
-  `EmptyCellView`'s pending-control marker are transparent rings instead, so the wire shows
+  (every single-qubit gate, both qubits of `.rzz`/`.rxx`/`.ryy`, and `.cy`'s target) paint an opaque backing
+  (`GateTileView.boxedBackground`) so they read clearly over the wire; CX's ⊕ and
+  `EmptyCellView`'s pending-control marker are transparent rings instead (control dots are filled circles), so the wire shows
   through.
 
 ## Geometry (`CircuitLayout.swift`)
@@ -181,8 +180,9 @@ group on iPhone), mirroring how `ResultsView` is presented as a sheet.
   cards use `.glassEffect(in:)`/`GlassEffectContainer`.
 - **Origin of the code:** `BlochVector` is imported from the package's `SwiftQiskitViews`
   product (since `0.2.0`); this app no longer carries its own copy. `BlochSphereView` and
-  `Bloch3DSphereView` are ported from `SwiftQiskit/Playgrounds.playground/Sources/`, which is
-  not an importable SwiftPM target, so vendoring them here is the only option.
+  `Bloch3DSphereView` are this app's own views, originally ported from the playground sources.
+  Package `0.8.1` ships public `BlochSphereView` and `Bloch3DView` in `SwiftQiskitViews`; the
+  app's same-named types take precedence where both are visible.
   `TensorNetwork`/`TensorNetworkView` are not ported either — they're used directly from the
   package's `SwiftQiskit`/`SwiftQiskitViews` products (added in `0.3.0`), so this app has no
   tensor-network code of its own.
@@ -197,14 +197,16 @@ group on iPhone), mirroring how `ResultsView` is presented as a sheet.
    than one control).
 3. Add it to the appropriate group in `GatePaletteView`'s `sections` array.
 
-No changes needed anywhere else — `CircuitGridView`/`GateTileView` render any `GateKind`
+Mostly no changes needed elsewhere — `CircuitGridView`/`GateTileView` render a `GateKind`
 generically via `.symbol`/`.qubitSpan`/`.isControlled`. A new span-2 gate is symmetric
 (both placed qubits render a tile, like `.rzz`/`.rxx`/`.ryy`) unless it distinguishes
-control from target like `.cx`/`.cy`, in which case also add it to `isControlled`'s switch.
+control from target, in which case add it to `isControlled`'s switch. `GateTileView` and
+`GatePaletteView` special-case `.cx`, `.cy`, `.cz` and `.swap` for their glyphs, so a new
+controlled gate would draw its target as a plain dot until given a case there.
 
 **Adding a chart type / result view:** follow `HistogramView.swift`'s pattern (a small,
 stateless `View` taking a value type, not the whole `CircuitBuilder`) and wire it into
-`ResultsView.swift`.
+`MeasurementView.swift` (where `HistogramView` is used).
 
 ## Not implemented (v1 scope)
 
@@ -221,12 +223,12 @@ stateless `View` taking a value type, not the whole `CircuitBuilder`) and wire i
 `SwiftQiskitAppTests/CircuitBuilderTests.swift` covers `CircuitBuilder`'s logic only (no view
 tests — SwiftUI views aren't unit-testable here): Bell-state replay via `buildCircuit()`,
 occupied/out-of-range placement rejection, qubit-count clamping and gate-dropping on shrink,
-`updateTheta`, `clear`, `measure(shots:)` populating `lastResult`, a qubit-count shrink
+`updateTheta`, `clear`, `measure()` populating `lastResult`, a qubit-count shrink
 discarding a prior measurement, and RZZ/RXX/RYY replay across non-adjacent qubits checked
 entrywise against a directly built `QuantumCircuit` using the same `rzz`/`rxx`/`ryy` calls
 (RZZ additionally checked against the `cx;rz;cx` identity), plus `updateTheta` and
 occupied-cell rejection for RZZ, multi-control CX/CY/CZ (`addControl`/`removeLastControl`
-against `ccx`/`mcx`/`mcy`/`mcz`, rejections, shrink), SWAP and CZ/CCZ replay, and an 8-qubit
+against `ccx`/`mcx`/`mcy`, rejections, shrink), SWAP and CZ/CCZ replay (CCZ checked against `h; ccx; h`), and an 8-qubit
 timing guard. `CircuitLayoutTests.swift` covers the pure `CircuitLayout`
 geometry: center spacing, `wireY` agreement with `center`, and `canvasSize` growth in each
 dimension independently. `BlochVectorTests.swift` covers `BlochVector`'s math: single-qubit

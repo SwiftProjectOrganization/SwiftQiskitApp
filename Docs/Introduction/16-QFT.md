@@ -10,7 +10,7 @@
 
 | | |
 |---|---|
-| Playground page | [`16QFT`](../../../SwiftQiskit/PlaygroundDocs/16QFTHELP.md) |
+| Playground page | [`16QFT`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/16QFT.xcplaygroundpage) |
 | In the app | ● — the controlled-phase gate a 2-qubit QFT and phase estimation need is exactly T/T†/S/S† plus `cx`; only a 3-qubit ladder needs one angle off that grid, and the P tile's slider lands within ~2×10⁻⁴ of it |
 | Library APIs | `QuantumCircuit.h/x/p/cx/t/tdg/s/sdg`, `.run()`, `measure(shots:)`, `BlochVector(_:qubit:)`, `Complex` |
 | Prerequisites | Chapters 7, 8, 11, 13 |
@@ -41,8 +41,9 @@ unknown phase out of a quantum state.
 ## 16.2 The controlled-phase gate CP(θ)
 
 CP(θ) should act as `|11⟩ → e^(iθ)|11⟩` and leave `|00⟩`, `|01⟩`, `|10⟩` alone — a controlled
-version of the single-qubit phase gate P(θ) from Chapter 7. There is no native two-qubit phase
-gate in the palette, but the standard identity builds one from gates that already exist:
+version of the single-qubit phase gate P(θ) from Chapter 7. The palette has no general two-qubit phase
+gate (its only one, CZ, is the θ = π case), but the standard identity builds one from gates that
+already exist:
 
 ```text
 CP(θ) = P(θ/2)_control · CX(control, target) · P(−θ/2)_target · CX(control, target) · P(θ/2)_target
@@ -80,7 +81,7 @@ CP(π) on |s⟩ = H,H|00⟩ (ties to Ch15 §15.2's CZ):
 ```
 
 CP(π) on the uniform superposition reproduces Chapter 15 §15.2's controlled-Z output exactly —
-CP(π) *is* CZ, derived here from a different starting point (a general phase gate rather than
+CP(π) *is* CZ (so wherever a step below needs CP(π), a single **CZ** tile does the same job as the five-tap S-form), derived here from a different starting point (a general phase gate rather than
 `H·X·H`) but landing on the same operator.
 
 ## 16.3 The QFT ladder
@@ -272,7 +273,7 @@ exactly — π/8 ≈ 0.393 — still lands within about 2×10⁻⁴ of the real 
    in column 7. Swap as three CX's: **CX** `q0`→`q1`, **CX** `q1`→`q0`, **CX** `q0`→`q1` (columns
    8–10). Panel: four rows at flat `p=0.250`, with phases `+1, +i, −1, −i` on `|00⟩, |01⟩, |10⟩,
    |11⟩` — the QFT of `|01⟩`, matching `e^(2πi·y/4)` for y = 0…3. Tap **Display**: every qubit
-   sits on the equator, `|r| = 1`.
+   sits on the equator, with no `|r|` line (|r| = 1).
 3. **Phase estimation, φ = ¼.** Clear, set **Qubits: 3**. Arm **X**, tap `q2` in column 0 (the
    eigenstate). Arm **H**, tap `q0` and `q1` in column 1. CP(π) controlled by `q0` on `q2`, in S
    form: **S** `q0` (col 2), **CX** `q0`→`q2` (col 3), **S†** `q2` (col 4), **CX** `q0`→`q2`

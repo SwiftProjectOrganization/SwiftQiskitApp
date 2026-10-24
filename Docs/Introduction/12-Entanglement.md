@@ -7,7 +7,7 @@
 
 | | |
 |---|---|
-| Playground page | [`07Entanglement`](../../../SwiftQiskit/PlaygroundDocs/07ENTANGLEMENTHELP.md) |
+| Playground page | [`12Entanglement`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/12Entanglement.xcplaygroundpage) |
 | In the app | ● — every step below is tappable |
 | Library APIs | `QuantumCircuit.h/x/z/cx`, `measure(shots:)`/`SimulationResult.sortedCounts`, `CNOTGate.matrix(qubits:control:target:)`, `apply(_:)`, `BlochVector(_:qubit:)` |
 | Prerequisites | Chapters 5, 9, 10, 11 |

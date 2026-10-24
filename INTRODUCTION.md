@@ -1,7 +1,7 @@
 # An Introduction to Quantum Computing, with SwiftQiskitApp ("the App")
 
 A book-length walkthrough of quantum computing, taught through this App, its underlying
-simulator ([SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)), the playgrounds in  [SwiftQiskitPlaygrounds](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds) and standalone applications, possibly
+simulator ([SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit)), the playgrounds in [SwiftQiskitPlaygrounds](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds) and standalone applications, possibly
 generated from playground templates, e.g. [SwiftQiskitWalkDemo](https://github.com/SwiftProjectOrganization/SwiftQiskitWalkDemo).
 
 It teaches the underlying quantum computing math, how to confirm the math using the simulator and finally Swift if the App can't express it.
@@ -16,18 +16,18 @@ modeling can be used to describe quantum computing — wanting to understand qub
 entanglement and a handful of famous algorithms (Deutsch, Grover, Shor, teleportation, VQE,
 …) by building and running small circuits rather than by reading equations alone.
 
-## Three ways to run everything:
+## Three ways to run everything
 
 1. **The App (`SwiftQiskitApp`)** — tap gates onto the circuit grid, watch the state vector and
    Bloch spheres update live. Good for anything the gate palette can express: see
    [Docs/Tutorial.md](Docs/Tutorial.md) for the controls.
-3. **The Playgrounds (`SwiftQiskitPlaygrounds`)** open the Xcode project (or clone
+2. **The Playgrounds (`SwiftQiskitPlaygrounds`)** open the Xcode project (or clone
    [SwiftQiskitPlaygrounds](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds)),
    build the `PlaygroundDeps` scheme on My Mac, then run a page. It uses `SwiftQiskit` as a
-   remote package, like the App, so it needs no `SwiftQiskit` checkout. It currently contains three
-   example pages (`01Qubits`, `02StateVectorCPU`, `03ApplyingGates`); it is intended as a starting
+   remote package, like the App, so it needs no `SwiftQiskit` checkout. It contains one page per chapter
+   (`01Matrices` through `26TensorDiagrams`, plus `50StateVectorCPU`); it is a starting
    point for new users to experiment with the SwiftQiskit library and Swift.
-4. **Plain code** — `import SwiftQiskit` and write a few lines directly (in a Swift file or an
+3. **Plain code** — `import SwiftQiskit` and write a few lines directly (in a Swift file or an
    app). This is a good option for anything beyond the app's fixed gate set. See
    [SwiftQiskitWalkDemo](https://github.com/SwiftProjectOrganization/SwiftQiskitWalkDemo) for an
    example.
@@ -55,31 +55,31 @@ entanglement and a handful of famous algorithms (Deutsch, Grover, Shor, teleport
 | 0 | [What Quantum Computing Is, and Why Simulate It](Docs/Introduction/00-Introduction.md) | — | draft | — |
 | 1 | [Setup and Orientation](Docs/Introduction/01-Setup.md) | ● | draft | — |
 | 2 | [Complex Numbers and Matrices in Swift](Docs/Introduction/02-ComplexAndMatrices.md) | ○ | draft | `Math/Complex.swift`, `Math/Matrix.swift`, `Quantum/Dirac.swift` |
-| 3 | [Qubits: Amplitudes and Probabilities](Docs/Introduction/03-Qubits.md) | ● | draft | [`01Qubits`](../SwiftQiskit/PlaygroundDocs/01QUBITSHELP.md) |
-| 4 | [Dirac Notation and Expectation Values](Docs/Introduction/04-DiracNotation.md) | ◐ | draft | [`01Qubits`](../SwiftQiskit/PlaygroundDocs/01QUBITSHELP.md), [`08Dirac`](../SwiftQiskit/PlaygroundDocs/08DIRACHELP.md) |
-| 5 | [The Bloch Sphere in 2D, and Its Projections](Docs/Introduction/05-BlochSphere2D.md) | ◐ | draft | [`02Bloch2d`](../SwiftQiskit/PlaygroundDocs/02BLOCH2DHELP.md), [`03Bloch2dProjection`](../SwiftQiskit/PlaygroundDocs/03BLOCH2DPROJECTIONHELP.md) |
-| 6 | [The Bloch Sphere in 3D: θ and φ](Docs/Introduction/06-BlochSphere3D.md) | ● | draft | [`04Bloch3d`](../SwiftQiskit/PlaygroundDocs/04BLOCH3DHELP.md) |
-| 7 | [Gates](Docs/Introduction/07-Gates.md) | ◐ | draft | [`05Gates`](../SwiftQiskit/PlaygroundDocs/05GATESHELP.md) |
-| 8 | [Phase, Interference, and Why Z Hides](Docs/Introduction/08-Interference.md) | ● | draft | [`05Gates`](../SwiftQiskit/PlaygroundDocs/05GATESHELP.md) §4, [`01Qubits`](../SwiftQiskit/PlaygroundDocs/01QUBITSHELP.md) |
+| 3 | [Qubits: Amplitudes and Probabilities](Docs/Introduction/03-Qubits.md) | ● | draft | [`03Qubits`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/03Qubits.xcplaygroundpage) |
+| 4 | [Dirac Notation and Expectation Values](Docs/Introduction/04-DiracNotation.md) | ◐ | draft | [`03Qubits`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/03Qubits.xcplaygroundpage), [`04Dirac`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/04Dirac.xcplaygroundpage) |
+| 5 | [The Bloch Sphere in 2D, and Its Projections](Docs/Introduction/05-BlochSphere2D.md) | ◐ | draft | [`06BlochSpheres`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/06BlochSpheres.xcplaygroundpage) |
+| 6 | [The Bloch Sphere in 3D: θ and φ](Docs/Introduction/06-BlochSphere3D.md) | ● | draft | [`06BlochSpheres`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/06BlochSpheres.xcplaygroundpage) |
+| 7 | [Gates](Docs/Introduction/07-Gates.md) | ◐ | draft | [`07Gates`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/07Gates.xcplaygroundpage) |
+| 8 | [Phase, Interference, and Why Z Hides](Docs/Introduction/08-Interference.md) | ● | draft | [`07Gates`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/07Gates.xcplaygroundpage) §4, [`03Qubits`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/03Qubits.xcplaygroundpage) |
 | 9 | [Measurement, Shots and Statistics](Docs/Introduction/09-Measurement.md) | ● | draft | `Quantum/SimulationResult.swift` |
-| 10 | [Superposition Across a Register](Docs/Introduction/10-Superposition.md) | ● | draft | [`06Superposition`](../SwiftQiskit/PlaygroundDocs/06SUPERPOSITIONHELP.md) |
-| 11 | [Tensor Products and Composite Systems](Docs/Introduction/11-TensorProducts.md) | ◐ | draft | [`09Tensor`](../SwiftQiskit/PlaygroundDocs/09TENSORHELP.md) |
-| 12 | [Entanglement: Bell and GHZ](Docs/Introduction/12-Entanglement.md) | ● | draft | [`07Entanglement`](../SwiftQiskit/PlaygroundDocs/07ENTANGLEMENTHELP.md) |
-| 13 | [Oracles and Phase Kickback: Deutsch's Algorithm](Docs/Introduction/13-Deutsch.md) | ● | draft | [`10DeutschExample`](../SwiftQiskit/PlaygroundDocs/10DEUTSCHHELP.md) |
-| 14 | [Deutsch–Jozsa and Bernstein–Vazirani](Docs/Introduction/14-DeutschJozsa.md) | ● | draft | [`17DeutschJozsa`](../SwiftQiskit/PlaygroundDocs/17DEUTSCHJOZSAHELP.md) |
-| 15 | [Grover's Search](Docs/Introduction/15-Grover.md) | ● | draft | [`11GroverExample`](../SwiftQiskit/PlaygroundDocs/11GROVERHELP.md) |
-| 16 | [The Quantum Fourier Transform and Phase Estimation](Docs/Introduction/16-QFT.md) | ● | draft | [`16QFT`](../SwiftQiskit/PlaygroundDocs/16QFTHELP.md) |
-| 17 | [Shor's Algorithm, Compiled](Docs/Introduction/17-Shor.md) | ◐ | draft | [`12ShorExample`](../SwiftQiskit/PlaygroundDocs/12SHORHELP.md) |
-| 18 | [Teleportation and Superdense Coding](Docs/Introduction/18-Teleportation.md) | ◐ | draft | [`13Teleportation`](../SwiftQiskit/PlaygroundDocs/13TELEPORTATIONHELP.md) |
-| 19 | [Quantum Error Correction](Docs/Introduction/19-ErrorCorrection.md) | ● | draft | [`14ErrorCorrection`](../SwiftQiskit/PlaygroundDocs/14ERRORCORRECTIONHELP.md) |
-| 20 | [Bell Tests: The CHSH Inequality](Docs/Introduction/20-CHSH.md) | ● | draft | [`15CHSH`](../SwiftQiskit/PlaygroundDocs/15CHSHHELP.md) |
-| 21 | [Noise, Density Matrices and Channels](Docs/Introduction/21-Noise.md) | ◐ | draft | [`19Noise`](../SwiftQiskit/PlaygroundDocs/19NOISEHELP.md) |
-| 22 | [State Tomography](Docs/Introduction/22-Tomography.md) | ◐ | draft | [`20Tomography`](../SwiftQiskit/PlaygroundDocs/20TOMOGRAPHYHELP.md) |
-| 23 | [Variational Algorithms: VQE](Docs/Introduction/23-VQE.md) | ◐ | draft | [`18VQE`](../SwiftQiskit/PlaygroundDocs/18VQEHELP.md) |
-| 24 | [Hamiltonian Simulation and Trotter Error](Docs/Introduction/24-Trotter.md) | ◐ | draft | [`21Trotter`](../SwiftQiskit/PlaygroundDocs/21TROTTERHELP.md) |
-| 25 | [Discrete-Time Quantum Walks](Docs/Introduction/25-QuantumWalks.md) | ◐ | draft | [`22Walk`](../SwiftQiskit/PlaygroundDocs/22WALKHELP.md) |
-| 26 | [Tensor Diagrams](Docs/Introduction/26-TensorDiagrams.md) | ● | draft | [`23TensorNetwork`](../SwiftQiskit/PlaygroundDocs/23TENSORNETWORKHELP.md) |
-| 27 | [Epilogue: Where to Go Next](Docs/Introduction/27-Epilogue.md) | — | draft | — |
+| 10 | [Superposition Across a Register](Docs/Introduction/10-Superposition.md) | ● | draft | [`10Superposition`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/10Superposition.xcplaygroundpage) |
+| 11 | [Tensor Products and Composite Systems](Docs/Introduction/11-TensorProducts.md) | ◐ | draft | [`11TensorProducts`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/11TensorProducts.xcplaygroundpage) |
+| 12 | [Entanglement: Bell and GHZ](Docs/Introduction/12-Entanglement.md) | ● | draft | [`12Entanglement`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/12Entanglement.xcplaygroundpage) |
+| 13 | [Oracles and Phase Kickback: Deutsch's Algorithm](Docs/Introduction/13-Deutsch.md) | ● | draft | [`13Deutsch`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/13Deutsch.xcplaygroundpage) |
+| 14 | [Deutsch–Jozsa and Bernstein–Vazirani](Docs/Introduction/14-DeutschJozsa.md) | ● | draft | [`14DeutschJozsa`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/14DeutschJozsa.xcplaygroundpage) |
+| 15 | [Grover's Search](Docs/Introduction/15-Grover.md) | ● | draft | [`15Grover`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/15Grover.xcplaygroundpage) |
+| 16 | [The Quantum Fourier Transform and Phase Estimation](Docs/Introduction/16-QFT.md) | ● | draft | [`16QFT`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/16QFT.xcplaygroundpage) |
+| 17 | [Shor's Algorithm, Compiled](Docs/Introduction/17-Shor.md) | ◐ | draft | [`17Shor`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/17Shor.xcplaygroundpage) |
+| 18 | [Teleportation and Superdense Coding](Docs/Introduction/18-Teleportation.md) | ◐ | draft | [`18Teleportation`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/18Teleportation.xcplaygroundpage) |
+| 19 | [Quantum Error Correction](Docs/Introduction/19-ErrorCorrection.md) | ● | draft | [`19ErrorCorrection`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/19ErrorCorrection.xcplaygroundpage) |
+| 20 | [Bell Tests: The CHSH Inequality](Docs/Introduction/20-CHSH.md) | ● | draft | [`20CHSH`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/20CHSH.xcplaygroundpage) |
+| 21 | [Noise, Density Matrices and Channels](Docs/Introduction/21-Noise.md) | ◐ | draft | [`21Noise`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/21Noise.xcplaygroundpage) |
+| 22 | [State Tomography](Docs/Introduction/22-Tomography.md) | ◐ | draft | [`22Tomography`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/22Tomography.xcplaygroundpage) |
+| 23 | [Variational Algorithms: VQE](Docs/Introduction/23-VQE.md) | ◐ | draft | [`23VQE`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/23VQE.xcplaygroundpage) |
+| 24 | [Hamiltonian Simulation and Trotter Error](Docs/Introduction/24-Trotter.md) | ◐ | draft | [`24Trotter`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/24Trotter.xcplaygroundpage) |
+| 25 | [Discrete-Time Quantum Walks](Docs/Introduction/25-QuantumWalks.md) | ◐ | draft | [`25QuantumWalks`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/25QuantumWalks.xcplaygroundpage) |
+| 26 | [Tensor Diagrams](Docs/Introduction/26-TensorDiagrams.md) | ● | draft | [`26TensorDiagrams`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/26TensorDiagrams.xcplaygroundpage) |
+| 27 | [Epilogue: Where to Go Next](Docs/Introduction/27-Epilogue.md) | — | stub | — |
 
 Status moves `stub` → `draft` → `done` as each chapter is written; this table is the single
 progress tracker (see [Docs/Introduction/AUTHORING.md](Docs/Introduction/AUTHORING.md) for the

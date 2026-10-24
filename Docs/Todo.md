@@ -6,7 +6,7 @@ Project status and roadmap for SwiftQiskitApp.
 
 **SwiftQiskitApp is v1: a working circuit builder, front-end only.**
 
-- All quantum simulation is delegated to the `SwiftQiskit` package (currently 0.8.0,
+- All quantum simulation is delegated to the `SwiftQiskit` package (currently 0.8.1,
   experimental — its API may change under this app).
 - The UI supports placing/removing gates, live state-vector display, and shot-based
   measurement with a histogram.
@@ -17,7 +17,7 @@ Project status and roadmap for SwiftQiskitApp.
 - Gate palette: `H X Y Z` (Pauli/Hadamard), `S S† T T†` (phase), `P RX RY RZ` (rotations,
   each with a θ parameter), `CX`/`CY`/`CZ`/`SWAP` (two-qubit), `RZZ RXX RYY` (two-qubit rotations, each
   with a θ parameter).
-- Tap-to-arm-then-tap-cell placement; CX's two-tap control→target flow, RZZ/RXX/RYY's
+- Tap-to-arm-then-tap-cell placement; CX/CY/CZ's two-tap control→target flow, SWAP's and RZZ/RXX/RYY's
   two-tap flow on an unordered qubit pair.
 - Multi-controlled CX, CY and CZ: tapping a placed CX, CY or CZ opens a "Controls: n" stepper popover; **+** adds
   a control on any free qubit in the column, **−** removes the newest. Two controls is the
@@ -59,8 +59,8 @@ Project status and roadmap for SwiftQiskitApp.
       open/closed controls (a control that fires on `0`).
 - [ ] Gate-count / circuit-depth readout alongside the state vector.
 - [x] A Bloch-sphere view, covering multi-qubit circuits — `BlochSphereView`
-      was ported from the package playground's `Sources/` folder (not importable as-is) into
-      the app; `BlochVector` (with the reduced, partial-trace init for qubits beyond the
+      was ported from the playground's `Sources/` folder into the app (package `0.8.1`
+      now ships its own public `BlochSphereView`, see the roadmap item below); `BlochVector` (with the reduced, partial-trace init for qubits beyond the
       first) originally was too, but has since moved to the package's own shared
       `SwiftQiskitViews` product (`0.2.0`) — this app now imports it from there instead of
       vendoring a copy.
@@ -69,7 +69,9 @@ Project status and roadmap for SwiftQiskitApp.
       ("3D") alongside Final/Steps.
 - [x] Adopt the shared `SwiftQiskitViews` package product for `BlochVector`/`CHSHChartView`,
       replacing this app's own vendored `BlochVector.swift` — done as part of `SwiftQiskit`
-      `0.2.0`; the package dependency requirement now starts at `0.2.0`.
+      `0.2.0`; the package dependency requirement has since been raised to `0.8.1`.
+- [ ] Adopt or remove this app's own `BlochSphereView`/`Bloch3DSphereView`, now that
+      `SwiftQiskitViews` `0.8.1` ships public `BlochSphereView` and `Bloch3DView` of the same names.
 - [ ] iPad-specific layout polish (currently shares the macOS 3-pane layout as-is).
 - [ ] iPhone Duo-specific layout polish  (currently display width dependent)..
 - [ ] UI tests via XCUIAutomation (current tests only cover the model/geometry, not views).
@@ -79,7 +81,7 @@ Project status and roadmap for SwiftQiskitApp.
       for an 8-qubit, 20-column circuit, including the Steps display's per-column replays.
 - [ ] Steps display replays a prefix circuit per column (cost grows with the square of the
       column count). Fixing it needs a package API that returns intermediate states in one
-      pass; `QuantumCircuit`'s operation list is internal. Not needed at 8 qubits.
+      pass; `QuantumCircuit`'s operation list is private (`operationRecords` is internal). Not needed at 8 qubits.
 - [x] De-duplicate against `SwiftQiskitGUI` — resolved by removing that target from the
       `SwiftQiskit` package rather than extracting a shared module: it had drifted behind this
       app (no Bloch-sphere Display button, an older `CircuitModel`, no measurement-model

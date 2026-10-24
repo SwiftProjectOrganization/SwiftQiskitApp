@@ -7,8 +7,8 @@
 
 | | |
 |---|---|
-| Playground page | [`11GroverExample`](../../../SwiftQiskit/PlaygroundDocs/11GROVERHELP.md) |
-| In the app | ● — CZ (`h;cx;h`) and X-conjugated phase oracles are tappable, and so is the 3-qubit finale's CCZ: `t`/`tdg` plus `cx` reproduce it exactly (§15.9), no `apply(_:)` needed |
+| Playground page | [`15Grover`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/15Grover.xcplaygroundpage) |
+| In the app | ● — the CZ tile and X-conjugated phase oracles are tappable, and so is the 3-qubit finale's CCZ: a CZ tile with one extra control from its popover (§15.9), no `apply(_:)` needed |
 | Library APIs | `QuantumCircuit.h/x/cx/t/tdg`, `.apply(_:)` (§15.8's Dirac form only), `.probabilities`, `measure(shots:)`, `BlochVector(_:qubit:)` |
 | Prerequisites | Chapters 8, 12, 13, 14 |
 
@@ -37,7 +37,7 @@ and steered by a second operator built specifically to read the sign back out.
 
 ## 15.2 CZ from H and CX
 
-There is no native controlled-Z, but conjugating CNOT's target with Hadamards turns its X into a
+The app has a CZ tile, and the package has `cz`. The same gate also falls out of CNOT: conjugating its target with Hadamards turns its X into a
 Z (`HXH = Z`):
 
 ```text
@@ -73,7 +73,7 @@ to measurement, exactly Chapter 8 §8.2's point applied to a two-qubit register 
 
 This is the same trick Chapter 13 built, widened. Building the `|10⟩` oracle instead as a genuine
 *bit* oracle `U_f: |x⟩|y⟩ → |x⟩|y ⊕ f(x)⟩` on a third qubit prepared in `|−⟩` — `f(x) = [x = 10]`,
-via a hand-built permutation matrix since the palette has no native multi-controlled XOR —
+via a hand-built permutation matrix (a CX with two controls from the palette could do this too, but the page builds the matrix directly) —
 and tracing the ancilla's fixed `|−⟩` split out of each branch recovers the identical sign per
 input state:
 
@@ -211,12 +211,12 @@ via gate diffusion:  |10⟩: -1.0000
 Both land on `|10⟩` with certainty — the sign disagreement is the same global phase §15.4 already
 flagged (the gate construction equals −D), invisible to every probability and every measurement.
 
-## 15.9 A 3-qubit finale: CCZ from T, T†, and CX
+## 15.9 A 3-qubit finale: CCZ
 
 N = 4 is a special case where one iteration is exact. Beyond it, the oracle and diffusion both
-need a *doubly*-controlled Z, and H/X/Z/CX alone cannot build one. The playground page reaches
-for `apply(_:)` with a hand-built matrix — but the palette also has `t` and `tdg`, and the
-standard T-gate decomposition of CCZ needs nothing else:
+need a *doubly*-controlled Z. In the app that is a CZ tile with one extra control (tap the
+placed CZ, then **+** in its popover); in code it is `mcz([0, 1], 2)`. The same gate also has the
+standard T-gate decomposition, which needs only `t`, `tdg` and `cx` and is kept here as a check:
 
 ```text
 cx(1,2); tdg(2); cx(0,2); t(2); cx(1,2); tdg(2); cx(0,2);
@@ -238,7 +238,7 @@ basis  gates-CCZ  matrix-CCZ  match
  7     -1.0       -1.0       true
 ```
 
-Every entry matches — this sequence *is* a CCZ, tappable one gate at a time. With `h(_:)` and
+Every entry matches — this sequence *is* a CCZ, if you prefer to build it from `t`/`tdg`/`cx` tiles. With `h(_:)` and
 `x(_:)` already embedding into any register size, the same oracle/diffusion pattern scales to 3
 qubits with no `apply(_:)` anywhere. Now sin θ = 1/√8 and the optimal iteration count,
 round(π/(4θ) − ½), is 2 — success is high but no longer certain:
@@ -304,7 +304,7 @@ Chapters 10–15.
    rows at flat `p=0.250`.
 2. **Oracle for `|10⟩`** — Arm **X** (Pauli section), tap `q1` in column 1. Arm **H**, tap `q1` in
    column 2. Arm **CX** (Multi-qubit section), tap `q0` then `q1` in column 3. Arm **H**, tap `q1`
-   in column 4. Arm **X**, tap `q1` in column 5 (this six-gate sequence is `x(1); h(1); cx(0,1);
+   in column 4. Arm **X**, tap `q1` in column 5 (this five-gate sequence is `x(1); h(1); cx(0,1);
    h(1); x(1)` — CZ conjugated by X, exactly §15.3). Panel: still four rows at `p=0.250`, but
    `|10⟩`'s sign has flipped relative to step 1.
 3. **Diffusion** — Arm **H**, tap `q0` and `q1` in column 6. Arm **X**, tap `q0` and `q1` in
@@ -313,33 +313,31 @@ Chapters 10–15.
    and `q1` in column 12. Panel collapses to one row: `|10⟩: p=1.000`. Set **Shots: 1000**, tap
    **Measure**: every shot reads `10`.
 4. **Watch the entanglement on the sphere** — Tap **Display**, pick **Steps**, qubit picker on
-   `q0`: `|r|` visibly shrinks to 0 right after column 5 (the oracle) and stays shrunk through
-   columns 6–11, then springs back to 1 at column 12 landing on the south pole — the mid-circuit
+   `q0`: `|r|` visibly shrinks to 0 at the oracle's `CX` (column 3, the card labelled `Col 4`) and stays
+   shrunk through column 8, then springs back to 1 at the diffusion's `CX` (column 9, `Col 10`),
+   ending on the south pole — the mid-circuit
    entanglement §15.5 describes, made visible without reading any numbers.
 5. **Swap the marked state** — Delete the column 1 and column 5 `X` tiles via their context menu
-   (for `|11⟩`, delete none; for `|01⟩`, keep only `q0`'s `X`; for `|00⟩`, add `X` on both `q0` and
-   `q1` at columns 1 and 5). Measure again: the outcome always matches the newly marked state.
+   (the circuit above marks `|10⟩` with the single `X` pair on `q1`; for `|11⟩`, delete both of them;
+   for `|00⟩`, add `X` on `q0` at columns 1 and 5 as well; for `|01⟩`, delete `q1`'s pair and add
+   `q0`'s). Measure again: the outcome always matches the newly marked state.
 6. **Over-rotate** — From step 3's circuit, append a second oracle-and-diffusion block (columns
    13–24, repeating steps 2–3's gate sequence). Panel: four rows at flat `p=0.250` again — P has
    rotated past the target, matching §15.7's k = 2 row.
-7. **Qubits: 3, marked `|111⟩`, CCZ from T/T†/CX** — Clear, set **Qubits: 3**. Arm **H**, tap `q0`,
-   `q1`, `q2` in column 0 (no oracle `X`'s needed — `|111⟩` is already `|11⟩` in CZ's own basis).
-   Build the CCZ oracle across columns 1–11: **CX** `q1`→`q2` (col 1), **T†** `q2` (col 2), **CX**
-   `q0`→`q2` (col 3), **T** `q2` (col 4), **CX** `q1`→`q2` (col 5), **T†** `q2` (col 6), **CX**
-   `q0`→`q2` (col 7), **T** `q1` *and* **T** `q2` together in column 8 (different qubits, same
-   column), **CX** `q0`→`q1` (col 9), **T** `q0` *and* **T†** `q1` together in column 10, **CX**
-   `q0`→`q1` (col 11). Then diffusion: **H** all three in column 12, **X** all three in column 13,
-   the same 11-column CCZ sequence again in columns 14–24, **X** all three in column 25, **H** all
-   three in column 26 — 27 columns total for one iteration. Measure: `111` dominates at
-   P ≈ 0.7812, matching §15.9's k = 1 row exactly.
+7. **Qubits: 3, marked `|111⟩`, CCZ as a controlled CZ** — Clear, set **Qubits: 3**. Arm **H**, tap
+   `q0`, `q1`, `q2` in column 0 (no oracle `X`'s needed — `|111⟩` is already `|11⟩` in CZ's own
+   basis). Oracle: arm **CZ**, tap `q0` then `q1` in column 1, then tap the placed CZ and use **+**
+   in its **Controls** popover to add `q2` as a control. Then diffusion: **H** all three in column 2,
+   **X** all three in column 3, a second CCZ built the same way in column 4, **X** all three in
+   column 5, **H** all three in column 6 — 7 columns total for one iteration. Measure: `111`
+   dominates at P ≈ 0.7812, matching §15.9's k = 1 row exactly (the other seven rows sit at
+   `p=0.031`).
 
-Two limits worth stating plainly, as earlier chapters did: the 3-qubit CCZ costs 13 gate-taps per
-use (11 columns, since two T/T† pairs each share a column) and appears twice per iteration, so
-building even k = 2 by hand runs past 50 columns — tedious but not impossible, and nothing here
-needs the `apply(_:)` escape hatch the playground page reaches for. And as always, the app cannot
-hide the oracle from the person building it — the "one query" claim describes the circuit's
-structure (one oracle tile-sequence per iteration), not any enforced ignorance of what is inside
-it.
+Two limits worth stating plainly, as earlier chapters did: building k = 2 by hand takes five more
+columns, which is tedious but not hard, and nothing here needs the `apply(_:)` escape hatch the
+playground page reaches for. And as always, the app cannot hide the oracle from the person
+building it — the "one query" claim describes the circuit's structure (one oracle tile-sequence
+per iteration), not any enforced ignorance of what is inside it.
 
 ## Run it in code
 
@@ -770,7 +768,8 @@ print("column count:", b.columnCount())
 print("panel after oracle (col 5):", panelRows(b.buildCircuit(throughColumn: 5).run(), qubits: 2))
 print("final panel:", panelRows(b.buildCircuit().run(), qubits: 2))
 
-// step 7: 3-qubit walkthrough, marked |111>, one iteration, CCZ via T/Tdg/CX
+// step 7 (T/Tdg/CX variant): 3-qubit walkthrough, marked |111>, one iteration. The app's
+// step 7 above uses a CZ tile with an extra control instead, which needs only 7 columns.
 let c = CircuitBuilder(qubitCount: 3)
 c.place(.h, qubits: [0], column: 0); c.place(.h, qubits: [1], column: 0); c.place(.h, qubits: [2], column: 0)
 var col = placeCCZ(c, startColumn: 1)
@@ -797,6 +796,9 @@ P(|111>) = 0.7812
 The 27-column count confirms the shared-column T/T† pairs: the CCZ's 13 gates fit 11 columns
 (§15.9), so one full iteration — oracle CCZ, H-all, X-all, diffusion CCZ, X-all, H-all — is
 1 + 11 + 1 + 1 + 11 + 1 + 1 = 27 columns, matching the count printed above.
+
+This code builds the T-gate decomposition column by column; with the CZ-plus-control tile the
+same iteration takes 7 columns and reaches the same P(|111⟩) = 0.7812.
 
 Re-running either shot-count block above will land close to, but not exactly on, the printed
 splits — the app-visible statistics are genuinely probabilistic (Chapter 9), same as Chapters 13

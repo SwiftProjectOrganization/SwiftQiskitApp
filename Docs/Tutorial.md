@@ -23,9 +23,9 @@ A floating bar at the bottom of the window holds the **Qubits** stepper and four
 **Clear**, **Results**, **Measure** and **Display**. **Display** opens a sheet with a
 Bloch-sphere view of the circuit — see "Viewing Bloch spheres" below.
 
-When the window is narrow (a narrowed Mac window, Split View), the right-hand pane is hidden.
-**Results** then opens the state vector in a sheet, and **Measure** takes a measurement and
-opens the Measurement sheet.
+When the window is narrower than 672 pt (an iPad in Split View; a Mac window can't get that
+narrow), the right-hand pane is hidden and **Results** opens the state vector in a sheet.
+**Measure** always takes a measurement and then opens the Measurement sheet, at any width.
 
 On iPhone (compact layout) the same controls are rearranged: the circuit grid fills the
 screen with the gate strip pinned below it; the **Qubits** stepper is in the top-left toolbar,
@@ -89,7 +89,7 @@ center after the `CX`.
 
 ## Other things to try
 
-- **A parameterized gate.** Arm **RX** (under "Rotation") and place it on a qubit. Tap the
+- **A parameterized gate.** Arm **RX** (under "Rotation (θ = π/2)"; new rotation tiles start at θ = π/2) and place it on a qubit. Tap the
   placed tile again to open a popover with a θ slider (0 to 2π); dragging it updates the
   State Vector panel live.
 - **Deleting a gate.** Open the context menu on a placed single-qubit tile (long-press on
@@ -140,7 +140,7 @@ This app only exercises part of the package's circuit API
 controls). For
 a deeper look at what these gates actually do:
 
-- [../SwiftQiskit/PlaygroundDocs/05GATESHELP.md](../SwiftQiskit/PlaygroundDocs/05GATESHELP.md)
-  — a gentle, gate-by-gate tour.
-- [../SwiftQiskit/PlaygroundDocs/07ENTANGLEMENTHELP.md](../SwiftQiskit/PlaygroundDocs/07ENTANGLEMENTHELP.md)
+- [07Gates](../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/07Gates.xcplaygroundpage)
+  — a gentle, gate-by-gate tour (playground page in SwiftQiskitPlaygrounds).
+- [12Entanglement](../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/12Entanglement.xcplaygroundpage)
   — the Bell state and GHZ state walkthroughs this tutorial mirrors.

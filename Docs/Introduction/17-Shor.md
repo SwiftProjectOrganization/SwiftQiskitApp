@@ -9,8 +9,8 @@
 
 | | |
 |---|---|
-| Playground page | [`12ShorExample`](../../../SwiftQiskit/PlaygroundDocs/12SHORHELP.md) |
-| In the app | ◐ — `a = 11` and `a = 14` (order 2) compile down to `h`/`x`/`cx` plus a single closing `h`; `a = 7` (order 4, optional) needs one Toffoli, built the way Chapter 15 built its CCZ; the general permutation `U_a` and the entrywise QFT† matrix stay code-only |
+| Playground page | [`17Shor`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/17Shor.xcplaygroundpage) |
+| In the app | ◐ — `a = 11` and `a = 14` (order 2) compile down to `h`/`x`/`cx` plus a single closing `h`; `a = 7` (order 4, optional) needs one Toffoli, which is a CX tile with two controls; the general permutation `U_a` and the entrywise QFT† matrix stay code-only |
 | Library APIs | `QuantumCircuit.h/x/t/tdg/cx/p`, `apply(_:)`, `Matrix`, `⊗`, postfix `†`, `.run()`, `.probabilities`, `measure(shots:)`, `CircuitBuilder` |
 | Prerequisites | Chapters 11, 13, 15, 16 |
 
@@ -282,10 +282,9 @@ orbit from §17.3 supplies the fix: only 4 of the 16 work states are ever reache
 (0, 1, 2, 3 for values 1, 7, 4, 13). `×7` becomes "add 1 mod 4" on that 2-qubit register, and `×4`
 (= `×7` twice) becomes "add 2 mod 4" — adding 2 mod 4 always flips only the top bit, a single `cx`;
 adding 1 mod 4 is the standard 2-bit increment (flip the low bit; flip the high bit only when the
-low bit was 1, i.e. a carry) — controlled, that carry is exactly a Toffoli, and the app has no
-Toffoli tile. Chapter 15 §15.9 already built one from three palette gates alone — `t`, `tdg`, and
-`cx` — as a controlled-Z; conjugating its target qubit with `H` on either side turns that CCZ into
-a Toffoli (`H(target); CCZ; H(target)`), so no `apply(_:)` is needed here either.
+low bit was 1, i.e. a carry) — controlled, that carry is exactly a Toffoli. In the app that is a **CX** tile with a second control added from its
+popover (the package's `ccx`), so no `apply(_:)` is needed here either. (Chapter 15 §15.9's
+`t`/`tdg`/`cx` CCZ, conjugated by `H` on the target, builds the same gate from single tiles.)
 
 ## Build it in the app
 
@@ -315,14 +314,13 @@ lands on a palette tile exactly.
    q2, q3 the 2-qubit orbit register (q2 the high bit), starting at `00` (step 0, value 1, so no
    `X` tap is needed here). Arm **H**, tap `q0` and `q1` in column 0. **CX** `q0`→`q2` (col 1) —
    "add 2 mod 4," controlled ×4. Then the controlled ×7 ("add 1 mod 4"): a Toffoli on
-   (control `q1`, control `q3`, target `q2`) built as `H(q2)` (col 2), Chapter 15 §15.9's 13-gate
-   CCZ sequence on `(q1, q3, q2)` (cols 3–15: `cx q3→q2`, `tdg q2`, `cx q1→q2`, `t q2`,
-   `cx q3→q2`, `tdg q2`, `cx q1→q2`, `t q3`, `t q2`, `cx q1→q3`, `t q1`, `tdg q3`, `cx q1→q3`),
-   then `H(q2)` (col 16) to close the Toffoli, then **CX** `q1`→`q3` (col 17, the increment's
-   remaining low-bit flip). Then the 2-qubit inverse QFT on `q0`/`q1`: swap as three CX's (cols
-   18–20), **H** `q1` (col 21), CP(−π/2) in T†/T form (**T†** `q1` col 22, **CX** `q1`→`q0`
-   col 23, **T** `q0` col 24, **CX** `q1`→`q0` col 25, **T†** `q0` col 26), **H** `q0` (col 27).
-   28 columns total. Panel: sixteen rows at flat `p=0.062` (= ¼ × ¼, since the orbit register's
+   (control `q1`, control `q3`, target `q2`): arm **CX**, tap `q1` then `q2` (col 2), then tap the
+   placed CX and use **+** in its **Controls** popover to add `q3` as a second control. Then
+   **CX** `q1`→`q3` (col 3, the increment's remaining low-bit flip). Then the 2-qubit inverse QFT
+   on `q0`/`q1`: swap as three CX's (cols 4–6), **H** `q1` (col 7), CP(−π/2) in T†/T form
+   (**T†** `q1` col 8, **CX** `q1`→`q0` col 9, **T** `q0` col 10, **CX** `q1`→`q0` col 11, **T†**
+   `q0` col 12), **H** `q0` (col 13).
+   14 columns total. Panel: sixteen rows at flat `p=0.062` (= ¼ × ¼, since the orbit register's
    own two bits are still visible in the panel, ungrouped) — grouping by `q0 q1` alone reproduces
    the ¼-¼-¼-¼ split at y = 0, 1, 2, 3 that §17.5's raw 7-qubit circuit found at y = 0, 2, 4, 6 (the
    same peaks at half the resolution, since this register only needs 2 bits, not 3). Measuring
@@ -718,7 +716,7 @@ b14.place(.h, qubits: [0], column: 5)
 print("\na=14 columns:", b14.columnCount())
 print("a=14 panel:", panelRows(b14.buildCircuit().run(), qubits: 5))
 
-// a = 7 optional, orbit-index circuit (Toffoli via Chapter 15's CCZ), 4 qubits total
+// a = 7 optional, orbit-index circuit (Toffoli via Chapter 15's CCZ; in the app, a CX with two controls), 4 qubits total
 var b7 = CircuitBuilder(qubitCount: 4)
 b7.place(.h, qubits: [0], column: 0)
 b7.place(.h, qubits: [1], column: 0)

@@ -209,8 +209,8 @@ The relative-path dependency is asserted in a fair number of places:
 
 Prose follows the project's sober style — plain, measured, no hype.
 
-Cross-repo links such as `Docs/Help.md:176-177` and the `Docs/Introduction/*.md` links into
-`../../../SwiftQiskit/PlaygroundDocs/` still assume a sibling checkout. They stay valid for
+Cross-repo links such as the ones that were in `Docs/Tutorial.md` and the `Docs/Introduction/*.md` links into
+`../../../SwiftQiskit/PlaygroundDocs/` assumed a sibling checkout. They stay valid for
 anyone who has one; what changes is that a sibling checkout becomes *optional* — needed to read
 the playgrounds, not to build the apps. State that once in `01-Setup.md` rather than editing
 roughly twenty link tables.
@@ -321,3 +321,17 @@ Steps taken in this repo:
 - `Package.resolved` picks up the `0.2.0` pin the next time Xcode resolves package versions
   (File ▸ Packages ▸ Resolve Package Versions), which happens automatically once the
   dependency's minimum version is edited in the UI above.
+
+## Later updates
+
+This document describes the state at the time of the change; line numbers and test counts above
+(for example `project.pbxproj:638-643` as a local reference, and 22 tests) are historical.
+Since then:
+
+- The `minimumVersion` of the remote requirement went from `0.2.0` to `0.5.0`, and then to
+  `0.8.1`. The code needs at least `0.7.0` (`cy`/`mcy`).
+- `Package.resolved` currently pins `0.8.1`.
+- `Playgrounds.playground` and `PlaygroundDocs/` were removed from `SwiftQiskit`. The pages now
+  live in the separate `SwiftQiskitPlaygrounds` repository, and the cross-repo links in
+  `Docs/` and `Docs/Introduction/` point there.
+

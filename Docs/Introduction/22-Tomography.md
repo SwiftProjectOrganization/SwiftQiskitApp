@@ -6,10 +6,12 @@
 
 | | |
 |---|---|
-| Playground page | [`20Tomography`](../../../SwiftQiskit/PlaygroundDocs/20TOMOGRAPHYHELP.md) |
+| Playground page | [`22Tomography`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/22Tomography.xcplaygroundpage) |
 | In the app | ◐ — the three basis-rotation-then-measure circuits are tappable one at a time; combining the three shot counts into a reconstructed Bloch vector is code-only |
 | Library APIs | `QuantumCircuit.h/s/sdg/rx/cx`, `.run()`, `measure(shots:)`, `SimulationResult.counts`, `StateVector.measure()`, `†`, `Bra * Matrix`, `BlochVector(x:y:z:)` |
 | Prerequisites | Chapters 5, 9, 12, 21 |
+
+> Since package `0.8.1`, `SwiftQiskit` also ships `StateTomography`, which does this reconstruction for you; this chapter builds it by hand to show the arithmetic.
 
 ## 22.1 Measuring in X, Y, and Z bases
 

@@ -6,9 +6,9 @@
 
 | | |
 |---|---|
-| Playground page | [`40ComplexAndMatrices`](../../../SwiftQiskit/Playgrounds.playground/Pages/40ComplexAndMatrices.xcplaygroundpage/Contents.swift), with its [help guide](../../../SwiftQiskit/PlaygroundDocs/40COMPLEXANDMATRICESHELP.md) (see also [`09Tensor`](../../../SwiftQiskit/PlaygroundDocs/09TENSORHELP.md) for `⊗` in depth) |
+| Playground page | [`01Matrices`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/01Matrices.xcplaygroundpage) and [`02Complex`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/02Complex.xcplaygroundpage) (see also [`11TensorProducts`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/11TensorProducts.xcplaygroundpage) for `⊗` in depth) |
 | In the app | ○ — the app has no matrix-entry UI; only the results of gates applied to it are visible |
-| Library APIs | `Math/Complex.swift`, `Math/Matrix.swift` (`+ - * /`, `multiply(by:)`, `identity(size:)`, `tensor(_:)`/`⊗`), `Quantum/Dirac.swift` (`.adjoint`, postfix `†`), `Utils/Angles.swift` (`rad2deg`, `deg2rad`; package 0.7.3 or later) |
+| Library APIs | `Math/Complex.swift`, `Math/Matrix.swift` (`+ - * /`, `multiply(by:)`, `identity(size:)`, `tensor(_:)`/`⊗`), `Quantum/Dirac.swift` (`.adjoint`, postfix `†`), `Utils/Angles.swift` (`rad2deg`, `deg2rad`; package 0.7.3 or later; the app now resolves 0.8.1) |
 | Prerequisites | Chapter 1 |
 
 ## 2.1 Why these mathematical tools
@@ -307,8 +307,8 @@ the app's grid in reading order is always correct.
 
 Not every matrix is a valid quantum gate — gates must be **unitary**. A matrix `U` is unitary
 when `U†U = I`, where `U†`, the adjoint, transposes the matrix and conjugates every entry
-(`Matrix.adjoint`, declared in `Quantum/Dirac.swift` alongside `Bra`/`Ket`, not in
-`Math/Matrix.swift`). Unitary matrices preserve vector length: applying one to a unit vector
+(`Matrix.adjoint`, declared in `Math/Matrix.swift`; the postfix `†` and `Bra`/`Ket` are in
+`Quantum/Dirac.swift`). Unitary matrices preserve vector length: applying one to a unit vector
 always produces another unit vector, which is exactly why every quantum gate must be one — a
 gate that shrank or grew a state would produce probabilities that no longer sum to 1.
 
@@ -439,8 +439,8 @@ re-explain each time, here is the complete list, checked directly against both s
 | `Complex` polar form: `.argument`, `exp`, `pow` | §2.4 above — build `e^{iθ}` by hand instead |
 | Unary minus, `+`/`-`/`/` against a bare `Double` on `Complex` | none so far — write `Complex(-x, -y)` or `Complex(d, 0)` when needed |
 | Standalone transpose (only the conjugated `.adjoint` exists) | none so far |
-| Trace, determinant, inverse | Chapter 22's tomography |
-| Matrix exponential `expm` | Chapter 24's Trotter error, which defines its own `expm` locally |
+| Determinant, inverse | none so far (`Matrix.trace` exists in `Math/Matrix.swift`) |
+| Matrix exponential | `Matrix.expm(terms:)` in `Math/Matrix.swift`; Chapter 24's page defines its own local copy |
 | Arithmetic (`+`, scalar `*`) on plain `[Complex]` vectors | §2.5 above — one-line `zip`/`map` helpers |
 
 Where a chapter needs one of these, it defines a small local helper rather than extending the

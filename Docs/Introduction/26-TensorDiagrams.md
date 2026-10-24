@@ -8,7 +8,7 @@
 
 | | |
 |---|---|
-| Playground page | [`23TensorNetwork`](../../../SwiftQiskit/PlaygroundDocs/23TENSORNETWORKHELP.md) |
+| Playground page | [`26TensorDiagrams`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/26TensorDiagrams.xcplaygroundpage) |
 | In the app | ● — every example below uses palette gates (`h`, `cx`, `p`, `rzz`), and Display → Tensor draws the diagram live |
 | Library APIs | `TensorNetwork(_:)`, `.nodes`/`.edges`/`.columns`, `TensorNetwork.Node.kind/qubits/column/tensor`, `TensorNetwork.Kind.input/gate(_:)/output`, `.contract()`, `QuantumCircuit.run()`, `TensorNetworkView(_:title:)` |
 | Prerequisites | Chapters 11, 12, 16, 24 |
@@ -206,6 +206,42 @@ Build each example on the grid, then tap **Display** → **Tensor** to see its d
 4. **QFT ladder.** On a 2-qubit circuit, build `CP(π/2)` from the Chapter 16 decomposition using
    `P` and `CX` tiles (five tiles: P, CX, P, CX, P), with an `H` tile before and after on q0/q1
    respectively. Tensor mode shows all seven gate boxes end to end.
+
+## Run it in code
+
+Every snippet below was run with `RunCodeSnippet` against
+`SwiftQiskitApp/SwiftQiskitApp/CircuitModel.swift`. This one gathers §26.3–26.5 and §26.7 into a
+single check: node count, edge count, and the largest amplitude difference between
+`TensorNetwork.contract()` and `QuantumCircuit.run()`.
+
+```swift
+import SwiftQiskit
+
+func report(_ name: String, _ qc: QuantumCircuit) {
+    let net = TensorNetwork(qc)
+    let a = net.contract().amplitudes
+    let b = qc.run().amplitudes
+    var err = 0.0
+    for i in 0..<a.count { err = max(err, (a[i] - b[i]).magnitude) }
+    print(name, net.nodes.count, net.edges.count, String(format: "%.2e", err))
+}
+
+let bell = QuantumCircuit(qubits: 2); bell.h(0); bell.cx(0, 1)
+report("bell", bell)
+let ghz = QuantumCircuit(qubits: 3); ghz.h(0); ghz.cx(0, 1); ghz.cx(0, 2)
+report("ghz ", ghz)
+let rzz = QuantumCircuit(qubits: 2); rzz.rzz(0.7, 0, 1)
+report("rzz ", rzz)
+```
+
+```text
+bell 6 5 0.00e+00
+ghz  9 8 0.00e+00
+rzz  7 7 0.00e+00
+```
+
+The `rzz` row confirms §26.5: its 7 nodes are 2 inputs, the three gates `CX`, `RZ`, `CX`, and 2
+outputs.
 
 ## Try it yourself
 

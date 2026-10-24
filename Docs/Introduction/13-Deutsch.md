@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| Playground page | [`10DeutschExample`](../../../SwiftQiskit/PlaygroundDocs/10DEUTSCHHELP.md) |
+| Playground page | [`13Deutsch`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/13Deutsch.xcplaygroundpage) |
 | In the app | ● — all four oracles are `x`/`cx` combinations; the kickback shows as a sign flip in the panel and a 180° azimuth swing in Display → Steps |
 | Library APIs | `QuantumCircuit.h/x/cx`, `.amplitudes`/`.probabilities`, `measure(shots:)`, `BlochVector(_:qubit:)`, `Ket.minus`/postfix `†` |
 | Prerequisites | Chapters 8, 9, 12 |
@@ -273,7 +273,7 @@ every label, as throughout Chapters 10–14.
    swung to `−x`. Switch the picker to `q1`: north pole (`z +1.000`) at `Start`, flips to the
    south pole (`z −1.000`) at `Col 1` (its own `X`), swings to `−x` at `Col 2` (its own `H`), and
    stays there — untouched by the `CX` that's nominally acting on it. Switch to **Final**: both
-   qubits read `|r| = 1.000` — no entanglement, unlike Chapter 12's Bell-state step 3 (§13.5).
+   qubits show no `|r|` line, i.e. |r| = 1 — no entanglement, unlike Chapter 12's Bell-state step 3 (§13.5).
 4. **Close with H, get a certain answer** — Arm **H**, tap `q0` in column 3. Panel collapses to two
    rows, `|10⟩: p=0.500`, `|11⟩: p=0.500` — both with q0 = 1. Set **Shots: 1000**, tap **Measure**:
    only `10` and `11` appear, each near 50% (§13.8). Tap **Display → Final**: q0's card is at the

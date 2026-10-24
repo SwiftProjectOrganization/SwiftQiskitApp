@@ -7,10 +7,10 @@ instead of hand-wiring the package reference and view scaffolding every time.
 
 - **Quantum Algorithm App** — a multiplatform SwiftUI app template. It comes prefilled
   with a working example: a discrete-time quantum walk (ported from
-  `SwiftQiskit/Playgrounds.playground/Pages/22Walk.xcplaygroundpage`), split into a pure
+  `SwiftQiskitPlaygrounds repo: SwiftQiskitPlaygrounds.playground/Pages/25QuantumWalks.xcplaygroundpage`), split into a pure
   algorithm file, an `@Observable` view model, a Swift Charts view, and a unit test suite.
 - **Quantum Algorithm App Tests** — the unit test bundle component the app template uses.
-  Not user-facing; Xcode instantiates it automatically when you create the app.
+  Not user-facing; Xcode adds it when you create the app with a Testing System (XCTest or Swift Testing) selected.
 
 ## Install
 
@@ -26,8 +26,8 @@ edits to the templates in this repo take effect without reinstalling.
 
 The template does not wire up the `SwiftQiskit` package dependency automatically — the
 generated project's own `README.md` has the exact steps (File > Add Package Dependencies,
-`https://github.com/SwiftProjectOrganization/SwiftQiskit.git`, Up to Next Minor Version from
-`0.2.0`). No sibling checkout is required; the package resolves from GitHub. Add the
+`https://github.com/SwiftProjectOrganization/SwiftQiskit.git`, Up to Next Major Version from
+`0.8.1`). No sibling checkout is required; the package resolves from GitHub. Add the
 `SwiftQiskitViews` product too (same package, added in `0.2.0`) if the generated app wants
 `BlochVector`/`CHSHChartView` — the template's own Swift Charts view doesn't need it, since
 it draws the walk's distribution directly rather than a Bloch sphere.
@@ -38,8 +38,8 @@ The generated project's own `README.md` (`Quantum Algorithm App.xctemplate/READM
 into every project this template creates) covers this in more detail, but in short:
 
 1. Replace `QuantumWalk.swift` with the math from the playground page you want, as a plain
-   struct with no SwiftUI import — see `PlaygroundDocs/*PLAN.md` in `SwiftQiskit` for the
-   derivation behind each page.
+   struct with no SwiftUI import — see the page's own text in `SwiftQiskitPlaygrounds` for the
+   derivation.
 2. Update `AlgorithmModel`'s inputs and outputs to match.
 3. Adjust `DistributionChartView` (rename it too, if the new algorithm doesn't produce a
    distribution) and `ContentView`'s controls.

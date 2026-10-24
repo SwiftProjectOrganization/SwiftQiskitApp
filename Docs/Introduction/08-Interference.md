@@ -5,7 +5,7 @@
 
 | | |
 |---|---|
-| Playground page | [`05Gates`](../../../SwiftQiskit/PlaygroundDocs/05GATESHELP.md) §4, [`01Qubits`](../../../SwiftQiskit/PlaygroundDocs/01QUBITSHELP.md) (`circuit2`) |
+| Playground page | [`07Gates`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/07Gates.xcplaygroundpage) §4, [`03Qubits`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/03Qubits.xcplaygroundpage) (`circuit2`) |
 | In the app | ● — `H;Z`, `H;Z;H`, the continuous `H;P(φ);H` fringe, and a 3D Bloch orbit are all placeable/viewable |
 | Library APIs | `QuantumCircuit.h/z/p/rz`, `.amplitudes` vs `.probabilities`, `BlochVector` |
 | Prerequisites | Chapters 6, 7 |
@@ -206,8 +206,7 @@ unknown state's phase, but three well-chosen ones together do.
 ## 8.8 Interference as the engine of algorithms
 
 Interference is not just a curiosity about single qubits — it is the mechanism every quantum
-speedup in this book runs on. A minimal two-qubit teaser, using `CZ` (not in the palette,
-decomposed as `H` on the target, `CX`, `H` on the target — Chapter 7's ◐-style decomposition):
+speedup in this book runs on. A minimal two-qubit teaser, using `CZ` (a palette gate; equivalent to `H` on the target, `CX`, `H` on the target, which is how the code below writes it):
 uniform superposition, then `CZ` phase-marks `|11⟩` alone. In this role the `CZ` is an *oracle* — the
 name later chapters use for a gate that encodes the answer to a question as a phase, without
 revealing it directly; Chapter 13 §13.1 defines the term properly. That mark is completely
@@ -266,16 +265,14 @@ at larger scale.
    **H** then **Z** (`|−⟩`) — Z-basis measurement is again roughly even, but adding a final **H**
    before **Measure** collapses it to all-`"1"` — the opposite outcome from `|+⟩`'s, recovered
    only once the basis is changed by hand.
-8. **Two-qubit teaser** — **Qubits: 2**. Arm **H**, tap `q0` and `q1` in column 0. Build `CZ` by
-   hand: arm **H** (Multi-qubit gates aren't in the palette as `CZ`, so this is the
-   decomposition), tap `q1`'s column-1 cell; arm **CX** (Multi-qubit section), tap `q0` then `q1`
-   in column 2; arm **H**, tap `q1`'s column-3 cell. Panel: flat `p=0.250` on all four rows — the
-   phase mark is invisible. Now add the diffuser: **Z** on `q0` and `q1` at column 4, then repeat
-   the `H`/`CX`/`H` triple for `CZ` at columns 5–7, then **H** on both qubits at column 8. Panel
+8. **Two-qubit teaser** — **Qubits: 2**. Arm **H**, tap `q0` and `q1` in column 0. Arm **CZ**
+   (Multi-qubit section) and tap `q0` then `q1` in column 1. Panel: flat `p=0.250` on all four
+   rows — the phase mark is invisible. Now add the diffuser: **Z** on `q0` and `q1` at column 2,
+   another **CZ** at column 3, then **H** on both qubits at column 4. Panel
    collapses to `|11⟩: …  (p=1.000)`.
 
-Two genuine limits, not a missing-capability paragraph: `CZ` is not a palette gate, so every
-teaser column above is a hand-built decomposition, not one tap; and there is no "measure in the
+Two genuine limits, not a missing-capability paragraph: `CZ` is a symmetric gate, so it does
+not matter which qubit you tap first; and there is no "measure in the
 X basis" toggle — step 7's basis change is a real gate appended to the circuit before **Measure**,
 not a setting.
 
@@ -431,7 +428,7 @@ Finally, §8.8's two-qubit teaser, `CZ` built by hand exactly as step 8 does on 
 ```swift
 import SwiftQiskit
 
-// CZ, decomposed as H on the target, CX, H on the target — not in the palette directly
+// CZ, written as H on the target, CX, H on the target (the app's CZ tile does the same job)
 func cz(_ c: QuantumCircuit) { c.h(1); c.cx(0, 1); c.h(1) }
 
 let oracleOnly = QuantumCircuit(qubits: 2)

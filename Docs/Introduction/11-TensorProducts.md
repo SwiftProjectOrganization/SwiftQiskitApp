@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| Playground page | [`09Tensor`](../../../SwiftQiskit/PlaygroundDocs/09TENSORHELP.md) |
+| Playground page | [`11TensorProducts`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/11TensorProducts.xcplaygroundpage) |
 | In the app | ◐ — placing `h(0)` on a multi-qubit circuit is the tappable half; the underlying `⊗` algebra (hand-building H ⊗ I₂) is code-only |
 | Library APIs | `Matrix.tensor(_:)`/`⊗`, `StateVector.tensor(_:)`/`⊗`, `QuantumCircuit.apply(_:)`, `Matrix.identity(size:)` |
 | Prerequisites | Chapters 2, 7, 10 |
@@ -274,7 +274,7 @@ the level of amplitudes and matrices.
    `|1⟩ ⊗ |0⟩` read directly off the label.
 4. **`H` on both qubits** — Clear, arm **H**, tap `q0` and `q1` in column 0. Panel: four rows, each
    `p=0.250` — the tapped equivalent of `apply(H ⊗ H)` (§11.3). Tap **Display → Final**: both
-   qubits read `x +1.000  y +0.000  z +0.000`, `|r| = 1` — a product state, one independent `|+⟩`
+   qubits read `x +1.000  y +0.000  z +0.000`, with no `|r|` line (it prints only when below 1) — a product state, one independent `|+⟩`
    per qubit.
 5. **The Bell state, for contrast** — Clear, arm **H**, tap `q0`'s column-0 cell; arm **CX**
    (Multi-qubit section), tap `q0` then `q1` in column 1. Panel: `|00⟩: p=0.500`, `|11⟩: p=0.500`.

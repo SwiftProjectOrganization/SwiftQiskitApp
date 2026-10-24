@@ -7,7 +7,7 @@
 
 | | |
 |---|---|
-| Playground page | [`17DeutschJozsa`](../../../SwiftQiskit/PlaygroundDocs/17DEUTSCHJOZSAHELP.md) |
+| Playground page | [`14DeutschJozsa`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/14DeutschJozsa.xcplaygroundpage) |
 | In the app | ● — up to the app's 8-qubit maximum (7 query qubits + 1 ancilla); every `cx`-built oracle below is tappable |
 | Library APIs | `QuantumCircuit.h/x/cx`, `.apply(_:)`, `.probabilities`, `measure(shots:)`, `BlochVector(_:qubit:)` |
 | Prerequisites | Chapters 12, 13 |
@@ -254,7 +254,7 @@ qubit 3 is the ancilla and the rightmost bit, as throughout Chapters 10–14.
    requires it structurally, but because `q3` is already occupied in column 2. Panel still shows 16
    rows at `p=0.062`, but the sign pattern has shifted (Chapter 13 §13.4's kickback, now landing on
    two qubits instead of one).
-3. **Watch it on the sphere** — Tap **Display**, pick **Steps**, qubit picker on `q0`: swings to
+3. **Watch it on the sphere** — Tap **Display**, pick **Steps** (its cards are labelled `Start`, `Col 1`, `Col 2`, …, where `Col n` shows the state after tapped column n−1, so this step's "after column k" is the card `Col k+1`), qubit picker on `q0`: swings to
    `+x` after column 1's `H`, then to `−x` after column 2's `cx` (its own oracle term), and stays
    there through column 3 (untouched by `cx(2,3)`). Switch to `q1`: swings to `+x` at column 1 and
    stays there — no oracle term touches it, matching s's middle bit `0`. Switch to `q2`: `+x` after
@@ -285,9 +285,9 @@ qubit 3 is the ancilla and the rightmost bit, as throughout Chapters 10–14.
 
 Two limits stated plainly, as Chapter 13 did: the app cannot measure the query register alone, so
 every verdict and every recovered string above is read off the leading characters of the whole
-register's histogram, never watched in isolation; and §14.7's non-linear oracle is ◐, not ● — there
-is no gate in the palette that computes an AND of two qubits into a third, so that step needs
-`apply(_:)` with a hand-built permutation matrix in code, not a tap sequence.
+register's histogram, never watched in isolation; and §14.7's non-linear oracle is ◐, not ● — a
+CX with two controls does compute an AND of two qubits into a third, but this chapter's
+§14.7 oracle is built as a permutation matrix in code with `apply(_:)`, not as a tap sequence.
 
 ## Run it in code
 

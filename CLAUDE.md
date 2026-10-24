@@ -14,8 +14,8 @@ a small front-end model that replays placed gates onto a `QuantumCircuit`.
 This project depends on **`SwiftQiskit` as a remote package**. The library product and module
 are both named `SwiftQiskit`. As of `0.2.0` the package also ships a second product,
 `SwiftQiskitViews` — a shared, UI-free-Core-preserving SwiftUI library (`BlochVector`,
-`CHSHChartView`, and as of `0.3.0` `TensorNetworkView`) also used by `SwiftQiskit`'s own
-`Playgrounds.playground`, added to this target so
+`CHSHChartView`, and as of `0.3.0` `TensorNetworkView`) also used by the separate
+`SwiftQiskitPlaygrounds` repository, added to this target so
 `BlochSphereView.swift`/`Bloch3DSphereView.swift`/`BlochDisplayView.swift` can use its
 `BlochVector` instead of a locally vendored copy:
 
@@ -58,7 +58,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 | `GatePaletteView.swift` | Gate buttons, grouped by category; arms a `GateKind`; `.sidebar` or `.strip` layout |
 | `CircuitGridView.swift` | The qubit-wire grid; tap-to-place and the CX two-tap state machine |
 | `GateTileView.swift` | `GateTileView` (a placed single-qubit tile, either qubit of a symmetric two-qubit rotation, a CX or CY control, CY's target as a boxed Y, or any qubit of a CZ), `CXTargetView` (CX's target only), `SwapMarkView` (SWAP's ×), `EmptyCellView` |
-| `ParameterPopover.swift` | θ slider for `.p/.rx/.ry/.rz/.rzz/.rxx/.ryy` tiles; `ControlsPopover` stepper for a CX's control count |
+| `ParameterPopover.swift` | θ slider for `.p/.rx/.ry/.rz/.rzz/.rxx/.ryy` tiles; `ControlsPopover` stepper for the control count of a CX, CY or CZ |
 | `ResultsView.swift` | Live state vector only |
 | `MeasurementView.swift` | Shots stepper, Measure button and histogram; reads `builder.shots`/`lastResult` |
 | `HistogramView.swift` | Bar chart of `SimulationResult` counts |
@@ -74,8 +74,8 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   and `@State private var armedGate: GateKind?`. Both child layouts share this state so
   switching between regular/compact layouts (e.g. rotating an iPad) doesn't lose the circuit.
 - `CircuitBuilder` (`@MainActor @Observable`) keeps its own `[PlacedGate]` record — the
-  package's `QuantumCircuit` only stores the resulting full-dimension matrices, with no gate
-  identity or column metadata, so there's nothing to inspect or redraw from it directly.
+  package's `QuantumCircuit` keeps its operation list private/internal, so there's nothing
+  public to inspect or redraw from, and no column metadata at all.
   `buildCircuit()` sorts placed gates by column and replays them onto a fresh `QuantumCircuit`.
   `buildCircuit(throughColumn:)` replays only a prefix (columns `0...throughColumn`, or none
   for `-1`) — the only way to get intermediate states, since `QuantumCircuit`'s own operation
@@ -95,9 +95,10 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   the package's `SwiftQiskitViews` product — produces a reduced Bloch vector by summing over
   the other qubits' basis configurations (a partial trace) — entangled qubits render with
   `|r| < 1`, a shorter arrow inside the sphere. `BlochSphereView.swift`/`Bloch3DSphereView.swift`
-  (this app's own views, not `SwiftQiskitViews`) are still ported from
-  `SwiftQiskit/Playgrounds.playground/Sources/BlochSphereView.swift`/`Bloch3DView.swift`,
-  since those stay playground-only. The 3D mode's camera math lives in `Bloch3DProjection`, a
+  are this app's own views. Package `0.8.1` also ships public `BlochSphereView` and
+  `Bloch3DView` in `SwiftQiskitViews`; the app's types of the same name take precedence
+  where both are in scope (adopting or removing the duplicates is a roadmap item in
+  `Docs/Todo.md`). The 3D mode's camera math lives in `Bloch3DProjection`, a
   pure struct pulled out of `Bloch3DSphereView` so its perspective projection is unit-testable
   (`Bloch3DProjectionTests.swift`) independent of the `Canvas`/`DragGesture` view code. The
   Tensor mode feeds `builder.buildCircuit()` straight into `TensorNetworkView(TensorNetwork(_:))`
@@ -117,8 +118,8 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   when the clamped value differs from the current one, and returns immediately after so the
   gate-filtering line runs once, against the already-clamped value. Range is 1...8
   (`CircuitBuilder.minQubits`/`.maxQubits`); shrinking silently drops gates that no longer fit.
-- **CX/CY/CZ qubit order:** a CX, CY or CZ `PlacedGate` (all `isControlled`) stores `qubits = controls + [target]`, target always last. A plain CX is `[c, t]`; extra controls are added via the control dot's popover (`addControl`/`removeLastControl`) and replay through `QuantumCircuit.mcx` (CY: `cy`/`mcy`, added in package `0.7.0`; CZ: `cz`/`mcz`, which is symmetric, so the target is only a storage convention). SWAP is a plain symmetric two-qubit gate. Shrinking `qubitCount` drops the whole gate if any of its qubits no longer fits.
-- **`measure(shots:)` is probabilistic** — expect the histogram split to jitter between runs,
+- **CX/CY/CZ qubit order:** a CX, CY or CZ `PlacedGate` (all `isControlled`) stores `qubits = controls + [target]`, target always last. A plain CX is `[c, t]`; extra controls are added via the popover on a control dot or the target (`addControl`/`removeLastControl`) and replay through `QuantumCircuit.mcx` (CY: `cy`/`mcy`, added in package `0.7.0`; CZ: `cz`/`mcz`, which is symmetric, so the target is only a storage convention). SWAP is a plain symmetric two-qubit gate. Shrinking `qubitCount` drops the whole gate if any of its qubits no longer fits.
+- **`measure()` is probabilistic** — expect the histogram split to jitter between runs,
   not land on an exact ratio.
 - **No persistence, no undo, no drag-and-drop** — see `Docs/Todo.md` for the roadmap.
 - Style: 4-space indent, PascalCase types, camelCase members, no force unwrapping.
@@ -132,7 +133,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 
 - `SwiftQiskitAppTests/CircuitBuilderTests.swift` (28 tests) — Bell-state replay via
   `buildCircuit()`, occupied/out-of-range placement rejection, qubit-count clamping and
-  gate-dropping on shrink, `updateTheta`, `clear`, `measure(shots:)` populating `lastResult`,
+  gate-dropping on shrink, `updateTheta`, `clear`, `measure()` populating `lastResult`,
   a qubit-count shrink discarding a prior measurement, and RZZ/RXX/RYY replay on non-adjacent
   qubits checked against a directly built `QuantumCircuit` (RZZ also against the `cx;rz;cx`
   identity), plus `updateTheta`/occupied-cell coverage for RZZ, and multi-control CX
@@ -181,5 +182,5 @@ no sales-pitch framing. Applies to prose written for this project: `INTRODUCTION
   dependency itself is a manual post-generation step, per that template's own README.md);
   see `Docs/TemplatesPlan.md` for the design.
 - `../SwiftQiskit/CLAUDE.md`, `../SwiftQiskit/README.md` — the simulator itself: gate tables,
-  Dirac notation, playground pages. Consult these for anything about *what the gates compute*
+  Dirac notation. The playground pages live in `../SwiftQiskitPlaygrounds`. Consult these for anything about *what the gates compute*
   rather than *how the app is built*.

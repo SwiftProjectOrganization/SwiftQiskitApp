@@ -5,7 +5,7 @@
 
 | | |
 |---|---|
-| Playground page | [`02Bloch2d`](../../../SwiftQiskit/PlaygroundDocs/02BLOCH2DHELP.md), [`03Bloch2dProjection`](../../../SwiftQiskit/PlaygroundDocs/03BLOCH2DPROJECTIONHELP.md) |
+| Playground page | [`06BlochSpheres`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/06BlochSpheres.xcplaygroundpage) |
 | In the app | ◐ — the **Display** button draws each qubit's 2D Bloch sphere; the app has no separate x–y/z–y projection panes |
 | Library APIs | `BlochVector` (single-qubit case), `BlochSphereView` |
 | Prerequisites | Chapters 3, 4 |

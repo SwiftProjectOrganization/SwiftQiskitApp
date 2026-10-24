@@ -5,7 +5,7 @@
 
 | | |
 |---|---|
-| Playground page | [`01Qubits`](../../../SwiftQiskit/PlaygroundDocs/01QUBITSHELP.md), [`08Dirac`](../../../SwiftQiskit/PlaygroundDocs/08DIRACHELP.md) |
+| Playground page | [`03Qubits`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/03Qubits.xcplaygroundpage), [`04Dirac`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/04Dirac.xcplaygroundpage) |
 | In the app | ◐ — ψ's Bloch readout in the Display sheet *is* the three Pauli expectation values; the bra/projector algebra itself is code-only |
 | Library APIs | `Quantum/Dirac.swift` (`Ket`, `Bra`, postfix `†`, inner/outer `*`, `Bra * Matrix -> Bra`, `Matrix.adjoint`, basis kets `Ket("01")`, `.zero/.one/.plus/.minus/.plusI/.minusI`) |
 | Prerequisites | Chapters 2, 3 |

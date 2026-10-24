@@ -25,9 +25,9 @@ At some point you might want to switch to e.g. Julia's Yao (see reference 5), or
 
 - Xcode 27, macOS 27 / iOS 27.
 - No local setup beyond that — Xcode resolves the `SwiftQiskit` package dependency from GitHub
-  automatically. A sibling checkout of
-  [SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit) is only needed if you
-  want to browse its playground pages (see `Docs/Introduction/01-Setup.md`).
+  automatically. A checkout of
+  [SwiftQiskitPlaygrounds](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds) is only
+  needed if you want to browse its playground pages (see `Docs/Introduction/01-Setup.md`).
 
 ## Getting started
 
@@ -60,7 +60,7 @@ Bell state.
 
 | Layout | Platforms | Description |
 |---|---|---|
-| Regular | macOS, iPad | Three-pane: gate palette, circuit grid, and live results side by side |
+| Regular | macOS, iPad | Three-pane: gate palette, circuit grid, and live results side by side (the results pane hides below 672 pt wide, e.g. in iPad Split View) |
 | Compact | iPhone | Full-bleed circuit grid with a horizontal gate strip below; results open in a sheet |
 
 ## Project structure
@@ -117,7 +117,7 @@ using the Swift `Testing` framework (not XCTest).
   chapter by chapter, from qubits and gates through the named algorithms (Deutsch, Grover, the
   QFT, Shor, teleportation, error correction, the CHSH inequality, ...) and on to noise,
   tomography, and VQE.
-- [Docs/Introduction/](Docs/Introduction) — contains the 27 actual chapters.
+- [Docs/Introduction/](Docs/Introduction) — contains Chapter 0 and the 27 numbered chapters.
 - [Docs/Tutorial.md](Docs/Tutorial.md) — how to use the app, step by step.
 - [Docs/Help.md](Docs/Help.md) — implementation reference, extension guide, troubleshooting.
 - [Docs/Todo.md](Docs/Todo.md) — status and roadmap.
@@ -129,9 +129,11 @@ using the Swift `Testing` framework (not XCTest).
 - [CLAUDE.md](CLAUDE.md) — guidance for Claude Code working in this repo.
 
 For everything about the simulator itself — the gate set, Dirac notation, tensor products,
-and the playground pages that teach quantum computing algorithm by algorithm — see the
-[SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit) package (a sibling
-checkout is convenient for browsing these but not required to build this app).
+see the
+[SwiftQiskit](https://github.com/SwiftProjectOrganization/SwiftQiskit) package. The playground pages
+that teach quantum computing algorithm by algorithm are in
+[SwiftQiskitPlaygrounds](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds)
+(neither checkout is required to build this app).
 
 ## Status
 

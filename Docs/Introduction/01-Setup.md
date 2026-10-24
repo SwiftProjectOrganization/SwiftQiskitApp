@@ -7,6 +7,7 @@
 | | |
 |---|---|
 | Playground page | — |
+| In the app | ● — this chapter is the app's own tour: every control it names is on screen |
 | Library APIs | `import SwiftQiskit` |
 | Prerequisites | Chapter 0 |
 
@@ -29,17 +30,17 @@ compact layout on iPhone — more on that below):
 
 | Panel | What it's for |
 |---|---|
-| **Gates** (left) | Tap a gate button to *arm* it; it highlights. Sections are Pauli/Hadamard (`H X Y Z`), Phase (`S S† T T†`), Rotation (`P RX RY RZ`, each with a θ parameter), and Multi-qubit (`CX`). |
-| **Circuit** (center) | A grid, one horizontal wire per qubit. Tap an empty cell to place the armed gate there. Has the **Qubits** stepper (1–8 — shrinking it drops any placed gates that no longer fit) and a **Clear** button. |
-| **State Vector** (right) | Live amplitudes and probabilities for the circuit as currently built, recomputed on every change with no explicit "run" step, plus a **Measure** button and a shot-count histogram. |
+| **Gates** (left) | Tap a gate button to *arm* it; it highlights. Sections are Pauli/Hadamard (`H X Y Z`), Phase (`S S† T T†`), Rotation (`P RX RY RZ`, each with a θ parameter), Multi-qubit (`CX CY CZ SWAP`), and Two-qubit rotation (`RZZ RXX RYY`, each with a θ parameter). |
+| **Circuit** (center) | A grid, one horizontal wire per qubit. Tap an empty cell to place the armed gate there. The **Qubits** stepper (1–8 — shrinking it drops any placed gates that no longer fit) and the **Clear**, **Results**, **Measure** and **Display** buttons sit in a floating bar at the bottom of the window. |
+| **State Vector** (right) | Live amplitudes and probabilities for the circuit as currently built, recomputed on every change with no explicit "run" step, with a separate **Measurement** section below it holding the **Shots** stepper, the **Measure** button and the histogram. |
 
-A **Display** button next to **Clear** opens a 2D Bloch-sphere view of the circuit — the same
+A **Display** button in the bottom bar opens the Bloch-sphere views of the circuit (Final, Steps, Tensor and 3D) — the same
 sheet §0.3 pointed at for seeing entanglement directly. Tapping a placed parameterized tile
-(`P`, `RX`, `RY`, or `RZ`) opens a popover with a θ slider from 0 to 2π.
+(`P`, `RX`, `RY`, `RZ`, `RZZ`, `RXX` or `RYY`) opens a popover with a θ slider from 0 to 2π. Tapping a placed `CX`, `CY` or `CZ` opens a **Controls** popover for adding extra controls.
 
 On iPhone, the same controls move into a compact layout: the circuit grid fills the screen with
-the gate strip pinned below it, **Qubits** becomes a toolbar menu, and **Results** / **Display**
-open in sheets from bottom-bar buttons. Every control above still exists; only the arrangement
+the gate strip pinned below it, the **Qubits** stepper sits top-left, and **Clear**, **Results**, **Measure** and **Display**
+sit top-right, with Results, Measurement and Display each opening in a sheet. Every control above still exists; only the arrangement
 changes.
 
 This is the five-minute version. For the full control-by-control reference, see
@@ -70,11 +71,9 @@ project that holds playground pages for `SwiftQiskit`. To use it:
    `SwiftQiskitViews`, which the pages import.
 3. Open a page under `SwiftQiskitPlaygrounds.playground/Pages/` and run it.
 
-It currently has three pages: `01Qubits`, `02StateVectorCPU` and `03ApplyingGates`. Unlike the
-playground in §1.3, which lives inside the `SwiftQiskit` repo and builds against its source
-under the `SwiftQiskit` scheme, this project uses `SwiftQiskit` as a remote package (from
-0.7.2), the same way the app does, so it needs no sibling checkout. `01Qubits` still links to
-the `PlaygroundDocs/` guides in the `SwiftQiskit` repo.
+It has one page per chapter (`01Matrices` through `26TensorDiagrams`, plus `50StateVectorCPU`).
+Like the app, it uses `SwiftQiskit` as a remote package (currently 0.8.1), so it needs no
+sibling checkout of `SwiftQiskit`.
 
 ## Build it in the app
 
@@ -118,7 +117,7 @@ State Vector panel in step 4 above — same circuit, same result, two different 
 ## Try it yourself
 
 1. Open `SwiftQiskitApp.xcodeproj` on a machine with no `SwiftQiskit` checkout anywhere on disk
-   and confirm it still builds. Then open `SwiftQiskit/Playgrounds.playground` and confirm it
+   and confirm it still builds. Then open `SwiftQiskitPlaygrounds.xcodeproj` and confirm it
    builds too.
    <details><summary>Answer</summary>Both build independently. The app's dependency is a
    version-pinned GitHub URL, so Xcode fetches it into its own cache regardless of what else is
@@ -134,11 +133,10 @@ State Vector panel in step 4 above — same circuit, same result, two different 
    a local package overrides a remote dependency of the same name — to get instant edits back;
    remove the override when you're done.</details>
 
-3. The app's palette includes `T†` (`tdg`). Skim the gate table in
-   `../SwiftQiskit/README.md` and find which playground page actually calls `tdg(qubit)`.
-   <details><summary>Answer</summary>None of them — the gate table notes that `t` is applied
-   twice on page 05 to show `T² == S`, but `tdg` isn't exercised on any page. It's tappable in
-   the app even though no playground page happens to use it.</details>
+3. The app's palette includes `T†` (`tdg`). Search the
+   playground pages in `SwiftQiskitPlaygrounds` for `tdg(` and find which page calls it.
+   <details><summary>Answer</summary>`15Grover` — its 3-qubit CCZ decomposition (Chapter 15
+   §15.9) uses `t` and `tdg` around `cx`. It's also a tappable tile in the app.</details>
 
 ---
 [← Chapter 0](00-Introduction.md) · [Contents](../../INTRODUCTION.md) · [Chapter 2 →](02-ComplexAndMatrices.md)

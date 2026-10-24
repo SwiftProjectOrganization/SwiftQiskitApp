@@ -6,8 +6,8 @@
 
 | | |
 |---|---|
-| Playground page | [`22Walk`](../../../SwiftQiskit/PlaygroundDocs/22WALKHELP.md) |
-| In the app | ◐ — the coin-conditioned shift on a 4-site cycle (2 position qubits) decomposes exactly into three palette gates and is fully tappable; the 16-site shift used for the spreading and interference numbers below needs the same trick on a wider register, which runs into a carry that isn't linear past 2 position qubits and needs a gate this simulator doesn't have |
+| Playground page | [`25QuantumWalks`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/25QuantumWalks.xcplaygroundpage) |
+| In the app | ◐ — the coin-conditioned shift on a 4-site cycle (2 position qubits) decomposes exactly into three palette gates and is fully tappable; the 16-site shift used for the spreading and interference numbers below needs the same trick on a wider register, which runs into a carry that isn't linear past 2 position qubits and needs a multi-controlled increment (a staircase of multi-control CX tiles, or the package's `increment`/`decrement` in code) |
 | Library APIs | `Matrix(rows:cols:)` + subscript, `.tensor(_:)`/`⊗`, `Matrix.identity(size:)`, `HadamardGate.matrix`, `RYGate.matrix(theta:)`, `CNOTGate.matrix(qubits:control:target:)`, `PauliXGate.matrix`, `StateVector([Complex])`, `.apply(_:)`, `Ket.zero`/`.plusI`, `QuantumCircuit.h/x/s/cx`, `CircuitBuilder.place` |
 | Prerequisites | Chapters 9, 11, 17 |
 
@@ -152,8 +152,9 @@ graph's adjacency matrix `A`, using Chapter 24's `expm`.)
 
 ## Build it in the app
 
-◐ The 16-site shift needed for every number above is a 32×32 permutation with no path onto this
-app's fixed single/two-qubit gate palette. But shrink the cycle to **4 sites** (2 position qubits,
+◐ The 16-site shift needed for every number above is a 32×32 permutation; in the app it would
+need a staircase of multi-control CX tiles for the carries, which this chapter does not build
+(in code, the package's `increment`/`decrement(register:controlledBy:)` do it). But shrink the cycle to **4 sites** (2 position qubits,
 3 qubits total: coin q0, position MSB q1, position LSB q2) and something notable happens: the
 coin-conditioned shift turns out to have an *exact* three-gate decomposition using only gates
 already in `GateKind`:
@@ -172,7 +173,8 @@ bit, `q2' = ¬q2`, **unconditionally** — the low bit flips every step no matte
 points. `q1' = q1 ⊕ q0 ⊕ q2` is exactly what `cx(0,1); cx(2,1)` computes (two CNOTs into the same
 target commute and just XOR their controls in), followed by `x(2)` for the unconditional flip. This
 stops working at 8 sites: a 3-bit incrementer's carry into the *third* bit is `q2 ⊕ (q0 ∧ q1)` — a
-genuine `AND`, which needs a Toffoli this simulator doesn't have.
+genuine `AND`, which needs a Toffoli — a CX with two controls in the app, `ccx` in code — so the
+three-gate form below does not extend by itself.
 
 On this 4-site cycle, 3 steps from coin `|0⟩` lands with **certainty** on site 1 — a clean,
 exactly-verified illustration of constructive interference, not an approximate tendency:
@@ -186,8 +188,8 @@ State Vector panel after 12 columns — probabilities: `|001⟩ ≈ 1.0000`, eve
 `≈ 0.0000` (`q1q2 = 01` is site 1). Both position qubits deterministic, despite three rounds of a
 Hadamard coin flip in between.
 
-For the **symmetric coin**, prepend `H` then `S` on `q0` (columns −2, −1, i.e. before the block
-above) to prepare `|+i⟩`. After the same three rounds, the State Vector panel instead splits
+For the **symmetric coin**, insert `H` then `S` on `q0` before the block
+above (shifting the three blocks two columns right, so `H` and `S` take columns 0 and 1) to prepare `|+i⟩`. After the same three rounds, the State Vector panel instead splits
 evenly: `|001⟩ ≈ 0.5000`, `|011⟩ ≈ 0.5000` (sites 1 and 3), all else `≈ 0.0000` — the coin's phase
 alone is the difference between a certain outcome and an even split, confirmed by tapping, not just
 asserted.

@@ -5,7 +5,7 @@
 
 | | |
 |---|---|
-| Playground page | [`01Qubits`](../../../SwiftQiskit/PlaygroundDocs/01QUBITSHELP.md) |
+| Playground page | [`03Qubits`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/03Qubits.xcplaygroundpage) |
 | In the app | ● — every state shown here is exactly what the State Vector panel displays |
 | Library APIs | `StateVector` (auto-normalizing `init`, `.amplitudes`, `.probabilities`, `apply(_:)`) |
 | Prerequisites | Chapters 1, 2 |

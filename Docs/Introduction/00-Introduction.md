@@ -58,8 +58,8 @@ by 256. `SwiftQiskit` is exactly the classical simulation Feynman said was expen
 book's running example *is* the problem quantum computers exist to solve, running at a scale
 small enough that an ordinary computer can still do it exactly. It's also why Chapter 17's Shor's
 algorithm is "compiled" down to factoring the number 15 rather than something a real
-cryptographic key would use: 15 is the largest case this simulator, and most laptops, can still
-represent exactly.
+cryptographic key would use: 15 needs only about 15 qubits, which this simulator handles easily.
+Cryptographic key sizes are far out of reach.
 
 The clearest recent landmark: in 2019 Google announced that its 53-qubit Sycamore processor had
 completed a specific calculation in 200 seconds that the company estimated would take the world's
@@ -139,13 +139,11 @@ genuinely complex molecule.
 
 `SwiftQiskit` sidesteps NISQ noise entirely, and it's worth being honest about exactly what
 that buys you and costs you. This simulator is **noiseless** and works with **pure states**
-only — every amplitude is an exact double-precision complex number, and there is no decoherence,
-no gate error, and no density matrix anywhere in `SwiftQiskit` itself. That is precisely why
-Chapter 21 has to *hand-build* Kraus channels (bit-flip, phase-flip, depolarizing, amplitude
-damping) from scratch using nothing but existing gate matrices — there is no `.noise()` call to
-reach for — and why Chapter 19's error-correction chapter has to build its own syndrome-correction
-matrix by hand rather than calling into the library. Every gate you place in the app runs exactly,
-every time; a real NISQ device would not make that promise.
+only in the app — every amplitude is an exact double-precision complex number, and the circuit
+you tap together has no decoherence and no gate error. The package does have a separate
+noisy path (`DensityMatrix`, `KrausChannel`, `NoiseModel`, `runDensityMatrix(noise:)`,
+`runTrajectories`), which Chapter 21 uses, but the app's grid does not. Every gate you place in
+the app runs exactly, every time; a real NISQ device would not make that promise.
 
 ## 0.6 What quantum computers might be good for
 

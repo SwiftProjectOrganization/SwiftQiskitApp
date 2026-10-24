@@ -5,9 +5,9 @@
 
 | | |
 |---|---|
-| Playground page | [`04Bloch3d`](../../../SwiftQiskit/PlaygroundDocs/04BLOCH3DHELP.md) |
+| Playground page | [`06BlochSpheres`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/06BlochSpheres.xcplaygroundpage) |
 | In the app | ● — the Display sheet's **3D** mode orbits a real camera around any single-qubit state, built by placing **RY** then **P**, and the readout prints θ and φ directly; only the live-while-dragging slider loop is still out of reach |
-| Library APIs | `Bloch3DSphereView`, `Bloch3DProjection` (vendored from the playground's `Bloch3DView`), `BlochExplorerView` (playground `Sources/`, not vendored — the still-missing live-slider loop) |
+| Library APIs | `Bloch3DSphereView`, `Bloch3DProjection` (vendored from the playground's `Bloch3DView`), `BlochExplorerView` (in the package's `SwiftQiskitViews`, not used by the app — the still-missing live-slider loop) |
 | Prerequisites | Chapters 4, 5 |
 
 ## 6.1 Why θ and φ

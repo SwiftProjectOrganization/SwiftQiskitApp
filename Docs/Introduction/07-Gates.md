@@ -1,12 +1,12 @@
 # Chapter 7 — Gates
 
 > A gentle, gate-by-gate tour of the built-in gate set — the single-qubit gates
-> `x h z y s sdg t tdg p rx ry rz`, then the multi-qubit gates `cx ccx mcx rzz rxx ryy` — each
+> `x h z y s sdg t tdg p rx ry rz`, then the multi-qubit gates `cx cy cz swap ccx mcx rzz rxx ryy` — each
 > shown individually on a small circuit, ending with a one-line Bell-state teaser.
 
 | | |
 |---|---|
-| Playground page | [`05Gates`](../../../SwiftQiskit/PlaygroundDocs/05GATESHELP.md) |
+| Playground page | [`07Gates`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/07Gates.xcplaygroundpage) |
 | In the app | ◐ — every gate here is in the palette except CCX and MCX (§7.10, code only) |
 | Library APIs | `QuantumCircuit.h/x/y/z/s/sdg/t/tdg`, `p/rx/ry/rz(_:_:)`, `cx`, `ccx`, `mcx`, `rzz/rxx/ryy(_:_:_:)` |
 | Prerequisites | Chapters 3, 5 |
@@ -37,8 +37,10 @@ actually call:
 | Phase P(θ) | `p(theta, qubit)` | `PhaseGate` | P | 7.7 |
 | RX / RY / RZ (θ) | `rx/ry/rz(theta, qubit)` | `RXGate` / `RYGate` / `RZGate` | RX, RY, RZ | 7.8 |
 | CNOT (CX) | `cx(control, target)` | `CNOTGate` | CX | 7.9 |
-| Toffoli (CCX) | `ccx(control1, control2, target)` | `ToffoliGate` | — (code only) | 7.10 |
-| MCX | `mcx(controls, target)` | `MultiControlledXGate` | — (code only) | 7.10 |
+| CY / CZ | `cy(control, target)` / `cz(control, target)` | `ControlledYGate` / `ControlledZGate` | CY, CZ | 7.10 |
+| SWAP | `swap(q0, q1)` | `SwapGate` | SWAP | 7.10 |
+| Toffoli (CCX) | `ccx(control1, control2, target)` | `ToffoliGate` | CX with two controls | 7.10 |
+| MCX | `mcx(controls, target)` | `MultiControlledXGate` | CX with more controls | 7.10 |
 | RZZ / RXX / RYY (θ) | `rzz/rxx/ryy(theta, q0, q1)` | `RZZGate` / `RXXGate` / `RYYGate` | RZZ, RXX, RYY | 7.11 |
 
 Three distinctions are worth having before the list starts. First, fixed turns versus continuous
@@ -176,6 +178,14 @@ syndrome-driven correction, and `QuantumCircuit`'s `increment`/`decrement(regist
 controlledBy:)` (ripple-carry ±1 on a register) are built from `MultiControlledXGate`
 underneath.
 
+The palette's other two-qubit gates follow the same pattern. `CZ` (`cz`, with `mcz` for extra
+controls) flips the sign of `|11⟩` and is symmetric in its two qubits, so it does not matter which
+you tap first; it equals `h; cx; h` on the target, which the app's test suite checks on
+non-adjacent qubits. `CY` (`cy`, `mcy`) applies `Y` to the target when the control is `1`, and
+equals `sdg; cx; s` on the target. `SWAP` (`swap(q0, q1)`) exchanges two qubits' states, so an `X`
+excitation on one lands on the other. As with `CX`, tapping a placed `CY` or `CZ` opens the same
+**Controls** popover for extra controls.
+
 ## 7.11 Two-qubit rotations: RZZ, RXX, RYY
 
 `RZZ(θ)`, `RXX(θ)`, `RYY(θ)` are fixed two-qubit rotations, `exp(−iθ·P⊗P/2)` for `P = Z, X, Y`
@@ -267,11 +277,12 @@ Three limits worth naming, not a missing-capability paragraph — most of the ca
 is one tap away: the θ popover only gives a three-decimal readout over `0…2π`, so an exact `π` or
 `π/4` can only be approximated (step 8's small deviation is a direct consequence); a placed tile
 can only be edited in place or removed, never dragged to a different column — reordering a
-sequence means clearing and re-placing; and `CCX`/`MCX` aren't in the palette at all — there's no
-three-or-more-qubit controlled tile, only `CX`'s single control and `RZZ`/`RXX`/`RYY`'s symmetric
-pair. Toffoli does have a tappable decomposition (`H` on the target, six `CX`s, and `T`/`T†`s
-threaded in between), but it runs six tiles deep for one logical gate, long enough that §7.10's
-examples go straight to `ccx`/`mcx` in code instead.
+sequence means clearing and re-placing; and `CCX`/`MCX` have no tile of their own — they are a placed `CX` given extra
+controls. Tap a placed `CX` (its dot or its ⊕) to open the **Controls: n** popover, where **+**
+arms a cell for one more control and **−** removes the last one. The same popover works on
+`CY` and `CZ`. The palette also has `CY`, `CZ` and `SWAP` as two-tap gates, and `RZZ`/`RXX`/`RYY`
+as a symmetric pair. A plain Toffoli decomposition (`H` on the target, six `CX`s, and
+`T`/`T†`s threaded in between) still works, but the popover makes it one tile.
 
 ## Run it in code
 
@@ -514,26 +525,21 @@ All of this matches the readouts quoted in steps 9–12 above.
 
 ## Try it yourself
 
-1. Confirm `T` applied twice matches `S` to within floating-point error, not exactly.
-   <details><summary>Answer</summary>Measured above: the two amplitude vectors agree to a
-   maximum absolute difference of `1.11×10⁻¹⁶`, not bit-for-bit — the two paths (one `S`, two
-   `T`s) accumulate rounding differently. See `05GATESHELP.md` §7.</details>
-
-2. Why does `RZ` alone leave the Display card exactly on the `|0⟩` pole, no matter what θ is,
+1. Why does `RZ` alone leave the Display card exactly on the `|0⟩` pole, no matter what θ is,
    while `RZ` after `H` visibly moves it?
    <details><summary>Answer</summary>`RZ(θ)` is a rotation about the z-axis, and a rotation about
    an axis fixes the two points already sitting on that axis — the same fact §7.4 established for
    the fixed gate `Z`, now true for the whole continuous `RZ` family. `H` first moves the state
    off the z-axis (onto `|+⟩`), giving `RZ` something to actually rotate.</details>
 
-3. Predict the Display card for `H` then `X`, and separately for `H` then `Y`, before checking.
+2. Predict the Display card for `H` then `X`, and separately for `H` then `Y`, before checking.
    <details><summary>Answer</summary>`X|+⟩ = |+⟩` — `X` fixes `|+⟩`, so the card stays at
    `x +1.000`. `Y|+⟩ = −i|−⟩` — physically the `−x` point, `x −1.000`. §7.5 showed `X` and `Y`
    land on the *same* card starting from `|0⟩`; here, starting from `|+⟩`, they land on opposite
    sides of the sphere — the difference between the two gates is invisible on one input and
    maximally visible on another.</details>
 
-4. Three different circuits in this chapter — `H;S`, `H;P(π/2)`, and `H;RZ(π/2)` — produce three
+3. Three different circuits in this chapter — `H;S`, `H;P(π/2)`, and `H;RZ(π/2)` — produce three
    different sets of raw amplitudes but the exact same Display card. Why?
    <details><summary>Answer</summary>Bloch coordinates are blind to a global phase (Chapter 5
    §5.2). `S`, `P(π/2)`, and `RZ(π/2)` agree on everything a measurement can detect — they all
@@ -542,13 +548,7 @@ All of this matches the readouts quoted in steps 9–12 above.
    (`0.5 ∓ 0.5i`) look nothing like the other two's (`0.7071`, `0.7071i`) even though the card is
    identical.</details>
 
-5. Predict `mcx([], target)` on `|0⟩` before checking — what single-qubit gate does zero controls
-   reduce to?
-   <details><summary>Answer</summary>`X` — with zero controls there's nothing left to condition
-   on, so the flip always fires. Measured above: `mcx([], 0)` on `|0⟩` gives probabilities
-   `[0.0, 1.0]`, identical to a plain `X`.</details>
-
-6. Why does `RZZ(θ)` alone leave every Display card exactly at the poles, no matter what θ is,
+4. Why does `RZZ(θ)` alone leave every Display card exactly at the poles, no matter what θ is,
    while `RXX(θ)`/`RYY(θ)` alone entangle `|00⟩` immediately, with no `H` first?
    <details><summary>Answer</summary>`RZZ` is diagonal in the computational basis (built from
    `Z⊗Z`), so it fixes every basis state including `|00⟩` — exactly as §7.4's `Z` fixed `|0⟩` —

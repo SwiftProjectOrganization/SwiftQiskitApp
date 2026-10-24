@@ -6,10 +6,12 @@
 
 | | |
 |---|---|
-| Playground page | [`18VQE`](../../../SwiftQiskit/PlaygroundDocs/18VQEHELP.md) |
+| Playground page | [`23VQE`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/23VQE.xcplaygroundpage) |
 | In the app | ◐ — the one-parameter ansatz (`x`, `ry(θ)`, `cx`) is tappable and its state readable at any θ; computing the Hamiltonian's expectation value, the gradient, and running the optimization loop is code-only |
 | Library APIs | `QuantumCircuit.x/ry/cx`, `.run()`, `Matrix` `+`/scalar `*`/`⊗`, `†`, `Bra * Matrix * Ket` |
 | Prerequisites | Chapters 4, 8, 22 |
+
+> Since package `0.8.1`, `SwiftQiskit` also ships `Hamiltonian`, `ParameterShift` and `GradientDescent`; this chapter builds the energy and parameter-shift gradient by hand to show the arithmetic.
 
 ## 23.1 The H₂ Hamiltonian
 
@@ -207,7 +209,7 @@ optimization loop stay code-only.
    trick Chapters 20–21 used). State Vector panel:
 
    ```text
-   |01⟩ amplitude ≈ 0.114839   |10⟩ amplitude ≈ 0.993384
+   |01⟩ amplitude ≈ 0.114839   |10⟩ amplitude ≈ -0.993384
    ```
 
    — probabilities ≈ 0.013 / 0.987, overwhelmingly `|10⟩`: the H₂ ground state here sits close

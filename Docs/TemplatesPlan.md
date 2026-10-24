@@ -3,19 +3,19 @@
 > **Superseded (partially):** this doc's local `../SwiftQiskit` path reference — the package
 > reference definition in `## Quantum Algorithm App.xctemplate/TemplateInfo.plist` below, and
 > the sibling-checkout requirement it implies — no longer reflects the shipped template.
-> `SwiftQiskit` is now tagged (`0.1.0`) and consumable as a remote package, but no plist syntax
+> `SwiftQiskit` is now tagged (the app currently pins `0.8.1`) and consumable as a remote package, but no plist syntax
 > for a remote package reference could be found or verified (see
-> `Docs/SwiftQiskitCore as an external SPM.md`), so the template now ships with **no package
+> `Docs/SwiftQiskit as an external SPM.md`), so the template now ships with **no package
 > reference at all**; the generated project's `README.md` instructs the user to add
 > `https://github.com/SwiftProjectOrganization/SwiftQiskit.git` by hand via File > Add Package
 > Dependencies. The rest of this document — the ancestor chain, the generated-source design, the
-> file layout — is unaffected and still describes the shipped template. Also stale below: "the
+> file layout — is mostly unaffected; the differences are listed under "Differences from the shipped template" at the end. Also stale below: "the
 > module is `SwiftQiskitCore`" (now `SwiftQiskit`, matching the product name) and "no tags"
 > (now tagged).
 
 ## Context
 
-Each playground page in `../SwiftQiskit/Playgrounds.playground/Pages/` (22Walk, 18VQE, 15CHSH, …)
+Each playground page in the `SwiftQiskitPlaygrounds` repository (originally in `SwiftQiskit/Playgrounds.playground/Pages/`; the walk page is now `25QuantumWalks`, VQE `23VQE`, CHSH `20CHSH`, …)
 is a self-contained algorithm study that ends with a `PlaygroundPage.setLiveView(...)` chart.
 Turning one of those into a real app today means hand-rolling a new Xcode project, re-adding the
 `../SwiftQiskit` package reference, re-copying the chart view out of the playground's `Sources/`
@@ -24,7 +24,7 @@ every time.
 
 The goal is a **File > New > Project** template that does all of that in one step: a multiplatform
 SwiftUI app with SwiftQiskit already linked, a pure algorithm file, an `@Observable` model, a chart,
-and a passing test suite — prefilled with a working port of playground 22Walk as the worked example.
+and a passing test suite — prefilled with a working port of playground page 25QuantumWalks (originally 22Walk) as the worked example.
 
 Decisions already made: **project template** (not a file template), **local `../SwiftQiskit` path
 reference** (matching this project's existing wiring), **discrete-time quantum walk** as the example.
@@ -126,7 +126,7 @@ not need to know Apple's own test-file node name.
 Three-layer split — this is the part that makes swapping in 18VQE a one-file change.
 
 **`QuantumWalk.swift`** — pure, no SwiftUI, no observation. Direct port of
-`Pages/22Walk.xcplaygroundpage/Contents.swift` sections 1–4: `buildShift()` as a permutation `Matrix`,
+`Pages/25QuantumWalks.xcplaygroundpage/Contents.swift` (then `22Walk`) sections 1–4: `buildShift()` as a permutation `Matrix`,
 `U = S * (H ⊗ I)`, `initialState(coin:)`, `positionDistribution(_:)`, `classicalStep(_:)`, and the
 cyclic-coordinate-aware `signedOffset` / `stddevSigned` (keep the playground's comment explaining why
 raw indices give the wrong variance across the 0/15 wrap). Wrapped in a `struct QuantumWalk` that
@@ -184,7 +184,7 @@ with `.package(path: "../../../SwiftQiskit")` and `@_exported import SwiftQiskit
 2. **Verify the package reference early**, before writing any Swift: with only stub `App.swift` /
    `ContentView.swift` nodes, generate a throwaway project at `/Users/rob/Projects/Swift/_TemplateCheck`
    and confirm `project.pbxproj` contains an `XCLocalSwiftPackageReference` with
-   `relativePath = ../SwiftQiskit` (compare `SwiftQiskitApp.xcodeproj/project.pbxproj:580-591`).
+   `relativePath = ../SwiftQiskit` (historical: at the time the app also used a local reference; it now uses a remote one).
    Switch to the shim fallback here if it fails.
 3. Write `QuantumWalk.swift`, porting from the playground page.
 4. Write `AlgorithmModel.swift`, `DistributionChartView.swift`, `ContentView.swift`, `App.swift`.
@@ -209,3 +209,15 @@ with `.package(path: "../../../SwiftQiskit")` and `@_exported import SwiftQiskit
 The `Algorithm:` popup is the natural next step: a `Type = popup` option in `TemplateInfo.plist` whose
 units swap `QuantumWalk.swift` for `VQE.swift` / `CHSH.swift`, each with its own `AlgorithmModel`
 outputs — one template covering several playground pages.
+
+## Differences from the shipped template
+
+Recorded after a review against the files under `Templates/SwiftQiskit/`:
+
+- The shipped `TemplateInfo.plist` uses `Ancestors = [com.apple.dt.unit.multiPlatform.app]`, not
+  the `.SwiftUI` variant listed above.
+- It does not set `SUPPORTED_PLATFORMS`, and it adds `SWIFT_VERSION = 5.0`.
+- `ContentView.swift` uses a `Stepper` (1...7) for the step count, not a `Slider`.
+- There is no package reference node. The generated project's README tells the user to add
+  `SwiftQiskit` from `0.8.1` (Up to Next Major) by hand.
+

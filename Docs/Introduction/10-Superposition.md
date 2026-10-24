@@ -7,7 +7,7 @@
 
 | | |
 |---|---|
-| Playground page | [`06Superposition`](../../../SwiftQiskit/PlaygroundDocs/06SUPERPOSITIONHELP.md) |
+| Playground page | [`10Superposition`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/10Superposition.xcplaygroundpage) |
 | In the app | ● — up to the app's 8-qubit maximum |
 | Library APIs | `QuantumCircuit.h/x`, multi-qubit `.amplitudes`/`.probabilities`, `measure(shots:)`/`SimulationResult.sortedCounts`, `BlochVector` |
 | Prerequisites | Chapters 3, 7, 8, 9 |
@@ -179,7 +179,7 @@ branches back down to a smaller, useful set of outcomes.
    (Chapter 9 §9.5), so with 16 near-equal counts every bar looks near-full-height — read the
    printed numbers above each bar, not their relative heights.
 3. **Fewer shots, holes in the histogram** — Step **Shots** down to its minimum, 1 (or a small
-   value like 20), and **Measure**: several of the 16 possible bars are simply absent, not
+   value like 101, one step up), and **Measure**: several of the 16 possible bars are simply absent, not
    present at zero height (§10.5, Chapter 9 §9.5).
 4. **Partial superposition** — Clear, arm **H**, tap only `q0` and `q2` in column 0. Panel: 4
    rows (`|0000⟩`, `|0010⟩`, `|1000⟩`, `|1010⟩`), each `p=0.250`; `q1` and `q3` read `0` in every
@@ -192,7 +192,7 @@ branches back down to a smaller, useful set of outcomes.
    0.9999999999999993  (p=1.000)` (§10.7).
 7. **Display → Final, one qubit at a time** — With only the first `H` layer in place (undo step
    6's second layer by clearing and rebuilding just column 0), tap **Display**, select each
-   qubit's **Final** card in turn: all four read `x +1.000  y +0.000  z +0.000`, `|r| = 1` — four
+   qubit's **Final** card in turn: all four read `x +1.000  y +0.000  z +0.000`, with no `|r|` line (it prints only when below 1) — four
    independent `|+⟩` states, not one entangled state (contrast with the Bell state's `|r| = 0`
    cards in Chapter 12).
 8. **The app's ceiling** — Set **Qubits: 8**, arm **H**, tap all eight rows in column 0. Panel:

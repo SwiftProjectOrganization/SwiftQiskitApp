@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| Playground page | [`15CHSH`](../../../SwiftQiskit/PlaygroundDocs/15CHSHHELP.md) |
+| Playground page | [`20CHSH`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/20CHSH.xcplaygroundpage) |
 | In the app | ● — the Bell pair, both measurement-basis rotations (`ry`), and reading off each of the four settings are all tappable; only the 16-strategy enumeration, the classical model, and summing the four settings into S are code-only — see "Build it in the app" |
 | Library APIs | `QuantumCircuit.h/cx/ry`, `.run()`, `measure(shots:)`, `Matrix` `+`/scalar `*`/`⊗`, `†`, `Bra * Matrix`, `BlochVector(_:qubit:)` |
 | Prerequisites | Chapters 4, 9, 12 |
@@ -176,11 +176,11 @@ E(θ) = ⟨A(0)⊗A(θ)⟩ = cos θ against the shared-direction classical model
 
 The two columns agree only at θ = 0, π/2, π and diverge most (≈0.207) near θ = π/4 and 3π/4 —
 precisely where §20.4's four angles sit. The playground page renders this as three series on
-one chart (`CHSHChartView`, a stateless SwiftUI `Canvas` chart vendored in
-`Playgrounds.playground/Sources/`): the exact cos θ curve, the classical comparison line, and
+one chart (`CHSHChartView`, a stateless SwiftUI `Canvas` chart, shipped in
+the package's `SwiftQiskitViews` product): the exact cos θ curve, the classical comparison line, and
 nine 500-shot samples scattered near the quantum curve. Like the Bloch views this book already
-vendors into the app (`BlochSphereView.swift`, `Bloch3DSphereView.swift`), `CHSHChartView` lives
-in a playground `Sources/` folder and isn't importable outside the playground, so it isn't part
+has ported into the app (`BlochSphereView.swift`, `Bloch3DSphereView.swift`), `CHSHChartView` is
+available from `SwiftQiskitViews`, but the app has no chart pane for it, so it isn't part
 of the app; the visible gap between its blue and red curves around θ = π/4 *is* the CHSH
 violation made geometric.
 
@@ -191,8 +191,8 @@ violation made geometric.
 1. **The Bell pair.** Arm **H**, tap `q0` in column 0. Arm **CX**, tap `q0` then `q1` in
    column 1. State Vector panel: two rows at `|00⟩` and `|11⟩`, each p=0.500 — the familiar
    Bell state.
-2. **Arm both measurement rotations.** Arm **RY**, tap `q0` in column 2 (θ starts at 0, a
-   no-op). Arm **RY** again, tap `q1` in column 2 (shares the column with q0's tile — different
+2. **Arm both measurement rotations.** Arm **RY**, tap `q0` in column 2 (θ starts at π/2, so
+   dial it as needed). Arm **RY** again, tap `q1` in column 2 (shares the column with q0's tile — different
    qubit, exactly like Chapter 19's shared-column Toffoli tiles). Because the popover's slider
    only runs over 0…2π and `ry(−θ)` is what §20.2 calls for, every setting angle below is dialed
    in as `2π − θ` — a global phase, invisible to every probability and Bloch point this chapter
@@ -242,14 +242,15 @@ violation made geometric.
    jitter, per §20.3).
 6. **The product-state control.** Remove the CX tile (§20.5). Display → Final on q0 and q1 now
    shows two independent points instead of the Bell pair's maximally-mixed pair — rebuild the
-   panel reading from step 4 with the CX gone and the same four settings gives the smaller
-   S = 1.414.
+   panel reading from step 4 with the CX gone and the same four settings gives S = 0
+   (the state is now |+⟩⊗|0⟩, where E(x,y) = sin x · cos y, so the four terms are 0 − 0 + 0.707 − 0.707).
+   Adding an **H** on q1 as well gives |+⟩⊗|+⟩ and §20.5's S = √2 instead.
 7. **No signalling.** With the Bell pair and CX back in place, drag q0's tile through several
    values while leaving q1's tile at `0.000`; Display → Final on q1 stays put at the sphere's
    center (|r| = 0) throughout, per §20.6 — Alice's choice never moves Bob's own marginal.
 
 What stays in code: the 16-strategy enumeration and the shared-direction Monte Carlo model
-(§20.1) are plain Swift, not circuits; `CHSHChartView` (§20.7) is a vendored playground view,
+(§20.1) are plain Swift, not circuits; `CHSHChartView` (§20.7) is a `SwiftQiskitViews` view,
 not part of the app; and summing the four settings into S is arithmetic you do by hand from the
 panel, not a button. "Run it in code" below does all three.
 

@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| Playground page | [`19Noise`](../../../SwiftQiskit/PlaygroundDocs/19NOISEHELP.md) |
+| Playground page | [`21Noise`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/21Noise.xcplaygroundpage) |
 | In the app | ◐ — every Kraus channel except depolarizing is exactly reachable by entangling the system with one extra "environment" qubit and reading the system's reduced Bloch vector; purity and entropy are still read off that vector by hand — see "Build it in the app" |
 | Library APIs | `QuantumCircuit.h/ry/cx`, `.run()`, `measure(shots:)`, `Matrix` `+`/`-`/scalar `*`, `†`, `Ket * Bra`, `BlochVector(_:qubit:)` |
 | Prerequisites | Chapters 4, 9, 11, 12 |
@@ -215,7 +215,7 @@ channel below visibly moves it.
    `|+⟩`). Give each round its *own* fresh environment qubit (up to 7 rounds fit the app's
    8-qubit maximum): round 1 uses q1 exactly as step 2 above (`θ = 0.644 = 2·arcsin(√0.1)` for
    p = 0.1, columns 1–4); round 2 repeats the same four-tile pattern on q2 (columns 5–8).
-   Display → Steps on q0 reads the decay off column by column:
+   Display → Steps on q0 reads the decay off column by column (the cards are labelled `Start`, `Col 1`, …; `Col n` is the state after tapped column n−1, so "through col 4" below is the card `Col 5`):
 
    ```text
    through col 0: q0 Bloch x = 1.000   (before any round)
@@ -226,8 +226,8 @@ channel below visibly moves it.
    — §21.3's `(1 − 2p)ⁿ` table, reproduced column by column instead of computed.
 5. **The Monte-Carlo unraveling.** Rebuild step 2's phase-flip circuit with p = 0.1 on `|+⟩` (arm
    **H** on q0 first), then arm one more **H** on q0 in the next column to change basis, set
-   **Shots: 20000**, and tap **Measure**: the `q0 = 0` fraction lands close to 0.900 (a re-run at
-   these shot counts landed at 0.897), matching §21.5's exact 0.900000 within shot noise.
+   **Shots: 10000** (the stepper's maximum), and tap **Measure**: the `q0 = 0` fraction lands close to 0.900 (expect a
+   few thousandths of jitter at this shot count), matching §21.5's exact 0.900000 within shot noise.
 
 **What's still out of reach:** an exact depolarizing channel needs *four* independently weighted
 outcomes (I, X, Y, Z), not two, so one environment qubit isn't enough — the "Try it yourself"

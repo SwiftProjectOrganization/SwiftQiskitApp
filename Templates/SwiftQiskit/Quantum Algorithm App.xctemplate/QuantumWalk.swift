@@ -3,9 +3,8 @@
 //  ___PACKAGENAME___
 //
 //  A discrete-time quantum walk on a 16-site cycle: a coin qubit (q0) plus
-//  a 4-bit position register (q1..q4). Ported from SwiftQiskit's
-//  Playgrounds.playground page 22Walk — see that page and
-//  PlaygroundDocs/22WALKHELP.md for the full derivation.
+//  a 4-bit position register (q1..q4). Ported from the SwiftQiskitPlaygrounds
+//  page 25QuantumWalks — see that page for the full derivation.
 //
 //  No SwiftUI here. This file is pure math over SwiftQiskit's Matrix
 //  and StateVector, so it can be tested and reasoned about independent of
