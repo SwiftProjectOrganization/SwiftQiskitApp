@@ -151,6 +151,22 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 - Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 41 tests are in its
   test plan (no scheme-switching gotcha, unlike the package).
 
+## Tool hints
+
+When working in Claude Code with Sonnet tools, read-only permission is always granted for
+the `SwiftQiskit`, `SwiftQiskitApp` and `SwiftQiskitPlaygrounds` repositories
+(`/Users/rob/Projects/Swift/<name>`). Reading and searching them needs no confirmation:
+
+- Read, Grep and Glob, and the `xcode-tools` read tools (`XcodeRead`, `XcodeGrep`,
+  `XcodeGlob`, `XcodeLS`).
+- Read-only shell commands such as `ls`, `cat`, `git status`, `git log`, `git diff` and
+  `git show`.
+
+Edits, state-changing builds, commits and pushes still follow the normal confirmation rules.
+Use the siblings freely for reference: `../SwiftQiskit` for what the gates compute and the
+public API, `../SwiftQiskitPlaygrounds` for the playground pages the introduction chapters
+build on.
+
 ## Writing style
 
 The user prefers a sober writing style — plain, measured prose, no hype, no exclamation marks,
