@@ -455,22 +455,7 @@ b.place(.cx, qubits: [0, 2], column: 3)
 b.place(.x, qubits: [1], column: 4)          // the error, worked example: q1
 b.place(.cx, qubits: [0, 1], column: 5)      // decode
 b.place(.cx, qubits: [0, 2], column: 6)
-// Toffoli(controls: q1, q2; target: q0) = H(0); CCZ(1,2,0); H(0)
-b.place(.h, qubits: [0], column: 7)
-b.place(.cx, qubits: [2, 0], column: 8)
-b.place(.tdg, qubits: [0], column: 9)
-b.place(.cx, qubits: [1, 0], column: 10)
-b.place(.t, qubits: [0], column: 11)
-b.place(.cx, qubits: [2, 0], column: 12)
-b.place(.tdg, qubits: [0], column: 13)
-b.place(.cx, qubits: [1, 0], column: 14)
-b.place(.t, qubits: [2], column: 15)
-b.place(.t, qubits: [0], column: 15)
-b.place(.cx, qubits: [1, 2], column: 16)
-b.place(.t, qubits: [1], column: 17)
-b.place(.tdg, qubits: [2], column: 17)
-b.place(.cx, qubits: [1, 2], column: 18)
-b.place(.h, qubits: [0], column: 19)
+b.place(.cx, qubits: [1, 2, 0], column: 7)   // Toffoli: controls q1, q2; target q0
 
 print("column count:", b.columnCount())
 for row in panelRows(b.buildCircuit().run(), qubits: 3) { print(row) }
@@ -481,7 +466,7 @@ for (state, count) in shots.sortedCounts { print("  \(state): \(count)") }
 ```
 
 ```text
-column count: 20
+column count: 8
 |010⟩: 0.8001031451912656 - 0.3314135740355918i  (p=0.750)
 |110⟩: 0.46193976625564315 + 0.19134171618254484i  (p=0.250)
 

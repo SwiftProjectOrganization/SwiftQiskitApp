@@ -8,10 +8,10 @@
 |---|---|
 | Playground page | [`24Trotter`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/24Trotter.xcplaygroundpage) |
 | In the app | ◐ — the ZZ(θ) rotation decomposes exactly into `cx; rz; cx` and is tappable, and a full first-order Trotter step chains onto `rx`; the `expm` ground truth and the error-scaling sweep across step counts n are code-only |
-| Library APIs | `QuantumCircuit.cx/rz/rx`, `.run()`, `Matrix` `+`/scalar `*`/`⊗`, `†`, `Bra * Matrix * Ket`; the page's local `expm`, `zzViaGates`, `trotterUnitary` |
+| Library APIs | `QuantumCircuit.cx/rz/rx`, `.run()`, `Matrix` `+`/scalar `*`/`⊗`, `†`, `Bra * Matrix * Ket`; `Matrix.expm`; the page's local `zzViaGates`, `trotterUnitary` |
 | Prerequisites | Chapters 4, 7, 11 |
 
-> Since package `0.8.1`, `SwiftQiskit` also ships `Hamiltonian` with `trotterCircuit(time:steps:order:)`, and `Matrix.expm`; this chapter builds both by hand to show the arithmetic.
+> Since package `0.8.1`, `SwiftQiskit` also ships `Hamiltonian` with `trotterCircuit(time:steps:order:)`, and `Matrix.expm`; this chapter uses `Matrix.expm` as its ground truth and builds the Trotter circuit by hand to show the arithmetic.
 
 ## 24.1 The spin-chain Hamiltonian
 
@@ -52,31 +52,14 @@ enough to compile.
 
 ## 24.2 An `expm` ground truth
 
-`Matrix` now has its own `expm(terms:)` (package `0.8.1`); this chapter's page builds one at
-the page level instead, by scaling-and-squaring Taylor series — built only from `Matrix *` and `+`, which now exist in
-Core:
+`Matrix.expm(terms:)` (package `0.8.1`) computes the matrix exponential by a scaling-and-squaring
+Taylor series. It has no implicit `-i`: for `exp(−iθH)`, scale `H` by `Complex(0, −θ)` first:
 
 ```swift
-func expm(_ A: Matrix, terms: Int = 20) -> Matrix {
-    let n = A.rows
-    var normEst = 0.0
-    for i in 0..<n { for j in 0..<n { normEst = max(normEst, A[i, j].magnitude) } }
-    var s = 0
-    var scaled = A
-    var normS = normEst
-    while normS > 0.5 { scaled = scaled * 0.5; normS *= 0.5; s += 1 }
-    var result = Matrix.identity(size: n)
-    var term = Matrix.identity(size: n)
-    for k in 1...terms {
-        term = (term * scaled) * (1.0 / Double(k))
-        result = result + term
-    }
-    for _ in 0..<s { result = result * result }
-    return result
-}
+let expmRX = (X * Complex(0, -theta / 2)).expm()
 ```
 
-Before trusting this as ground truth for anything else, it's checked against an *exact* gate —
+Before trusting `expm` as ground truth for anything else, it's checked against an *exact* gate —
 Core's `RXGate`, which is `exp(−iθX/2)` with no approximation:
 
 ```text
@@ -284,27 +267,8 @@ let X = PauliXGate.matrix
 let Z = PauliZGate.matrix
 let ZZ = Z ⊗ Z
 
-// Page-local copy of what `Matrix.expm(terms:)` now provides; scaling-and-squaring Taylor series, built only on Matrix * and +.
-func expm(_ A: Matrix, terms: Int = 20) -> Matrix {
-    let n = A.rows
-    var normEst = 0.0
-    for i in 0..<n { for j in 0..<n { normEst = max(normEst, A[i, j].magnitude) } }
-    var s = 0
-    var scaled = A
-    var normS = normEst
-    while normS > 0.5 { scaled = scaled * 0.5; normS *= 0.5; s += 1 }
-    var result = Matrix.identity(size: n)
-    var term = Matrix.identity(size: n)
-    for k in 1...terms {
-        term = (term * scaled) * (1.0 / Double(k))
-        result = result + term
-    }
-    for _ in 0..<s { result = result * result }
-    return result
-}
-
 let theta = 0.7
-let expmRX = expm(X * Complex(0, -theta / 2))
+let expmRX = (X * Complex(0, -theta / 2)).expm()
 let rxExact = RXGate.matrix(theta: theta)
 print("expm(-iθX/2) vs. RXGate.matrix(θ=0.7): max diff = \(String(format: "%.2e", maxDiff(expmRX, rxExact)))")
 
@@ -314,7 +278,7 @@ func zzViaGates(_ theta: Double) -> Matrix {
     let rz1 = I2 ⊗ RZGate.matrix(theta: theta)
     return cx * rz1 * cx
 }
-let expmZZ = expm(ZZ * Complex(0, -theta / 2))
+let expmZZ = (ZZ * Complex(0, -theta / 2)).expm()
 let gateZZ = zzViaGates(theta)
 print("expm(-iθZ⊗Z/2) vs. cx;rz;cx (θ=0.7): max diff = \(String(format: "%.2e", maxDiff(expmZZ, gateZZ)))")
 
@@ -340,7 +304,7 @@ func trotterUnitary(_ t: Double, _ n: Int, order: Int) -> Matrix {
 }
 
 let t = 1.0
-let exact = expm(Hising * Complex(0, -t))
+let exact = (Hising * Complex(0, -t)).expm()
 
 print("\n1st-order Trotter error (max diff from exact), t=1:")
 var prevErr1 = 0.0
@@ -367,7 +331,7 @@ print("\n⟨Z₀⟩(t): exact vs. Trotterized n=2, n=8")
 print("t       exact       n=2         n=8")
 for tVal in [0.5, 1.0, 1.5, 2.0, 2.5, 3.0] {
     var es = psi0
-    es.apply(expm(Hising * Complex(0, -tVal)))
+    es.apply((Hising * Complex(0, -tVal)).expm())
     var s2 = psi0
     s2.apply(trotterUnitary(tVal, 2, order: 1))
     var s8 = psi0
@@ -383,7 +347,7 @@ for i in 0..<4 { for j in 0..<4 { commNorm = max(commNorm, commutator[i, j].magn
 print("\nmax |[Z⊗Z, X⊗I]| entry: \(fmt(commNorm))")
 
 let Hcomm = ZZ * (-J)
-let exactComm = expm(Hcomm * Complex(0, -t))
+let exactComm = (Hcomm * Complex(0, -t)).expm()
 let trotterComm1 = zzViaGates(-2 * J * t)
 print("commuting-only Hamiltonian (h=0), n=1 error: \(String(format: "%.2e", maxDiff(exactComm, trotterComm1)))")
 ```

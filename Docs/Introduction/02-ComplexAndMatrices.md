@@ -440,7 +440,7 @@ re-explain each time, here is the complete list, checked directly against both s
 | Unary minus, `+`/`-`/`/` against a bare `Double` on `Complex` | none so far — write `Complex(-x, -y)` or `Complex(d, 0)` when needed |
 | Standalone transpose (only the conjugated `.adjoint` exists) | none so far |
 | Determinant, inverse | none so far (`Matrix.trace` exists in `Math/Matrix.swift`) |
-| Matrix exponential | `Matrix.expm(terms:)` in `Math/Matrix.swift`; Chapter 24's page defines its own local copy |
+| Matrix exponential | `Matrix.expm(terms:)` in `Math/Matrix.swift`; Chapter 24 uses it as its ground truth |
 | Arithmetic (`+`, scalar `*`) on plain `[Complex]` vectors | §2.5 above — one-line `zip`/`map` helpers |
 
 Where a chapter needs one of these, it defines a small local helper rather than extending the
