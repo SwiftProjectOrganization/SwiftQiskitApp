@@ -52,8 +52,8 @@ entanglement and a handful of famous algorithms (Deutsch, Grover, Shor, teleport
 
 | # | Title | App | Status | Source |
 |---|---|---|---|---|
-| 0 | [What Quantum Computing Is, and Why Simulate It](Docs/Introduction/00-Introduction.md) | — | draft | — |
-| 1 | [Setup and Orientation](Docs/Introduction/01-Setup.md) | ● | draft | — |
+| 0 | [What Quantum Computing Is, and Why Simulate It](Docs/Introduction/00-Introduction.md) | — | v1 | — |
+| 1 | [Setup and Orientation](Docs/Introduction/01-Setup.md) | ● | v1 | — |
 | 2 | [Complex Numbers and Matrices in Swift](Docs/Introduction/02-ComplexAndMatrices.md) | ○ | draft | `Math/Complex.swift`, `Math/Matrix.swift`, `Quantum/Dirac.swift` |
 | 3 | [Qubits: Amplitudes and Probabilities](Docs/Introduction/03-Qubits.md) | ● | draft | [`03Qubits`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/03Qubits.xcplaygroundpage) |
 | 4 | [Dirac Notation and Expectation Values](Docs/Introduction/04-DiracNotation.md) | ◐ | draft | [`03Qubits`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/03Qubits.xcplaygroundpage), [`04Dirac`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/04Dirac.xcplaygroundpage) |

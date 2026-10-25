@@ -18,14 +18,17 @@
   Swift package (a version-pinned GitHub URL, not a local path), so Xcode resolves it
   automatically the first time you open or build the project — no sibling checkout, no manual
   setup.
-- **A sibling checkout is worth having anyway.** This book's second way of running examples,
-  §1.3 below, is `using the SwiftQiskitPlaygrounds/Playgrounds/`. Put a `SwiftQiskitPlaygorun`
+- **At least one sibling checkout is worth having anyway.** This book's second way of running examples,
+  §1.3 below, is `using the SwiftQiskitPlaygrounds/Playgrounds/`. Put a `SwiftQiskitPlayground`
 checkout next to `SwiftQiskitApp` on disk if you want to follow those links locally — the app doesn't
 need it, but you'll want it for the playgrounds.
+- **A second sibling checkout is worth as well:** By checking out SwiftQiskit you can occasionally look
+at the complete API documentation, the summary tables in its README and also a large number of test
+routines. 
 
 ## 1.2 A five-minute tour of the app
 
-Launch `SwiftQiskitApp` and you'll see three panes on macOS or iPad (rearranged into a
+Launch `SwiftQiskitApp` and you'll see three panes on macOS, iPad or iPhone Duo (rearranged into a
 compact layout on iPhone — more on that below):
 
 | Panel | What it's for |
@@ -33,6 +36,8 @@ compact layout on iPhone — more on that below):
 | **Gates** (left) | Tap a gate button to *arm* it; it highlights. Sections are Pauli/Hadamard (`H X Y Z`), Phase (`S S† T T†`), Rotation (`P RX RY RZ`, each with a θ parameter), Multi-qubit (`CX CY CZ SWAP`), and Two-qubit rotation (`RZZ RXX RYY`, each with a θ parameter). |
 | **Circuit** (center) | A grid, one horizontal wire per qubit. Tap an empty cell to place the armed gate there. The **Qubits** stepper (1–8 — shrinking it drops any placed gates that no longer fit) and the **Clear**, **Results**, **Measure** and **Display** buttons sit in a floating bar at the bottom of the window. |
 | **State Vector** (right) | Live amplitudes and probabilities for the circuit as currently built, recomputed on every change with no explicit "run" step, with a separate **Measurement** section below it holding the **Shots** stepper, the **Measure** button and the histogram. |
+
+There is some overlap in functionality in the toolbar at the bottom of the screen. This comes in handy when using circuits with 4 to 8 qubits. Inthat case the State vector gets pretty long and the same is true for measurements.
 
 A **Display** button in the bottom bar opens the Bloch-sphere views of the circuit (Final, Steps, Tensor and 3D) — the same
 sheet §0.3 pointed at for seeing entanglement directly. Tapping a placed parameterized tile
@@ -43,28 +48,13 @@ the gate strip pinned below it, the **Qubits** stepper sits top-left, and **Clea
 sit top-right, with Results, Measurement and Display each opening in a sheet. Every control above still exists; only the arrangement
 changes.
 
-This is the five-minute version. For the full control-by-control reference, see
-[`Docs/Tutorial.md`](../Tutorial.md) and [`Docs/Help.md`](../Help.md) — this book won't repeat
+This is the five-minute version. For the full control-by-control reference, see[` Docs/Tutorial.md`](../Tutorial.md) and [`Docs/Help.md`](../Help.md) — this book won't repeat
 what they already cover well.
 
-## 1.3 A five-minute tour of the playground
+## 1.3 A five-minute tour of the SwiftQiskitPlayground project
 
 The second way to run this book's examples is `../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds`, opened in
-Xcode. Please see the [README] there.
-
-## 1.4 Running code on its own
-
-The third way — the only option once a chapter needs something the app's fixed gate palette
-can't express, such as a custom matrix or mid-circuit measurement — is plain Swift:
-`import SwiftQiskit` in a scratch file, a playground, or via the `RunCodeSnippet` tool, and
-write a few lines directly. This chapter's own "Run it in code" section below is the smallest
-possible example of that.
-
-## 1.5 The SwiftQiskitPlaygrounds project
-
-The fourth way is `../SwiftQiskitPlaygrounds`
-([GitHub](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds)), a separate
-project that holds playground pages for `SwiftQiskit`. To use it:
+Xcode. Please see the [README](https://github.com/SwiftProjectOrganization/SwiftQiskitPlaygrounds/Readme.md) there.
 
 1. Open `SwiftQiskitPlaygrounds.xcodeproj`.
 2. Select the `PlaygroundDeps` scheme (My Mac) and build. It links `SwiftQiskit` and
@@ -74,6 +64,14 @@ project that holds playground pages for `SwiftQiskit`. To use it:
 It has one page per chapter (`01Matrices` through `26TensorDiagrams`, plus `50StateVectorCPU`).
 Like the app, it uses `SwiftQiskit` as a remote package (currently 0.8.1), so it needs no
 sibling checkout of `SwiftQiskit`.
+
+## 1.4 Running code on its own
+
+Another way is to run plain Swift:` import SwiftQiskit` in a scratch file, a playground, or via the `RunCodeSnippet` tool, and
+write a few lines directly. This chapter's own "Run it in code" section below is the smallest possible example of that.
+
+There is also a template system that helps in generating stand-alone Swift apps, e.g. see SwiftQiskitWalkDemo. Or generate such an 
+app through AI options such as Claude Code + Sonnet.
 
 ## Build it in the app
 
@@ -116,27 +114,15 @@ State Vector panel in step 4 above — same circuit, same result, two different 
 
 ## Try it yourself
 
-1. Open `SwiftQiskitApp.xcodeproj` on a machine with no `SwiftQiskit` checkout anywhere on disk
-   and confirm it still builds. Then open `SwiftQiskitPlaygrounds.xcodeproj` and confirm it
-   builds too.
-   <details><summary>Answer</summary>Both build independently. The app's dependency is a
-   version-pinned GitHub URL, so Xcode fetches it into its own cache regardless of what else is
-   on disk; the playground lives inside the `SwiftQiskit` repo itself and was never affected by
-   where `SwiftQiskitApp` sits.</details>
+1. Open `SwiftQiskitApp.xcodeproj` on a machine with no `SwiftQiskit` checkout anywhere on disk and confirm it still builds.
+2. Open `SwiftQiskitPlaygrounds.xcodeproj` and confirm it builds too by running a playground.
+3. Open SwiftQiskit and take a look at its README.
 
-2. Suppose you're actively editing `SwiftQiskit` and want `SwiftQiskitApp` to pick up your
-   changes immediately, before committing or tagging a release. Just having a `../SwiftQiskit`
-   checkout on disk isn't enough by itself anymore — why not, and what do you do instead?
-   <details><summary>Answer</summary>The app's dependency is declared by URL and version now,
-   not by relative path, so Xcode has no reason to look at a sibling folder unless told to.
-   Drag the local `../SwiftQiskit` checkout into the app's Xcode workspace as a local package —
-   a local package overrides a remote dependency of the same name — to get instant edits back;
-   remove the override when you're done.</details>
-
-3. The app's palette includes `T†` (`tdg`). Search the
-   playground pages in `SwiftQiskitPlaygrounds` for `tdg(` and find which page calls it.
-   <details><summary>Answer</summary>`15Grover` — its 3-qubit CCZ decomposition (Chapter 15
-   §15.9) uses `t` and `tdg` around `cx`. It's also a tappable tile in the app.</details>
-
+```text
+```text
+Note: Inside Xcode markdown formatting is not always correct. On Github or in a tool such as Clearly the formatting is fine.
+```
+```
+   
 ---
 [← Chapter 0](00-Introduction.md) · [Contents](../../INTRODUCTION.md) · [Chapter 2 →](02-ComplexAndMatrices.md)
