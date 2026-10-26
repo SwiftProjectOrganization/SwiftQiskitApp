@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | Playground page | [`19ErrorCorrection`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/19ErrorCorrection.xcplaygroundpage) |
-| In the app | ● — encode, inject an error, decode, and correct all build from palette gates: `cx` for the code itself, `x`/`y`/`z`/`rx` for the error, and a CCX tile (a Toffoli) for the correction. It's a different (but equivalent) circuit from the playground page's, which uses two separate syndrome ancillas and a hand-built permutation matrix — see "Build it in the app" |
+| In the app | ● — encode, inject an error, decode, and correct all build from palette gates: `cx` for the code itself, `x`/`y`/`z`/`rx` for the error, and the Toffoli tile for the correction. It's a different (but equivalent) circuit from the playground page's, which uses two separate syndrome ancillas and a hand-built permutation matrix — see "Build it in the app" |
 | Library APIs | `QuantumCircuit.h/x/y/z/rx/cx/t/tdg`, `.run()`, `measure(shots:)`, `Matrix`, `⊗`, `BlochVector(_:qubit:)` |
 | Prerequisites | Chapters 8, 11, 12, 15, 18 |
 
@@ -188,7 +188,7 @@ dimension 2¹³ or higher, well beyond what a dense-matrix simulator handles com
 
 ● Everything above is tappable, but not with the playground page's literal circuit — the playground's
 correction uses mixed-control Toffolis acting on separate syndrome ancillas, and the app's
-controls all fire on `1`. Instead, the CCX tile gives a Toffoli, and re-running the *decode*
+controls all fire on `1`. Instead, the Toffoli tile gives a Toffoli, and re-running the *decode*
 step before correcting turns out to route the syndrome onto q1 and q2 themselves — no extra
 ancillas needed. The circuit is: encode, inject the error, decode again (the same two `cx`
 gates), then a Toffoli with controls q1, q2 and target q0. This reproduces every number in
@@ -209,7 +209,7 @@ Clear, set **Qubits: 3**. Worked example: error on q1.
    the syndrome.
 4. **The Toffoli correction.** This fires only when the syndrome is `11` (an error on q0
    itself), so for this worked example it changes nothing — but it has to be present for every
-   case to be corrected, so tap it in anyway: arm **CCX**, then tap `q1` and `q2` (the controls) and `q0` (the target) in
+   case to be corrected, so tap it in anyway: arm **Toffoli**, then tap `q1` and `q2` (the controls) and `q0` (the target) in
    column 7. 8 columns total. Panel: unchanged from step 3 — confirming the Toffoli
    is a no-op on this syndrome, exactly as it should be. (Chapter 15 §15.9's `t`/`tdg`/`cx` CCZ,
    with `H` on `q0` either side, builds the same gate from single-qubit tiles in 13 more columns.)

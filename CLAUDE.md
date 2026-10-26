@@ -137,7 +137,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   a qubit-count shrink discarding a prior measurement, and RZZ/RXX/RYY replay on non-adjacent
   qubits checked against a directly built `QuantumCircuit` (RZZ also against the `cx;rz;cx`
   identity), plus `updateTheta`/occupied-cell coverage for RZZ, and multi-control CX
-  (`addControl`/`removeLastControl` against `ccx`/`mcx`, rejections, shrink), palette CCX
+  (`addControl`/`removeLastControl` against `ccx`/`mcx`, rejections, shrink), palette Toffoli
   placement and its rejections, CZ/CCZ/SWAP replay and placement rules, and CY replay (against `sdg;cx;s`), `mcy` controls and placement rules.
 - `SwiftQiskitAppTests/CircuitLayoutTests.swift` (3 tests) — pure `CircuitLayout` geometry:
   center spacing, `wireY` agreement with `center`, `canvasSize` growth in each dimension.

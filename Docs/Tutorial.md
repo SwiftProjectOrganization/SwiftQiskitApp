@@ -127,7 +127,7 @@ flips the target only when both controls are `1`. This builds it on three qubits
    `q1` at `0` that control is not satisfied, the target does not flip, and the panel shows
    `|100⟩`.
 
-The **CCX** tile in the Multi-qubit section places the same gate directly: arm it, then tap
+The **Toffoli** tile in the Multi-qubit section places the same gate directly: arm it, then tap
 the two controls and the target in one column. The result is a CX with two controls, so the
 popover described above works on it unchanged.
 

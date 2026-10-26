@@ -21,13 +21,14 @@ struct GatePaletteView: View {
 
     private let defaultAngle = Double.pi / 2
 
-    private var sections: [(title: String, gates: [GateKind])] {
+    /// Each section is a list of rows; the sidebar draws one line per row, the strip flattens them.
+    private var sections: [(title: String, rows: [[GateKind]])] {
         [
-            ("Pauli / Hadamard", [.h, .x, .y, .z]),
-            ("Phase", [.s, .sdg, .t, .tdg]),
-            ("Rotation (θ = π/2)", [.p(defaultAngle), .rx(defaultAngle), .ry(defaultAngle), .rz(defaultAngle)]),
-            ("Multi-qubit", [.cx, .ccx, .cy, .cz, .swap]),
-            ("Two-qubit rotation (θ = π/2)", [.rzz(defaultAngle), .rxx(defaultAngle), .ryy(defaultAngle)])
+            ("Pauli / Hadamard", [[.h, .x, .y, .z]]),
+            ("Phase", [[.s, .sdg, .t, .tdg]]),
+            ("Rotation (θ = π/2)", [[.p(defaultAngle), .rx(defaultAngle), .ry(defaultAngle), .rz(defaultAngle)]]),
+            ("Multi-qubit", [[.cx, .cy, .cz], [.swap, .ccx]]),
+            ("Two-qubit rotation (θ = π/2)", [[.rzz(defaultAngle), .rxx(defaultAngle), .ryy(defaultAngle)]])
         ]
     }
 
@@ -44,7 +45,7 @@ struct GatePaletteView: View {
                 .font(.headline)
 
             ForEach(sections, id: \.title) { section in
-                sidebarSection(section.title, gates: section.gates)
+                sidebarSection(section.title, rows: section.rows)
             }
 
             if let armed = armedGate {
@@ -63,7 +64,7 @@ struct GatePaletteView: View {
                 HStack(spacing: 14) {
                     ForEach(sections, id: \.title) { section in
                         HStack(spacing: 6) {
-                            ForEach(section.gates, id: \.self) { gate in
+                            ForEach(Array(section.rows.joined()), id: \.self) { gate in
                                 gateButton(gate)
                             }
                         }
@@ -94,15 +95,17 @@ struct GatePaletteView: View {
             : "Tap a control qubit, then a target qubit in the same column. Tap a placed control dot to add more controls."
     }
 
-    private func sidebarSection(_ title: String, gates: [GateKind]) -> some View {
+    private func sidebarSection(_ title: String, rows: [[GateKind]]) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 44))], spacing: 6) {
-                ForEach(gates, id: \.self) { gate in
-                    gateButton(gate)
+            ForEach(rows.indices, id: \.self) { index in
+                HStack(spacing: 6) {
+                    ForEach(rows[index], id: \.self) { gate in
+                        gateButton(gate)
+                    }
                 }
             }
         }
@@ -114,12 +117,14 @@ struct GatePaletteView: View {
             armedGate = isArmed ? nil : gate
         } label: {
             Text(gate.symbol)
-                .font(.system(.body, design: .monospaced, weight: .semibold))
+                .font(.system(.callout, design: .monospaced, weight: .semibold))
                 .minimumScaleFactor(0.6)
                 .lineLimit(1)
-                .frame(width: 40, height: 32)
+                // "Toffoli" spans two normal cells (30 + 6 + 30) so it lines up with the row above.
+                .frame(width: gate == .ccx ? 66 : 30, height: 24)
         }
         .buttonStyle(.bordered)
+        .controlSize(.small)
         .tint(isArmed ? .accentColor : .secondary)
     }
 }

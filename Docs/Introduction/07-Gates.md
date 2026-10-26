@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | Playground page | [`07Gates`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/07Gates.xcplaygroundpage) |
-| In the app | ● — every gate here is tappable: CCX has its own palette tile, and MCX is a CX or CCX given more controls from its popover (§7.10) |
+| In the app | ● — every gate here is tappable: CCX has its own palette tile, labeled Toffoli, and MCX is a CX or CCX given more controls from its popover (§7.10) |
 | Library APIs | `QuantumCircuit.h/x/y/z/s/sdg/t/tdg`, `p/rx/ry/rz(_:_:)`, `cx`, `ccx`, `mcx`, `rzz/rxx/ryy(_:_:_:)` |
 | Prerequisites | Chapters 3, 5 |
 
@@ -278,7 +278,7 @@ is one tap away: the θ popover only gives a three-decimal readout over `0…2π
 `π/4` can only be approximated (step 8's small deviation is a direct consequence); a placed tile
 can only be edited in place or removed, never dragged to a different column — reordering a
 sequence means clearing and re-placing; and `MCX` has no tile of its own — it is a placed `CX` or
-`CCX` given extra controls. `CCX` is a palette tile: arm it, then tap the two controls and the
+`CCX` given extra controls. `CCX` is a palette tile, labeled **Toffoli**: arm it, then tap the two controls and the
 target in one column. It is stored as a `CX` with two controls. Tap a placed `CX` (its dot or its ⊕)
 to open the **Controls: n** popover, where **+** arms a cell for one more control and **−** removes
 the last one. The same popover works on `CY` and `CZ`. The palette also has `CY`, `CZ` and `SWAP`
