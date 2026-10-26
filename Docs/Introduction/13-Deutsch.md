@@ -263,7 +263,7 @@ every label, as throughout Chapters 10–14.
 1. **Prepare the phase register** — Arm **X** (Pauli section), tap `q1` in column 0. Arm **H**, tap
    `q0` then `q1`, both in column 1. Panel: four rows at `p=0.250` — `|00⟩: +0.500`, `|01⟩: −0.500`,
    `|10⟩: +0.500`, `|11⟩: −0.500` (§13.3's `|+⟩|−⟩`).
-2. **Query the oracle for f(x) = x** — Arm **CX** (Multi-qubit section), tap `q0` then `q1` in
+2. **Query the oracle for f(x) = x** — Arm **CX** ("Variable multi-qubit" section), tap `q0` then `q1` in
    column 2. Panel probabilities are unchanged (`p=0.250` on all four rows), but two signs have
    flipped: `|10⟩` and `|11⟩` swap sign relative to step 1 — the kickback, visible as a sign change
    with zero visible change in probability (§13.4).

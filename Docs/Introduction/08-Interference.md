@@ -266,7 +266,7 @@ at larger scale.
    before **Measure** collapses it to all-`"1"` — the opposite outcome from `|+⟩`'s, recovered
    only once the basis is changed by hand.
 8. **Two-qubit teaser** — **Qubits: 2**. Arm **H**, tap `q0` and `q1` in column 0. Arm **CZ**
-   (Multi-qubit section) and tap `q0` then `q1` in column 1. Panel: flat `p=0.250` on all four
+   ("Variable multi-qubit" section) and tap `q0` then `q1` in column 1. Panel: flat `p=0.250` on all four
    rows — the phase mark is invisible. Now add the diffuser: **Z** on `q0` and `q1` at column 2,
    another **CZ** at column 3, then **H** on both qubits at column 4. Panel
    collapses to `|11⟩: …  (p=1.000)`.

@@ -229,7 +229,7 @@ A few implementation facts worth knowing before relying on any measurement resul
    read the histogram back: an actual run gave `7463`/`2537` — close to, not exactly, the panel's
    75/25 split.
 5. **A histogram with holes** — **Qubits: 2**. Arm **H**, tap `q0`'s column-0 cell; arm **CX**
-   (Multi-qubit section), tap `q0` then `q1` in column 1. **Measure**: exactly two bars,
+   ("Variable multi-qubit" section), tap `q0` then `q1` in column 1. **Measure**: exactly two bars,
    `|00⟩` and `|11⟩` — `|01⟩` and `|10⟩` never appear, not as zero-height bars but as bars that
    don't exist (§9.5). Recall the leftmost-qubit convention: `|00⟩` means `q0=0, q1=0`.
 6. **Basis dependence, once more** — Clear, **H** at `q0`. **Measure**: roughly even. Add a second

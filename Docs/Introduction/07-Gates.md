@@ -253,7 +253,7 @@ is one gate at a time, mirroring `05Gates`'s own structure.
    card, `y +1.000` — but the panel's raw amplitudes (`0.5 − 0.5i`, `0.5 + 0.5i`) don't match
    **S**'s (`0.707`, `0.707i`) at all, only the probabilities and the Bloch point do.
 10. **Bell teaser** — **Qubits: 2**. Arm **H**, tap `q0`'s column-0 cell. Arm **CX**
-    (Multi-qubit section), tap `q0` then `q1` in column 1. Panel: `|00⟩: 0.707…  (p=0.500)`,
+    ("Variable multi-qubit" section), tap `q0` then `q1` in column 1. Panel: `|00⟩: 0.707…  (p=0.500)`,
     `|11⟩: 0.707…  (p=0.500)`. **Display** → **Final** shows both `q0` and `q1` cards printing an
     extra line, `|r| 0.000` — the first entangled, zero-length reduced Bloch vector this
     introduction has produced.

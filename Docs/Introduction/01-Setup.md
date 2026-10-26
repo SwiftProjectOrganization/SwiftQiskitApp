@@ -33,7 +33,7 @@ compact layout on iPhone — more on that below):
 
 | Panel | What it's for |
 |---|---|
-| **Gates** (left) | Tap a gate button to *arm* it; it highlights. Sections are Pauli/Hadamard (`H X Y Z`), Phase (`S S† T T†`), Rotation (`P RX RY RZ`, each with a θ parameter), Multi-qubit (`CX CY CZ SWAP`), and Two-qubit rotation (`RZZ RXX RYY`, each with a θ parameter). |
+| **Gates** (left) | Tap a gate button to *arm* it; it highlights. Sections are Pauli/Hadamard (`H X Y Z`), Phase (`S S† T T†`), Rotation (`P RX RY RZ`, each with a θ parameter), Variable multi-qubit (`CX CY CZ`), Fixed multi-qubit (`SWAP Toffoli`), and Two-qubit rotation (`RZZ RXX RYY`, each with a θ parameter). |
 | **Circuit** (center) | A grid, one horizontal wire per qubit. Tap an empty cell to place the armed gate there. The **Qubits** stepper (1–8 — shrinking it drops any placed gates that no longer fit) and the **Clear**, **Results**, **Measure** and **Display** buttons sit in a floating bar at the bottom of the window. |
 | **State Vector** (right) | Live amplitudes and probabilities for the circuit as currently built, recomputed on every change with no explicit "run" step, with a separate **Measurement** section below it holding the **Shots** stepper, the **Measure** button and the histogram. |
 

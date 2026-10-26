@@ -303,7 +303,7 @@ Chapters 10–15.
 1. **Qubits: 2. Uniform superposition** — Arm **H**, tap `q0` then `q1` in column 0. Panel: four
    rows at flat `p=0.250`.
 2. **Oracle for `|10⟩`** — Arm **X** (Pauli section), tap `q1` in column 1. Arm **H**, tap `q1` in
-   column 2. Arm **CX** (Multi-qubit section), tap `q0` then `q1` in column 3. Arm **H**, tap `q1`
+   column 2. Arm **CX** ("Variable multi-qubit" section), tap `q0` then `q1` in column 3. Arm **H**, tap `q1`
    in column 4. Arm **X**, tap `q1` in column 5 (this five-gate sequence is `x(1); h(1); cx(0,1);
    h(1); x(1)` — CZ conjugated by X, exactly §15.3). Panel: still four rows at `p=0.250`, but
    `|10⟩`'s sign has flipped relative to step 1.

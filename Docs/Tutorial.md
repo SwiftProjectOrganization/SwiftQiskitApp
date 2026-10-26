@@ -47,7 +47,7 @@ This builds the classic `h(0); cx(0, 1)` circuit by tapping instead of writing c
    each with probability ≈ 0.500 (amplitude ≈ 0.707). `q0` is the leftmost bit, so it's the
    *first* character of the label that's split, not the second.
 
-3. **Place the CX.** Tap **CX** in the "Multi-qubit" section to arm it. Tap the `q0` cell in
+3. **Place the CX.** Tap **CX** in the "Variable multi-qubit" section to arm it. Tap the `q0` cell in
    the *next* empty column — an orange ring appears there, marking it as the pending control.
    Tap the `q1` cell in that *same* column. The `q0` cell now shows a filled dot (control) and
    the `q1` cell shows a circle-plus (⊕, target), joined by a vertical line connecting the two.
@@ -96,7 +96,7 @@ center after the `CX`.
   iOS, right-click/⌃-click on macOS) and choose **Delete**. For a CX gate, open the context
   menu on either the control dot or the target ⊕; **Delete** removes the whole gate. Tapping
   a CX opens its controls popover instead (see "A Toffoli gate" below).
-- **A SWAP.** Arm **SWAP** (under "Multi-qubit") and tap two different qubits in the same
+- **A SWAP.** Arm **SWAP** (under "Fixed multi-qubit") and tap two different qubits in the same
   column. Both ends are drawn as ×, joined by a vertical line. The two qubits play the same
   role, so the tap order does not matter. Delete works from either end.
 - **Growing the circuit.** Use the **Qubits** stepper (1–8) in the bottom bar to add rows. Shrinking it drops
@@ -127,7 +127,7 @@ flips the target only when both controls are `1`. This builds it on three qubits
    `q1` at `0` that control is not satisfied, the target does not flip, and the panel shows
    `|100⟩`.
 
-The **Toffoli** tile in the Multi-qubit section places the same gate directly: arm it, then tap
+The **Toffoli** tile in the "Fixed multi-qubit" section places the same gate directly: arm it, then tap
 the two controls and the target in one column. The result is a CX with two controls, so the
 popover described above works on it unchanged.
 

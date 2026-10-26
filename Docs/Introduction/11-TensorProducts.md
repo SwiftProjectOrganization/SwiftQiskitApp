@@ -277,7 +277,7 @@ the level of amplitudes and matrices.
    qubits read `x +1.000  y +0.000  z +0.000`, with no `|r|` line (it prints only when below 1) — a product state, one independent `|+⟩`
    per qubit.
 5. **The Bell state, for contrast** — Clear, arm **H**, tap `q0`'s column-0 cell; arm **CX**
-   (Multi-qubit section), tap `q0` then `q1` in column 1. Panel: `|00⟩: p=0.500`, `|11⟩: p=0.500`.
+   ("Variable multi-qubit" section), tap `q0` then `q1` in column 1. Panel: `|00⟩: p=0.500`, `|11⟩: p=0.500`.
    Tap **Display → Final**: both qubits now read `|r| = 0.000` — collapsed to the sphere's center,
    the visible signature of a state that (§11.6) admits no single-qubit factorization at all.
 
