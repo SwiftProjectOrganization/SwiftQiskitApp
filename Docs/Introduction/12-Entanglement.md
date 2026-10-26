@@ -267,7 +267,7 @@ Bell via apply(CNOTGate.matrix) probabilities: [0.4999999999999999, 0.0, 0.0, 0.
 leftmost bit in every label.
 
 1. **Build the Bell state** — Set **Qubits: 2**. Arm **H** (Pauli / Hadamard section), tap `q0` in
-   column 0. Panel: `|00⟩: p=0.500`, `|10⟩: p=0.500` (§12.2). Arm **CX** (Multi-qubit section), tap
+   column 0. Panel: `|00⟩: p=0.500`, `|10⟩: p=0.500` (§12.2). Arm **CX** ("Variable multi-qubit" section), tap
    `q0` then `q1` in column 1. Panel: `|00⟩: p=0.500`, `|11⟩: p=0.500`.
 2. **Measure it** — Set **Shots: 1000**, tap **Measure**: two bars, roughly even, and nothing
    elsewhere; re-tapping **Measure** jitters the split (§12.3).

@@ -45,7 +45,7 @@ public enum GateKind: Equatable, Hashable {
         case .ry: return "RY"
         case .rz: return "RZ"
         case .cx: return "CX"
-        case .ccx: return "CCX"
+        case .ccx: return "Toffoli"
         case .cy: return "CY"
         case .cz: return "CZ"
         case .swap: return "SWAP"

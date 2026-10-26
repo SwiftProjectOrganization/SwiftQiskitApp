@@ -286,7 +286,7 @@ qubit 3 is the ancilla and the rightmost bit, as throughout Chapters 10–14.
 Two limits stated plainly, as Chapter 13 did: the app cannot measure the query register alone, so
 every verdict and every recovered string above is read off the leading characters of the whole
 register's histogram, never watched in isolation; and §14.7's non-linear oracle is ◐, not ● — a
-CCX tile does compute an AND of two qubits into a third, but this chapter's
+Toffoli tile does compute an AND of two qubits into a third, but this chapter's
 §14.7 oracle is built as a permutation matrix in code with `apply(_:)`, not as a tap sequence.
 
 ## Run it in code

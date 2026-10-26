@@ -73,7 +73,7 @@ to measurement, exactly Chapter 8 §8.2's point applied to a two-qubit register 
 
 This is the same trick Chapter 13 built, widened. Building the `|10⟩` oracle instead as a genuine
 *bit* oracle `U_f: |x⟩|y⟩ → |x⟩|y ⊕ f(x)⟩` on a third qubit prepared in `|−⟩` — `f(x) = [x = 10]`,
-via a hand-built permutation matrix (the palette's CCX tile could do this too, but the page builds the matrix directly) —
+via a hand-built permutation matrix (the palette's Toffoli tile could do this too, but the page builds the matrix directly) —
 and tracing the ancilla's fixed `|−⟩` split out of each branch recovers the identical sign per
 input state:
 
@@ -303,7 +303,7 @@ Chapters 10–15.
 1. **Qubits: 2. Uniform superposition** — Arm **H**, tap `q0` then `q1` in column 0. Panel: four
    rows at flat `p=0.250`.
 2. **Oracle for `|10⟩`** — Arm **X** (Pauli section), tap `q1` in column 1. Arm **H**, tap `q1` in
-   column 2. Arm **CX** (Multi-qubit section), tap `q0` then `q1` in column 3. Arm **H**, tap `q1`
+   column 2. Arm **CX** ("Variable multi-qubit" section), tap `q0` then `q1` in column 3. Arm **H**, tap `q1`
    in column 4. Arm **X**, tap `q1` in column 5 (this five-gate sequence is `x(1); h(1); cx(0,1);
    h(1); x(1)` — CZ conjugated by X, exactly §15.3). Panel: still four rows at `p=0.250`, but
    `|10⟩`'s sign has flipped relative to step 1.
