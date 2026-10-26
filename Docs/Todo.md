@@ -50,7 +50,7 @@ Project status and roadmap for SwiftQiskitApp.
 - [ ] Undo/redo for gate placement, deletion, and qubit-count changes.
 - [ ] Drag-and-drop gate placement as an alternative to tap-to-arm-then-tap-cell.
 - [x] Toffoli and other multi-controlled X gates — done by adding controls to a placed CX,
-      using the package's `ccx`/`mcx`.
+      using the package's `ccx`/`mcx`. A CCX palette tile places a two-control CX in three taps.
 - [x] CZ and SWAP — package `0.4.0` added `cz`/`mcz`/`swap`; CZ takes extra controls through
       the same popover as CX (CCZ and beyond replay through `mcz`).
 - [x] CY — package `0.7.0` added `cy`/`mcy`; CY takes extra controls through the same popover as CX,

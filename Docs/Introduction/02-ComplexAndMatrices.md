@@ -13,11 +13,11 @@
 
 ## 2.1 Why these mathematical tools
 
-Quantum computing needs a language for exactly three things: **states** (the condition of a
+Quantum computing needs a language for four things: **states** (the condition of a
 quantum system), **operations** (what changes it), and **measurements** (what happens when you
 look). Linear algebra supplies all three at once. A qubit's state is a vector. A quantum gate is
 a matrix, and applying the gate is a matrix-vector multiplication. The numbers inside that
-vector are complex, because quantum mechanics needs them to describe interference between
+vector are complex, because quantum mechanics needs them to describe **interference** between
 possibilities.
 
 None of this is arbitrary — nature at the quantum scale behaves the way complex linear algebra
@@ -82,7 +82,7 @@ Classical probability uses real numbers between 0 and 1 — a 30% chance of rain
 mechanics needs more: each outcome gets an **amplitude**, a complex number, and amplitudes must
 be able to reinforce or cancel each other. A real number can't encode that; a complex number
 can, because it carries two pieces of information at once — its magnitude ("how much") and its
-phase ("which direction"). When two amplitudes combine, their phases decide whether they add
+**phase** ("which direction"). When two amplitudes combine, their phases decide whether they add
 constructively or destructively. This interference is the engine behind every quantum algorithm
 in this book, starting in earnest in Chapter 8.
 

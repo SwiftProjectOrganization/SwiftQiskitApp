@@ -173,7 +173,7 @@ bit, `q2' = ¬q2`, **unconditionally** — the low bit flips every step no matte
 points. `q1' = q1 ⊕ q0 ⊕ q2` is exactly what `cx(0,1); cx(2,1)` computes (two CNOTs into the same
 target commute and just XOR their controls in), followed by `x(2)` for the unconditional flip. This
 stops working at 8 sites: a 3-bit incrementer's carry into the *third* bit is `q2 ⊕ (q0 ∧ q1)` — a
-genuine `AND`, which needs a Toffoli — a CX with two controls in the app, `ccx` in code — so the
+genuine `AND`, which needs a Toffoli — a CCX tile in the app, `ccx` in code — so the
 three-gate form below does not extend by itself.
 
 On this 4-site cycle, 3 steps from coin `|0⟩` lands with **certainty** on site 1 — a clean,

@@ -5,7 +5,8 @@
 //  Renders the circuit as a grid of qubit wires x columns, and handles
 //  tap-to-place: arm a gate in the palette, then tap an empty cell. Two-qubit
 //  gates need two taps in the same column — CX distinguishes control from
-//  target, while CZ, SWAP and RZZ/RXX/RYY treat both taps the same way.
+//  target, while CZ, SWAP and RZZ/RXX/RYY treat both taps the same way. CCX
+//  takes three taps: two controls, then the target.
 //
 
 import SwiftUI
@@ -14,7 +15,8 @@ struct CircuitGridView: View {
     var builder: CircuitBuilder
     @Binding var armedGate: GateKind?
 
-    @State private var pendingControl: (column: Int, qubit: Int)?
+    /// Qubits tapped so far for a multi-qubit gate, all in one column.
+    @State private var pending: (column: Int, qubits: [Int])?
     @State private var selectedGateID: UUID?
     /// Set while the next tap should add a control to this CX.
     @State private var addingControlTo: UUID?
@@ -49,7 +51,7 @@ struct CircuitGridView: View {
             .frame(width: size.width, height: size.height)
         }
         .onChange(of: armedGate) {
-            pendingControl = nil
+            pending = nil
             if addingControlTo != nil { selectedGateID = nil }
             addingControlTo = nil
         }
@@ -65,7 +67,7 @@ struct CircuitGridView: View {
                 .position(point)
         } else {
             EmptyCellView(
-                isPendingControl: pendingControl?.column == column && pendingControl?.qubit == qubit,
+                isPendingControl: pending?.column == column && pending?.qubits.contains(qubit) == true,
                 isControlCandidate: isControlCandidate(column: column)
             )
                 .frame(width: layout.cellSize, height: layout.cellSize)
@@ -116,23 +118,25 @@ struct CircuitGridView: View {
 
         guard let armed = armedGate else { return }
 
-        guard armed.qubitSpan == 2 else {
+        guard armed.qubitSpan > 1 else {
             builder.place(armed, qubits: [qubit], column: column)
             return
         }
 
-        guard let pending = pendingControl else {
-            pendingControl = (column, qubit)
+        // A tap in another column, or on an already-pending qubit, starts over.
+        guard let current = pending, current.column == column, !current.qubits.contains(qubit) else {
+            pending = (column, [qubit])
             return
         }
 
-        guard pending.column == column, pending.qubit != qubit else {
-            pendingControl = (column, qubit)
+        let qubits = current.qubits + [qubit]
+        guard qubits.count == armed.qubitSpan else {
+            pending = (column, qubits)
             return
         }
 
-        if builder.place(armed, qubits: [pending.qubit, qubit], column: column) {
-            pendingControl = nil
+        if builder.place(armed, qubits: qubits, column: column) {
+            pending = nil
         }
     }
 }

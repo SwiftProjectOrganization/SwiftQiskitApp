@@ -20,6 +20,9 @@ public enum GateKind: Equatable, Hashable {
     case ry(Double)
     case rz(Double)
     case cx
+    /// Toffoli. A palette-only kind: `CircuitBuilder.place` stores it as a `.cx` with two
+    /// controls, so a placed Toffoli is the same gate as a CX with an added control.
+    case ccx
     case cy
     case cz
     case swap
@@ -42,6 +45,7 @@ public enum GateKind: Equatable, Hashable {
         case .ry: return "RY"
         case .rz: return "RZ"
         case .cx: return "CX"
+        case .ccx: return "CCX"
         case .cy: return "CY"
         case .cz: return "CZ"
         case .swap: return "SWAP"
@@ -52,19 +56,20 @@ public enum GateKind: Equatable, Hashable {
     }
 
     /// Number of qubits this gate occupies (1 for single-qubit gates, 2 for the
-    /// two-qubit gates: CX, CY, CZ, SWAP and the RZZ/RXX/RYY rotations).
+    /// two-qubit gates: CX, CY, CZ, SWAP and the RZZ/RXX/RYY rotations, 3 for CCX).
     public var qubitSpan: Int {
         switch self {
+        case .ccx: return 3
         case .cx, .cy, .cz, .swap, .rzz, .rxx, .ryy: return 2
         default: return 1
         }
     }
 
-    /// True for CX, CY and CZ: they store `controls + [target]` and accept extra controls,
+    /// True for CX, CCX, CY and CZ: they store `controls + [target]` and accept extra controls,
     /// unlike SWAP and RZZ/RXX/RYY, whose two qubits are symmetric and fixed.
     public var isControlled: Bool {
         switch self {
-        case .cx, .cy, .cz: return true
+        case .cx, .ccx, .cy, .cz: return true
         default: return false
         }
     }
@@ -163,8 +168,14 @@ public final class CircuitBuilder {
     }
 
     /// Places a gate if every target qubit is in range and free at that column.
+    /// A `.ccx` needs three distinct qubits `[control1, control2, target]` and is stored as a `.cx`.
     @discardableResult
     public func place(_ kind: GateKind, qubits: [Int], column: Int) -> Bool {
+        var kind = kind
+        if kind == .ccx {
+            guard qubits.count == 3, Set(qubits).count == 3 else { return false }
+            kind = .cx
+        }
         guard qubits.allSatisfy({ $0 >= 0 && $0 < qubitCount }) else { return false }
         guard qubits.allSatisfy({ !isOccupied(column: column, qubit: $0) }) else { return false }
         gates.append(PlacedGate(kind: kind, qubits: qubits, column: column))
@@ -245,7 +256,7 @@ public final class CircuitBuilder {
         case .rx(let theta): circuit.rx(theta, gate.qubits[0])
         case .ry(let theta): circuit.ry(theta, gate.qubits[0])
         case .rz(let theta): circuit.rz(theta, gate.qubits[0])
-        case .cx:
+        case .cx, .ccx:
             guard let target = gate.target else { return }
             if gate.controls.count == 1 {
                 circuit.cx(gate.controls[0], target)

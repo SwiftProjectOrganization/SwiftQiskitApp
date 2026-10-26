@@ -210,6 +210,34 @@ struct CircuitBuilderTests {
         expectStatesMatch(builder.buildCircuit().run(), direct.run())
     }
 
+    @Test("a palette CCX is stored as a two-control CX and replays as CCX")
+    func placedCCXIsTwoControlCX() {
+        let builder = CircuitBuilder(qubitCount: 3)
+        builder.place(.x, qubits: [0], column: 0)
+        builder.place(.x, qubits: [1], column: 0)
+        #expect(builder.place(.ccx, qubits: [0, 1, 2], column: 1))
+        #expect(builder.gates.last?.kind == .cx)
+        #expect(builder.gates.last?.qubits == [0, 1, 2])
+
+        let direct = QuantumCircuit(qubits: 3)
+        direct.x(0)
+        direct.x(1)
+        direct.ccx(0, 1, 2)
+        expectStatesMatch(builder.buildCircuit().run(), direct.run())
+    }
+
+    @Test("CCX placement rejects too few, duplicate and out-of-range qubits")
+    func ccxPlacementRejections() {
+        let builder = CircuitBuilder(qubitCount: 3)
+        #expect(!builder.place(.ccx, qubits: [0, 1], column: 0))
+        #expect(!builder.place(.ccx, qubits: [0, 0, 1], column: 0))
+        #expect(builder.gates.isEmpty)
+
+        let small = CircuitBuilder(qubitCount: 2)
+        #expect(!small.place(.ccx, qubits: [0, 1, 2], column: 0))
+        #expect(small.gates.isEmpty)
+    }
+
     @Test("three controls on non-adjacent qubits replay as MCX")
     func threeControlsMatchMCX() throws {
         let builder = CircuitBuilder(qubitCount: 4)

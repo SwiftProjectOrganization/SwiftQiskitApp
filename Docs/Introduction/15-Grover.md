@@ -73,7 +73,7 @@ to measurement, exactly Chapter 8 §8.2's point applied to a two-qubit register 
 
 This is the same trick Chapter 13 built, widened. Building the `|10⟩` oracle instead as a genuine
 *bit* oracle `U_f: |x⟩|y⟩ → |x⟩|y ⊕ f(x)⟩` on a third qubit prepared in `|−⟩` — `f(x) = [x = 10]`,
-via a hand-built permutation matrix (a CX with two controls from the palette could do this too, but the page builds the matrix directly) —
+via a hand-built permutation matrix (the palette's CCX tile could do this too, but the page builds the matrix directly) —
 and tracing the ancilla's fixed `|−⟩` split out of each branch recovers the identical sign per
 input state:
 

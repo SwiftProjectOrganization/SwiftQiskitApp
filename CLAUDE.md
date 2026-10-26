@@ -44,7 +44,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 | Target | Product type | Notes |
 |---|---|---|
 | `SwiftQiskitApp` | Application | `com.robertgoedman.SwiftQiskitApp`; App Sandbox enabled, read-only user-selected file access |
-| `SwiftQiskitAppTests` | Unit Test Bundle | Swift `Testing` framework; 41 tests across 4 files |
+| `SwiftQiskitAppTests` | Unit Test Bundle | Swift `Testing` framework; 43 tests across 4 files |
 
 ## File map (`SwiftQiskitApp/`)
 
@@ -118,7 +118,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   when the clamped value differs from the current one, and returns immediately after so the
   gate-filtering line runs once, against the already-clamped value. Range is 1...8
   (`CircuitBuilder.minQubits`/`.maxQubits`); shrinking silently drops gates that no longer fit.
-- **CX/CY/CZ qubit order:** a CX, CY or CZ `PlacedGate` (all `isControlled`) stores `qubits = controls + [target]`, target always last. A plain CX is `[c, t]`; extra controls are added via the popover on a control dot or the target (`addControl`/`removeLastControl`) and replay through `QuantumCircuit.mcx` (CY: `cy`/`mcy`, added in package `0.7.0`; CZ: `cz`/`mcz`, which is symmetric, so the target is only a storage convention). SWAP is a plain symmetric two-qubit gate. Shrinking `qubitCount` drops the whole gate if any of its qubits no longer fits.
+- **CX/CY/CZ qubit order:** a CX, CY or CZ `PlacedGate` (all `isControlled`) stores `qubits = controls + [target]`, target always last. A plain CX is `[c, t]`; extra controls are added via the popover on a control dot or the target (`addControl`/`removeLastControl`) and replay through `QuantumCircuit.mcx`. The palette's `GateKind.ccx` (Toffoli) is arming-only: three taps, and `place` stores it as a `.cx` with qubits `[c1, c2, t]` (CY: `cy`/`mcy`, added in package `0.7.0`; CZ: `cz`/`mcz`, which is symmetric, so the target is only a storage convention). SWAP is a plain symmetric two-qubit gate. Shrinking `qubitCount` drops the whole gate if any of its qubits no longer fits.
 - **`measure()` is probabilistic** — expect the histogram split to jitter between runs,
   not land on an exact ratio.
 - **No persistence, no undo, no drag-and-drop** — see `Docs/Todo.md` for the roadmap.
@@ -131,13 +131,14 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
 
 ## Testing
 
-- `SwiftQiskitAppTests/CircuitBuilderTests.swift` (28 tests) — Bell-state replay via
+- `SwiftQiskitAppTests/CircuitBuilderTests.swift` (30 tests) — Bell-state replay via
   `buildCircuit()`, occupied/out-of-range placement rejection, qubit-count clamping and
   gate-dropping on shrink, `updateTheta`, `clear`, `measure()` populating `lastResult`,
   a qubit-count shrink discarding a prior measurement, and RZZ/RXX/RYY replay on non-adjacent
   qubits checked against a directly built `QuantumCircuit` (RZZ also against the `cx;rz;cx`
   identity), plus `updateTheta`/occupied-cell coverage for RZZ, and multi-control CX
-  (`addControl`/`removeLastControl` against `ccx`/`mcx`, rejections, shrink), CZ/CCZ/SWAP replay and placement rules, and CY replay (against `sdg;cx;s`), `mcy` controls and placement rules.
+  (`addControl`/`removeLastControl` against `ccx`/`mcx`, rejections, shrink), palette CCX
+  placement and its rejections, CZ/CCZ/SWAP replay and placement rules, and CY replay (against `sdg;cx;s`), `mcy` controls and placement rules.
 - `SwiftQiskitAppTests/CircuitLayoutTests.swift` (3 tests) — pure `CircuitLayout` geometry:
   center spacing, `wireY` agreement with `center`, `canvasSize` growth in each dimension.
 - `SwiftQiskitAppTests/BlochVectorTests.swift` (7 tests) — single-qubit Bloch coordinates for
@@ -148,7 +149,7 @@ Prefer the `xcode-tools` MCP tools: `BuildProject`, `RunProject`, `RunAllTests`.
   geometry: pole projection direction, near- vs far-hemisphere perspective scale, the
   silhouette-scale formula.
 - Swift **`Testing`** framework (`import Testing`, `@Test`, `#expect`), not XCTest.
-- Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 41 tests are in its
+- Run via `RunAllTests` or ⌘U under the `SwiftQiskitApp` scheme — all 43 tests are in its
   test plan (no scheme-switching gotcha, unlike the package).
 
 ## Tool hints

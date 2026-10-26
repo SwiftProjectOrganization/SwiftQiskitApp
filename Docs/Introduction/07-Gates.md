@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | Playground page | [`07Gates`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/07Gates.xcplaygroundpage) |
-| In the app | ◐ — every gate here is in the palette except CCX and MCX (§7.10, code only) |
+| In the app | ● — every gate here is tappable: CCX has its own palette tile, and MCX is a CX or CCX given more controls from its popover (§7.10) |
 | Library APIs | `QuantumCircuit.h/x/y/z/s/sdg/t/tdg`, `p/rx/ry/rz(_:_:)`, `cx`, `ccx`, `mcx`, `rzz/rxx/ryy(_:_:_:)` |
 | Prerequisites | Chapters 3, 5 |
 
@@ -277,12 +277,14 @@ Three limits worth naming, not a missing-capability paragraph — most of the ca
 is one tap away: the θ popover only gives a three-decimal readout over `0…2π`, so an exact `π` or
 `π/4` can only be approximated (step 8's small deviation is a direct consequence); a placed tile
 can only be edited in place or removed, never dragged to a different column — reordering a
-sequence means clearing and re-placing; and `CCX`/`MCX` have no tile of their own — they are a placed `CX` given extra
-controls. Tap a placed `CX` (its dot or its ⊕) to open the **Controls: n** popover, where **+**
-arms a cell for one more control and **−** removes the last one. The same popover works on
-`CY` and `CZ`. The palette also has `CY`, `CZ` and `SWAP` as two-tap gates, and `RZZ`/`RXX`/`RYY`
-as a symmetric pair. A plain Toffoli decomposition (`H` on the target, six `CX`s, and
-`T`/`T†`s threaded in between) still works, but the popover makes it one tile.
+sequence means clearing and re-placing; and `MCX` has no tile of its own — it is a placed `CX` or
+`CCX` given extra controls. `CCX` is a palette tile: arm it, then tap the two controls and the
+target in one column. It is stored as a `CX` with two controls. Tap a placed `CX` (its dot or its ⊕)
+to open the **Controls: n** popover, where **+** arms a cell for one more control and **−** removes
+the last one. The same popover works on `CY` and `CZ`. The palette also has `CY`, `CZ` and `SWAP`
+as two-tap gates, and `RZZ`/`RXX`/`RYY` as a symmetric pair. A plain Toffoli decomposition
+(`H` on the target, six `CX`s, and `T`/`T†`s threaded in between) still works, but the `CCX`
+tile makes it one tile.
 
 ## Run it in code
 
