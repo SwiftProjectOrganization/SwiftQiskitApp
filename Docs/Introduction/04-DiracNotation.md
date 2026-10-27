@@ -95,7 +95,7 @@ in this chapter has an ASCII equivalent: `Bra(ket)` for `ket†`, `bra.ket` for 
 ## 4.3 Inner and outer products
 
 `Bra * Ket` is the inner product ⟨φ\|ψ⟩ — a single `Complex` number measuring the overlap of two
-states. This is the same formula Chapter 2 §2.6 built by hand as a `zip`/`map` helper over plain
+states. This is the same formula Chapter 2 §2.6 computed with `[Complex].inner` over plain
 `[Complex]` arrays; Dirac notation just gives it operator syntax that reads like the math:
 
 ```swift
@@ -255,7 +255,7 @@ both its real and imaginary parts at once:
 func makeState(theta: Double, phi: Double) -> StateVector {
     StateVector([
         Complex(cos(theta / 2)),
-        Complex(sin(theta / 2) * cos(phi), sin(theta / 2) * sin(phi))
+        Complex(magnitude: sin(theta / 2), argument: phi)
     ])
 }
 let theta = Double.pi / 3

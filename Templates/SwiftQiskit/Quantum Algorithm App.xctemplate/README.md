@@ -42,7 +42,7 @@ by hand, after generating the project:
 
 1. Select the project in the navigator, then the project (not target) → **Package Dependencies**.
 2. Click **+**, enter `https://github.com/SwiftProjectOrganization/SwiftQiskit.git`.
-3. Choose **Up to Next Major Version**, starting at `0.8.1`.
+3. Choose **Up to Next Major Version**, starting at `0.9.0`.
 4. Add the `SwiftQiskit` product to both the app target and the test target. Also add
    `SwiftQiskitViews` (same package) to the app target if you want `BlochVector`/
    `CHSHChartView` — not needed for this template's own Swift Charts view.

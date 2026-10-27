@@ -329,8 +329,8 @@ This document describes the state at the time of the change; line numbers and te
 Since then:
 
 - The `minimumVersion` of the remote requirement went from `0.2.0` to `0.5.0`, and then to
-  `0.8.1`. The code needs at least `0.7.0` (`cy`/`mcy`).
-- `Package.resolved` currently pins `0.8.1`.
+  `0.9.0`. The code needs at least `0.7.0` (`cy`/`mcy`).
+- `Package.resolved` currently pins `0.9.0`.
 - `Playgrounds.playground` and `PlaygroundDocs/` were removed from `SwiftQiskit`. The pages now
   live in the separate `SwiftQiskitPlaygrounds` repository, and the cross-repo links in
   `Docs/` and `Docs/Introduction/` point there.

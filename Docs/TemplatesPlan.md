@@ -3,7 +3,7 @@
 > **Superseded (partially):** this doc's local `../SwiftQiskit` path reference — the package
 > reference definition in `## Quantum Algorithm App.xctemplate/TemplateInfo.plist` below, and
 > the sibling-checkout requirement it implies — no longer reflects the shipped template.
-> `SwiftQiskit` is now tagged (the app currently pins `0.8.1`) and consumable as a remote package, but no plist syntax
+> `SwiftQiskit` is now tagged (the app currently pins `0.9.0`) and consumable as a remote package, but no plist syntax
 > for a remote package reference could be found or verified (see
 > `Docs/SwiftQiskit as an external SPM.md`), so the template now ships with **no package
 > reference at all**; the generated project's `README.md` instructs the user to add
@@ -219,5 +219,5 @@ Recorded after a review against the files under `Templates/SwiftQiskit/`:
 - It does not set `SUPPORTED_PLATFORMS`, and it adds `SWIFT_VERSION = 5.0`.
 - `ContentView.swift` uses a `Stepper` (1...7) for the step count, not a `Slider`.
 - There is no package reference node. The generated project's README tells the user to add
-  `SwiftQiskit` from `0.8.1` (Up to Next Major) by hand.
+  `SwiftQiskit` from `0.9.0` (Up to Next Major) by hand.
 

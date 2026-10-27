@@ -437,7 +437,7 @@ func inverseQFTMatrix(size: Int) -> Matrix {
     for y in 0..<size {
         for c in 0..<size {
             let theta = -2.0 * Double.pi * Double(y * c) / Double(size)
-            m[y, c] = Complex(cos(theta), sin(theta)) * scale
+            m[y, c] = Complex(magnitude: scale, argument: theta)
         }
     }
     return m
@@ -504,7 +504,7 @@ func controlledModMultiply(controlQubit: Int, multiplier: Int) -> Matrix {
 var qftDagger = Matrix(rows: 8, cols: 8)
 for y in 0..<8 { for c in 0..<8 {
     let theta = -2.0 * Double.pi * Double(y * c) / 8.0
-    qftDagger[y, c] = Complex(cos(theta), sin(theta)) * (1.0 / sqrt(8.0))
+    qftDagger[y, c] = Complex(magnitude: 1.0 / sqrt(8.0), argument: theta)
 } }
 
 print("counting qubit k → controlled power of 7:")
@@ -623,7 +623,7 @@ func controlledModMultiply(controlQubit: Int, multiplier: Int) -> Matrix {
 var qftDagger = Matrix(rows: 8, cols: 8)
 for y in 0..<8 { for c in 0..<8 {
     let theta = -2.0 * Double.pi * Double(y * c) / 8.0
-    qftDagger[y, c] = Complex(cos(theta), sin(theta)) * (1.0 / sqrt(8.0))
+    qftDagger[y, c] = Complex(magnitude: 1.0 / sqrt(8.0), argument: theta)
 } }
 func shorCircuit(a: Int) -> QuantumCircuit {
     let qc = QuantumCircuit(qubits: 7)

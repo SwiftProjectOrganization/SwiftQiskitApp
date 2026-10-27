@@ -27,7 +27,7 @@ edits to the templates in this repo take effect without reinstalling.
 The template does not wire up the `SwiftQiskit` package dependency automatically — the
 generated project's own `README.md` has the exact steps (File > Add Package Dependencies,
 `https://github.com/SwiftProjectOrganization/SwiftQiskit.git`, Up to Next Major Version from
-`0.8.1`). No sibling checkout is required; the package resolves from GitHub. Add the
+`0.9.0`). No sibling checkout is required; the package resolves from GitHub. Add the
 `SwiftQiskitViews` product too (same package, added in `0.2.0`) if the generated app wants
 `BlochVector`/`CHSHChartView` — the template's own Swift Charts view doesn't need it, since
 it draws the walk's distribution directly rather than a Bloch sphere.

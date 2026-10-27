@@ -6,7 +6,7 @@ Project status and roadmap for SwiftQiskitApp.
 
 **SwiftQiskitApp is v1: a working circuit builder, front-end only.**
 
-- All quantum simulation is delegated to the `SwiftQiskit` package (currently 0.8.1,
+- All quantum simulation is delegated to the `SwiftQiskit` package (currently 0.9.0,
   experimental — its API may change under this app).
 - The UI supports placing/removing gates, live state-vector display, and shot-based
   measurement with a histogram.
@@ -69,7 +69,7 @@ Project status and roadmap for SwiftQiskitApp.
       ("3D") alongside Final/Steps.
 - [x] Adopt the shared `SwiftQiskitViews` package product for `BlochVector`/`CHSHChartView`,
       replacing this app's own vendored `BlochVector.swift` — done as part of `SwiftQiskit`
-      `0.2.0`; the package dependency requirement has since been raised to `0.8.1`.
+      `0.2.0`; the package dependency requirement has since been raised to `0.9.0`.
 - [ ] Adopt or remove this app's own `BlochSphereView`/`Bloch3DSphereView`, now that
       `SwiftQiskitViews` `0.8.1` ships public `BlochSphereView` and `Bloch3DView` of the same names.
 - [ ] iPad-specific layout polish (currently shares the macOS 3-pane layout as-is).

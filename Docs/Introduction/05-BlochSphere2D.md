@@ -159,7 +159,7 @@ let theta = Double.pi / 3                       // 60°
 let phi = atan2(0.5, sqrt(2) / 2)                // ≈ 35.264°
 
 let alpha = Complex(cos(theta / 2))
-let beta = Complex(sin(theta / 2) * cos(phi), sin(theta / 2) * sin(phi))
+let beta = Complex(magnitude: sin(theta / 2), argument: phi)
 let psi = StateVector([alpha, beta])
 
 let bloch = BlochVector(psi)

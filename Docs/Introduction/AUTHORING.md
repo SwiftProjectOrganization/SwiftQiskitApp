@@ -59,7 +59,10 @@ is real.
   VQE `ansatz`/`energy`, Trotter's `zzViaGates`/`trotterUnitary`, Chapter 26's
   `maxAmplitudeError`/`cp`). Since package `0.8.1`, `Matrix.expm`, `DensityMatrix`, `KrausChannel`,
   `NoiseModel`, `partialTrace(keeping:)`, `Hamiltonian`, `ParameterShift` and `StateTomography`
-  are in `SwiftQiskit` itself, so prefer those. Copy any remaining page-local helpers directly
+  are in `SwiftQiskit` itself, so prefer those. Since package `0.9.0`, `Complex` has a polar form
+  (`argument`, `Complex(magnitude:argument:)`, `exp`, `pow`) and `[Complex]` has `adding`,
+  `subtracting`, `scaled(by:)`, `inner`, `norm` and `normalized()`; use them instead of
+  hand-built `cos`/`sin` pairs or `zip`/`map` helpers. Copy any remaining page-local helpers directly
   into the chapter's "Run it in code" block so the snippet is self-contained; don't reference
   the playground file by path.
 - Paste the real output beneath each snippet (or inline as a comment), not a value copied from a

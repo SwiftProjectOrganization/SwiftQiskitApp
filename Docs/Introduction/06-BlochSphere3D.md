@@ -69,7 +69,7 @@ sweep confirms the identity holds well past a few sample angles:
 func makeState(theta: Double, phi: Double) -> StateVector {
     StateVector([
         Complex(cos(theta / 2)),
-        Complex(sin(theta / 2) * cos(phi), sin(theta / 2) * sin(phi))
+        Complex(magnitude: sin(theta / 2), argument: phi)
     ])
 }
 

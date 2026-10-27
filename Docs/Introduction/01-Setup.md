@@ -62,7 +62,7 @@ Xcode. Please see the [README](https://github.com/SwiftProjectOrganization/Swift
 3. Open a page under `SwiftQiskitPlaygrounds.playground/Pages/` and run it.
 
 It has one page per chapter (`01Matrices` through `26TensorDiagrams`, plus `50StateVectorCPU`).
-Like the app, it uses `SwiftQiskit` as a remote package (currently 0.8.1), so it needs no
+Like the app, it uses `SwiftQiskit` as a remote package (currently 0.9.0), so it needs no
 sibling checkout of `SwiftQiskit`.
 
 ## 1.4 Running code on its own

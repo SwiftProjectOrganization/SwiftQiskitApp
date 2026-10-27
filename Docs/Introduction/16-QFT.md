@@ -364,7 +364,7 @@ for c in 0..<N {
     let amps = qc.run().amplitudes
     for y in 0..<N {
         let theta = 2 * Double.pi * Double(y * c) / Double(N)
-        let want = Complex(cos(theta), sin(theta)) * (1.0 / sqrt(Double(N)))
+        let want = Complex(magnitude: 1.0 / sqrt(Double(N)), argument: theta)
         maxDeviation = max(maxDeviation, (amps[y] - want).magnitude)
     }
 }
@@ -650,7 +650,7 @@ func qft3(_ halfAngle: Double) -> Double {
         qc.h(1); cpHalfPi(qc, 2, 1); qc.h(2); swapQ(qc, 0, 2)
         let a = qc.run().amplitudes
         for y in 0..<8 { let th = 2 * Double.pi * Double(y*c)/8
-            d = max(d, (a[y] - Complex(cos(th), sin(th)) * (1/sqrt(8.0))).magnitude) }
+            d = max(d, (a[y] - Complex(magnitude: 1 / sqrt(8.0), argument: th)).magnitude) }
     }
     return d
 }
