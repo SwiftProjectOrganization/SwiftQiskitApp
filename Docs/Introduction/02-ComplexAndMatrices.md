@@ -8,7 +8,7 @@
 |---|---|
 | Playground page | [`01Matrices`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/01Matrices.xcplaygroundpage) and [`02ComplexAndMatrices`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/02ComplexAndMatrices.xcplaygroundpage) (see also [`11TensorProducts`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/11TensorProducts.xcplaygroundpage) for `⊗` in depth) |
 | In the app | ○ — the app has no matrix-entry UI; only the results of gates applied to it are visible |
-| Library APIs | `Math/Complex.swift`, `Math/Matrix.swift` (`+ - * /`, `multiply(by:)`, `identity(size:)`, `tensor(_:)`/`⊗`), `Quantum/Dirac.swift` (`.adjoint`, postfix `†`), `Utils/Angles.swift` (`rad2deg`, `deg2rad`; package 0.7.3 or later; the app now resolves 0.8.1) |
+| Library APIs | `Math/Complex.swift` (polar form), `Math/ComplexVector.swift` (`[Complex]` arithmetic; package 0.9.0 or later), `Math/Matrix.swift` (`+ - * /`, `multiply(by:)`, `identity(size:)`, `tensor(_:)`/`⊗`), `Quantum/Dirac.swift` (`.adjoint`, postfix `†`), `Utils/Angles.swift` (`rad2deg`, `deg2rad`; package 0.7.3 or later; the app now resolves 0.9.0) |
 | Prerequisites | Chapter 1 |
 
 ## 2.1 Why these mathematical tools
@@ -109,30 +109,53 @@ vertical: `3+2i` sits at the point `(3, 2)`. The magnitude is the distance from 
 that point; the phase is the angle from the positive real axis. Two complex numbers can have the
 same magnitude but different phases — same "size," different direction.
 
-`Complex` has no polar API — no `.argument`, no way to build a number directly from an angle.
-To get a pure phase `e^{iθ}`, you write it out with Euler's formula:
+`Complex` has `magnitude` and, from SwiftQiskit 0.9.0, a polar form: `argument` is the angle
+from the positive real axis, and `Complex(argument:)` builds the pure phase `e^{iθ}` directly
+from an angle:
 
 ```swift
 let theta = Double.pi / 3
 print("rad2deg(theta) = \(rad2deg(theta))")
-let phase = Complex(cos(theta), sin(theta))
+let phase = Complex(argument: theta)
 print(phase, phase.magnitude)
 print(PhaseGate.matrix(theta: theta)[1, 1])
+print("argument = \(phase.argument)")
 ```
 
 ```text
 rad2deg(theta) = 59.99999999999999
 0.5000000000000001 + 0.8660254037844386i 1.0
 0.5000000000000001 + 0.8660254037844386i
+argument = 1.0471975511965976
 ```
 
 `rad2deg` (and its inverse `deg2rad`) converts between the radians the trigonometric functions
 use and degrees: `π/3` is 60° (up to rounding), so the phase is `≈ 0.5 + 0.866i`.
 
-The hand-built value matches the library's own `PhaseGate.matrix(theta:)` at row 1, column 1,
-bit for bit — that's not a coincidence, it's literally how `Phase.swift` builds the gate, and how
-`Rotation.swift` builds both entries of `RZGate`. `|e^{iθ}| == 1` always: a pure phase changes
+The value matches the library's own `PhaseGate.matrix(theta:)` at row 1, column 1, bit for bit —
+that's not a coincidence, `Phase.swift` builds the gate from the same `cos`/`sin` pair, as does
+`Rotation.swift` for both entries of `RZGate`. `|e^{iθ}| == 1` always: a pure phase changes
 direction, never size, which is why it never touches a probability — the subject of Chapter 8.
+
+Magnitude and argument together determine a number: `Complex(magnitude: r, argument: θ)` is
+`r·e^{iθ}`. `Complex.exp(z)` is `e^z`, and `Complex.pow(z, n)` raises `z` to an integer power by
+repeated multiplication, so small cases stay exact:
+
+```swift
+let polar = Complex(3, 4)
+print(polar.magnitude, polar.argument)
+print(Complex.exp(Complex(0, Double.pi)))
+print(Complex.pow(.i, 4), Complex.pow(Complex(1, 1), 2))
+```
+
+```text
+5.0 0.9272952180016122
+-1.0 + 1.2246467991473532e-16i
+1.0 2.0i
+```
+
+`e^{iπ}` is `-1`; the tiny imaginary part is rounding in `sin(π)`. `Complex.pow(z, x)` with a
+`Double` exponent also exists, on the principal branch.
 
 ## 2.5 Vectors of amplitudes
 
@@ -150,14 +173,8 @@ Addition is componentwise, and scalar multiplication multiplies every entry — 
 may be complex, which is common in quantum computing:
 
 ```swift
-func addVec(_ a: [Complex], _ b: [Complex]) -> [Complex] {
-    zip(a, b).map { $0 + $1 }
-}
-func scale(_ c: Complex, _ v: [Complex]) -> [Complex] {
-    v.map { c * $0 }
-}
-print(addVec([Complex(1, 0), Complex(0, 1)], [Complex(2, 0), Complex(0, -1)]))
-print(scale(Complex.i, [Complex(1, 0), Complex(2, 0)]))
+print([Complex(1, 0), Complex(0, 1)].adding([Complex(2, 0), Complex(0, -1)]))
+print([Complex(1, 0), Complex(2, 0)].scaled(by: Complex.i))
 ```
 
 ```text
@@ -165,10 +182,11 @@ print(scale(Complex.i, [Complex(1, 0), Complex(2, 0)]))
 [1.0i, 2.0i]
 ```
 
-The library has no vector arithmetic of its own on plain `[Complex]` — no `+`, no scalar `*` —
-these are one-line `zip`/`map` helpers. That's fine: Chapter 3 hands this job to `StateVector`,
-which does normalize, add gates, and print sensibly. Section 2.7 below is the reason plain
-arrays are still worth knowing.
+From 0.9.0 these are methods on `[Complex]` (`Math/ComplexVector.swift`): `adding`,
+`subtracting` and `scaled(by:)`. They are named methods rather than operators because `Array`
+already uses `+` for concatenation. Chapter 3 hands this job to `StateVector`, which does
+normalize, add gates, and print sensibly. Section 2.7 below is the reason plain arrays are
+still worth knowing: they can hold a vector that is not yet normalized.
 
 ## 2.6 Inner products, the dagger, and orthogonality
 
@@ -182,17 +200,12 @@ they are. For complex vectors, the *first* vector's entries get conjugated first
 The `†` symbol ("dagger") names the operation that produces the conjugated, transposed vector —
 turn the column into a row, conjugate every entry. It reappears constantly from Chapter 4 on,
 where `Bra`/`Ket` and postfix `†` (`Quantum/Dirac.swift`) give it real Swift syntax; here it's
-just the rule above, spelled out over `[Complex]`:
+just the rule above, available over `[Complex]` as `inner`:
 
 ```swift
-func innerProduct(_ a: [Complex], _ b: [Complex]) -> Complex {
-    var sum = Complex.zero
-    for i in a.indices { sum = sum + a[i].conjugate * b[i] }
-    return sum
-}
 let v: [Complex] = [Complex(1, 0), Complex.i]
 let w: [Complex] = [Complex(1, 0), Complex(0, -1)]
-print(innerProduct(v, w))
+print(v.inner(w))
 ```
 
 ```text
@@ -214,11 +227,8 @@ The length, or norm, of a complex vector uses the magnitude of each entry, sums 
 takes the square root:
 
 ```swift
-func norm(_ v: [Complex]) -> Double {
-    sqrt(v.reduce(0.0) { $0 + $1.magnitudeSquared })
-}
 let raw: [Complex] = [Complex(1, 0), Complex.i]
-print(norm(raw))
+print(raw.norm)
 ```
 
 ```text
@@ -231,8 +241,8 @@ is a probability, and for those probabilities to sum to 1, the vector's length-s
 **Normalizing** means dividing every entry by the current length:
 
 ```swift
-let normalized = raw.map { $0 * (1.0 / norm(raw)) }
-print(normalized, norm(normalized))
+let normalized = raw.normalized()
+print(normalized, normalized.norm)
 ```
 
 ```text
@@ -436,12 +446,10 @@ re-explain each time, here is the complete list, checked directly against both s
 
 | Missing | Where it's missed |
 |---|---|
-| `Complex` polar form: `.argument`, `exp`, `pow` | §2.4 above — build `e^{iθ}` by hand instead |
-| Unary minus, `+`/`-`/`/` against a bare `Double` on `Complex` | none so far — write `Complex(-x, -y)` or `Complex(d, 0)` when needed |
+| `+`/`-` against a bare `Double` on `Complex` (unary minus and `/ Double` exist from 0.9.0) | none so far — write `Complex(d, 0)` when needed |
 | Standalone transpose (only the conjugated `.adjoint` exists) | none so far |
 | Determinant, inverse | none so far (`Matrix.trace` exists in `Math/Matrix.swift`) |
 | Matrix exponential | `Matrix.expm(terms:)` in `Math/Matrix.swift`; Chapter 24 uses it as its ground truth |
-| Arithmetic (`+`, scalar `*`) on plain `[Complex]` vectors | §2.5 above — one-line `zip`/`map` helpers |
 
 Where a chapter needs one of these, it defines a small local helper rather than extending the
 library — see `AUTHORING.md`'s note that Chapters 21–26 keep such helpers self-contained in the
