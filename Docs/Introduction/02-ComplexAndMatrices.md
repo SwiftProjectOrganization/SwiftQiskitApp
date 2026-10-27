@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| Playground page | [`01Matrices`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/01Matrices.xcplaygroundpage) and [`02Complex`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/02Complex.xcplaygroundpage) (see also [`11TensorProducts`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/11TensorProducts.xcplaygroundpage) for `⊗` in depth) |
+| Playground page | [`01Matrices`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/01Matrices.xcplaygroundpage) and [`02ComplexAndMatrices`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/02ComplexAndMatrices.xcplaygroundpage) (see also [`11TensorProducts`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/11TensorProducts.xcplaygroundpage) for `⊗` in depth) |
 | In the app | ○ — the app has no matrix-entry UI; only the results of gates applied to it are visible |
 | Library APIs | `Math/Complex.swift`, `Math/Matrix.swift` (`+ - * /`, `multiply(by:)`, `identity(size:)`, `tensor(_:)`/`⊗`), `Quantum/Dirac.swift` (`.adjoint`, postfix `†`), `Utils/Angles.swift` (`rad2deg`, `deg2rad`; package 0.7.3 or later; the app now resolves 0.8.1) |
 | Prerequisites | Chapter 1 |
