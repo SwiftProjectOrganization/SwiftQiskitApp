@@ -1,7 +1,7 @@
 # SwiftQiskitApp
 
 SwiftQiskitApp contains a large set of introductory documents (see INTRODUCTION.md) which
-are illustrated in an iOS/iPadOS/macOS based SwiftQiskitApp and in a set of Xcode playgrounds contained
+are illustrated in an iOS/iPadOS/macOS based SwiftQiskitApp and supplemented by a set of Xcode playgrounds contained
 in SwiftQiskitPlaygrounds.
 
 [**SwiftQiskitApp**](https://github.com/SwiftProjectOrganization/SwiftQiskitApp) is a SwiftUI app for building quantum circuits by tapping gates onto a grid (circuit) instead of writing code.
