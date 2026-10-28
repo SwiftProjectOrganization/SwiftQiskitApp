@@ -107,7 +107,8 @@ rule to a full state vector and the app's State Vector panel displays exactly th
 Plot a complex number with the real part on the horizontal axis and the imaginary part on the
 vertical: `3+2i` sits at the point `(3, 2)`. The magnitude is the distance from the origin to
 that point; the phase is the angle from the positive real axis. Two complex numbers can have the
-same magnitude but different phases — same "size," different direction.
+same magnitude but different phases — same "size," different direction. See also 
+06-BlochSphere3D and playground 06BlochSpheres $6 and $7 (update the φ slider).
 
 `Complex` has `magnitude` and, from SwiftQiskit 0.9.0, a polar form: `argument` is the angle
 from the positive real axis, and `Complex(argument:)` builds the pure phase `e^{iθ}` directly
@@ -117,6 +118,8 @@ from an angle:
 let theta = Double.pi / 3
 print("rad2deg(theta) = \(rad2deg(theta))")
 let phase = Complex(argument: theta)
+// Use Euler's formula
+let phase2 = Complex(cos(theta), sin(theta))
 print(phase, phase.magnitude)
 print(PhaseGate.matrix(theta: theta)[1, 1])
 print("argument = \(phase.argument)")
