@@ -57,6 +57,9 @@
 		D4959387304EEC4C004855D2 /* 25-QuantumWalks.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "25-QuantumWalks.md"; sourceTree = "<group>"; };
 		D49593893050446C004855D2 /* 00-Introduction.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "00-Introduction.md"; sourceTree = "<group>"; };
 		D49D19C1305DA5CD001EBFF3 /* TemplatesPlan.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TemplatesPlan.md; sourceTree = "<group>"; };
+		D4A4CDFB3098FD3800445921 /* 02-ComplexAndMatrices.key */ = {isa = PBXFileReference; lastKnownFileType = file; path = "02-ComplexAndMatrices.key"; sourceTree = "<group>"; };
+		D4A4CDFC3098FD3800445921 /* 03-Qubits.key */ = {isa = PBXFileReference; lastKnownFileType = file; path = "03-Qubits.key"; sourceTree = "<group>"; };
+		D4A4CDFD3098FD3800445921 /* 04-DiracNotation.key */ = {isa = PBXFileReference; lastKnownFileType = file; path = "04-DiracNotation.key"; sourceTree = "<group>"; };
 		D4A62F65305EED5E005247C5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D4A62F66305EED60005247C5 /* install.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install.sh; sourceTree = "<group>"; };
 		D4A62F67305EED72005247C5 /* TemplateInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = TemplateInfo.plist; sourceTree = "<group>"; };
@@ -167,6 +170,16 @@
 			path = Introduction;
 			sourceTree = "<group>";
 		};
+		D4A4CDFF3098FD3800445921 /* Slides */ = {
+			isa = PBXGroup;
+			children = (
+				D4A4CDFB3098FD3800445921 /* 02-ComplexAndMatrices.key */,
+				D4A4CDFC3098FD3800445921 /* 03-Qubits.key */,
+				D4A4CDFD3098FD3800445921 /* 04-DiracNotation.key */,
+			);
+			path = Slides;
+			sourceTree = "<group>";
+		};
 		D4A62F61305EED4B005247C5 /* Templates */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +225,7 @@
 		D4AF3DAC304BE7D50078D4DF /* Docs */ = {
 			isa = PBXGroup;
 			children = (
+				D4A4CDFF3098FD3800445921 /* Slides */,
 				D4AF3DAD304BE7E70078D4DF /* Tutorial.md */,
 				D4AF3DAE304BE80B0078D4DF /* Help.md */,
 				D4AF3DAF304BE81B0078D4DF /* Todo.md */,
