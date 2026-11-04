@@ -76,6 +76,7 @@
 		D4AF3DAD304BE7E70078D4DF /* Tutorial.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Tutorial.md; sourceTree = "<group>"; };
 		D4AF3DAE304BE80B0078D4DF /* Help.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Help.md; sourceTree = "<group>"; };
 		D4AF3DAF304BE81B0078D4DF /* Todo.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Todo.md; sourceTree = "<group>"; };
+		D4C21240309B8EC7002894D4 /* 05-06-BlochSphere.key */ = {isa = PBXFileReference; lastKnownFileType = file; path = "05-06-BlochSphere.key"; sourceTree = "<group>"; };
 		D4D88DB9306F1D1800630AB5 /* 27-Epilogue.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "27-Epilogue.md"; sourceTree = "<group>"; };
 		D4D88DBA306F1D3900630AB5 /* 26-TensorDiagrams.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "26-TensorDiagrams.md"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -176,6 +177,7 @@
 				D4A4CDFB3098FD3800445921 /* 02-ComplexAndMatrices.key */,
 				D4A4CDFC3098FD3800445921 /* 03-Qubits.key */,
 				D4A4CDFD3098FD3800445921 /* 04-DiracNotation.key */,
+				D4C21240309B8EC7002894D4 /* 05-06-BlochSphere.key */,
 			);
 			path = Slides;
 			sourceTree = "<group>";
