@@ -175,9 +175,9 @@
 		D4A4CDFF3098FD3800445921 /* Slides */ = {
 			isa = PBXGroup;
 			children = (
+				D47B483430A394BE00E361C8 /* 01-Introduction to Quantum Computing.key */,
 				D4A4CDFB3098FD3800445921 /* 02-ComplexAndMatrices.key */,
 				D4A4CDFC3098FD3800445921 /* 03-Qubits.key */,
-				D47B483430A394BE00E361C8 /* 01-Introduction to Quantum Computing.key */,
 				D4A4CDFD3098FD3800445921 /* 04-Dirac Notation.key */,
 				D4C21240309B8EC7002894D4 /* 05-06-BlochSphere.key */,
 			);
