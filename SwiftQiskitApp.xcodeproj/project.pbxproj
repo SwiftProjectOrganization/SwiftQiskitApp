@@ -28,6 +28,7 @@
 /* Begin PBXFileReference section */
 		000000000000000000000120 /* SwiftQiskitApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftQiskitApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4094D08304A924500DAB212 /* SwiftQiskitAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftQiskitAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D47B483430A394BE00E361C8 /* 04-Bra-Ket Notation.key */ = {isa = PBXFileReference; lastKnownFileType = file; path = "04-Bra-Ket Notation.key"; sourceTree = "<group>"; };
 		D495934F304EE8E6004855D2 /* INTRODUCTION.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = INTRODUCTION.md; sourceTree = "<group>"; };
 		D495936E304EEBAA004855D2 /* AUTHORING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AUTHORING.md; sourceTree = "<group>"; };
 		D495936F304EEBB0004855D2 /* 01-Setup.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "01-Setup.md"; sourceTree = "<group>"; };
@@ -59,7 +60,7 @@
 		D49D19C1305DA5CD001EBFF3 /* TemplatesPlan.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TemplatesPlan.md; sourceTree = "<group>"; };
 		D4A4CDFB3098FD3800445921 /* 02-ComplexAndMatrices.key */ = {isa = PBXFileReference; lastKnownFileType = file; path = "02-ComplexAndMatrices.key"; sourceTree = "<group>"; };
 		D4A4CDFC3098FD3800445921 /* 03-Qubits.key */ = {isa = PBXFileReference; lastKnownFileType = file; path = "03-Qubits.key"; sourceTree = "<group>"; };
-		D4A4CDFD3098FD3800445921 /* 04-DiracNotation.key */ = {isa = PBXFileReference; lastKnownFileType = file; path = "04-DiracNotation.key"; sourceTree = "<group>"; };
+		D4A4CDFD3098FD3800445921 /* 04-Dirac Notation.key */ = {isa = PBXFileReference; lastKnownFileType = file; path = "04-Dirac Notation.key"; sourceTree = "<group>"; };
 		D4A62F65305EED5E005247C5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D4A62F66305EED60005247C5 /* install.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install.sh; sourceTree = "<group>"; };
 		D4A62F67305EED72005247C5 /* TemplateInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = TemplateInfo.plist; sourceTree = "<group>"; };
@@ -176,7 +177,8 @@
 			children = (
 				D4A4CDFB3098FD3800445921 /* 02-ComplexAndMatrices.key */,
 				D4A4CDFC3098FD3800445921 /* 03-Qubits.key */,
-				D4A4CDFD3098FD3800445921 /* 04-DiracNotation.key */,
+				D47B483430A394BE00E361C8 /* 04-Bra-Ket Notation.key */,
+				D4A4CDFD3098FD3800445921 /* 04-Dirac Notation.key */,
 				D4C21240309B8EC7002894D4 /* 05-06-BlochSphere.key */,
 			);
 			path = Slides;
