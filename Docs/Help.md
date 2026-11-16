@@ -40,10 +40,10 @@ run. No `SwiftQiskit` changes were needed for this feature.
 public enum GateKind: Equatable, Hashable {
     case h, x, y, z, s, sdg, t, tdg
     case p(Double), rx(Double), ry(Double), rz(Double)
-    case cx, cy, cz, swap
+    case cx, ccx, cy, cz, swap   // .ccx (Toffoli) is arming-only: place stores it as a .cx
     case rzz(Double), rxx(Double), ryy(Double)
-    // .symbol, .qubitSpan (1, or 2 for .cx/.cy/.cz/.swap/.rzz/.rxx/.ryy), .isControlled (true only
-    // for .cx/.cy/.cz), .isParameterized, .theta, .withTheta(_:)
+    // .symbol, .qubitSpan (1; 2 for .cx/.cy/.cz/.swap/.rzz/.rxx/.ryy; 3 for .ccx), .isControlled
+    // (true only for .cx/.ccx/.cy/.cz), .isParameterized, .theta, .withTheta(_:)
 }
 
 public struct PlacedGate: Identifiable, Equatable {
@@ -101,6 +101,9 @@ below):
   erroring. For `.cx`/`.cy`/`.cz` the two taps are control-then-target; for
   `.swap`/`.rzz`/`.rxx`/`.ryy` the two qubits play the same role, so which one is tapped first
   doesn't matter.
+- Toffoli (`.ccx`) armed → three taps in the same column: two controls, then the target. The
+  commit stores it as a `.cx` with `qubits: [c1, c2, t]`, so it behaves like any other
+  multi-control CX afterwards.
 - **Adding controls.** Tapping a placed CX/CY/CZ opens `ControlsPopover`. **+** closes it and sets
   `addingControlTo` (view-local `@State`) to that gate's id; free cells in the gate's column then
   show a dashed ring. The next tap calls `builder.addControl(id:qubit:)` on that cell, or simply
@@ -228,8 +231,9 @@ discarding a prior measurement, and RZZ/RXX/RYY replay across non-adjacent qubit
 entrywise against a directly built `QuantumCircuit` using the same `rzz`/`rxx`/`ryy` calls
 (RZZ additionally checked against the `cx;rz;cx` identity), plus `updateTheta` and
 occupied-cell rejection for RZZ, multi-control CX/CY/CZ (`addControl`/`removeLastControl`
-against `ccx`/`mcx`/`mcy`, rejections, shrink), SWAP and CZ/CCZ replay (CCZ checked against `h; ccx; h`), and an 8-qubit
-timing guard. `CircuitLayoutTests.swift` covers the pure `CircuitLayout`
+against `ccx`/`mcx`/`mcy`, rejections, shrink), palette Toffoli placement and its rejections, SWAP and CZ/CCZ replay (CCZ checked against
+`h; ccx; h`), CY replay (checked against `sdg; cx; s`) with its `mcy` controls and placement
+and shrink rules, and an 8-qubit timing guard. `CircuitLayoutTests.swift` covers the pure `CircuitLayout`
 geometry: center spacing, `wireY` agreement with `center`, and `canvasSize` growth in each
 dimension independently. `BlochVectorTests.swift` covers `BlochVector`'s math: single-qubit
 coordinates for `H`/`X`/`H+S`, the Bell state's reduced vectors collapsing to the origin on
@@ -237,7 +241,7 @@ both qubits (`|r| == 0`, the entanglement signature), reduced-vector isolation b
 independent qubits, and `buildCircuit(throughColumn:)` prefix replay. `Bloch3DProjectionTests.swift`
 covers the pure `Bloch3DProjection` camera math: pole projection direction, near- vs
 far-hemisphere perspective scale, and the silhouette-scale formula. Run via ⌘U or
-`RunAllTests` under the `SwiftQiskitApp` scheme — all 41 tests are included in its test plan
+`RunAllTests` under the `SwiftQiskitApp` scheme — all 43 tests are included in its test plan
 (unlike the package's plain `SwiftQiskit` scheme, whose test plan has no test targets — a
 pre-existing gotcha over there, not here).
 

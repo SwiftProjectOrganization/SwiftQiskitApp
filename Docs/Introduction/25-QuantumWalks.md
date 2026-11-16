@@ -28,7 +28,7 @@ is basis state `|k⟩` of the position register, full stop. To keep the walk on 
 edge to fall off, the sites are arranged on a cycle of `n` sites, wrapping site `n−1` back around
 to site `0`.
 
-Following `22Walk`, this chapter uses **16 sites** (a 4-qubit position register) plus 1 coin qubit,
+Following `25QuantumWalks`, this chapter uses **16 sites** (a 4-qubit position register) plus 1 coin qubit,
 for a total dimension `2 × 16 = 32`. Coin is qubit 0 (the most-significant, per this project's
 convention), so the combined register is `coin ⊗ position` and a basis state's index is
 `coin·16 + pos`. Sixteen sites is not an arbitrary round number: starting at site 0, a

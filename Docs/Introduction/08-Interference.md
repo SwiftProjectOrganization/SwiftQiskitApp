@@ -110,7 +110,7 @@ H;Z;H probabilities: [0.0, 0.9999999999999996]
 ```
 
 A deterministic bit flip, recovered entirely from a phase that a moment ago was unmeasurable —
-the same construction `01Qubits`'s `circuit2` used, and the mechanism behind every two-slit
+the same construction `03Qubits`'s `circuit2` used, and the mechanism behind every two-slit
 interference pattern: split, let one path pick up a phase, recombine, and the phase becomes a
 probability.
 

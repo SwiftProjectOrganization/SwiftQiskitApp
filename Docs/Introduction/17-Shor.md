@@ -113,7 +113,7 @@ this orbit directly.
 ## 17.4 Two routes to the inverse QFT: gate ladder vs. entrywise matrix
 
 Chapter 16 built the inverse QFT as a gate ladder — Hadamards and controlled-phase gates, then a
-swap network. `12ShorExample` builds the same operator a second way: the *matrix* is just the
+swap network. `17Shor` builds the same operator a second way: the *matrix* is just the
 inverse discrete Fourier transform, `QFT†[y, c] = e^(−2πi·y·c/8)/√8`, written entrywise with
 `cos`/`sin` and fed to `apply(_:)`. Working with the whole matrix sidesteps the ladder's
 bit-reversal bookkeeping entirely — qubit 0 is the MSB and `Matrix.tensor` puts its left factor in
@@ -127,7 +127,7 @@ gate-level inverse QFT vs. entrywise matrix, all 8 basis states: max amplitude d
 ```
 
 Fifteen digits of agreement — Chapter 16's ladder and this chapter's matrix implement the same
-unitary. The matrix route is what `12ShorExample` uses throughout, embedded across the full
+unitary. The matrix route is what `17Shor` uses throughout, embedded across the full
 register as `qft3Dagger ⊗ Matrix.identity(size: 16)`.
 
 ## 17.5 The full circuit for a = 7, stage by stage
@@ -251,7 +251,7 @@ random, so a retry or two settles it: 15 = 3 × 5, in polynomial time.
 
 ## 17.9 Compiling further: as many qubits as the base actually needs
 
-`12ShorExample` fixes 3 counting qubits for every base, for uniformity across §17.8's sweep. But
+`17Shor` fixes 3 counting qubits for every base, for uniformity across §17.8's sweep. But
 Chapter 16 §16.8 already showed that precision scales with the number of counting qubits — n
 counting qubits resolve phases with denominator dividing 2^n exactly, and no more precision than
 that is ever needed. Every order mod 15 is 2 or 4, so:
@@ -289,7 +289,7 @@ low bit was 1, i.e. a carry) — controlled, that carry is exactly a Toffoli. In
 
 ◐ Every step starts from **Clear**. Qubit 0 is the leftmost bit in every panel row, as throughout
 this book — but note that these compiled circuits use a *different*, smaller register layout than
-`12ShorExample`'s fixed 7-qubit one, per §17.9. Unlike Chapter 16, nothing here needs the P tile's
+`17Shor`'s fixed 7-qubit one, per §17.9. Unlike Chapter 16, nothing here needs the P tile's
 slider — one or two counting qubits is exact for every order this chapter meets, so every gate
 lands on a palette tile exactly.
 
@@ -769,7 +769,7 @@ a=7 1000 shots: [(state: "0000", count: 61), (state: "0001", count: 56), (state:
 
 `b11`'s and `b14`'s panels confirm step 1 and step 2's tap sequences exactly, and both time under
 half a second for 1000 shots — the compiled circuits are small enough (dimension 32) that the app's
-actual **Measure** button is fast, unlike `12ShorExample`'s 128-dimensional circuit. `b7`'s panel
+actual **Measure** button is fast, unlike `17Shor`'s 128-dimensional circuit. `b7`'s panel
 lists all sixteen `q0 q1 q2 q3` combinations rather than grouping by the counting bits alone —
 exactly how `ResultsView` really behaves, since it has no notion of "marginal" — but summing the
 `0.062` probabilities in groups of four (fixing `q0 q1` and varying `q2 q3`) reproduces the

@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| Playground page | — (drawn from `05Gates`/`06Superposition` and `Quantum/SimulationResult.swift`) |
+| Playground page | [`09Measurement`](../../../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/09Measurement.xcplaygroundpage) (also drawn from `07Gates`/`10Superposition` and `Quantum/SimulationResult.swift`) |
 | In the app | ● — the Measurement panel's **Shots** stepper, **Measure** button, and histogram are exactly this |
 | Library APIs | `QuantumCircuit.run()`, `.runAndMeasure()`, `.measure(shots:)`, `StateVector.measure()`, `SimulationResult`, `.sortedCounts` |
 | Prerequisites | Chapters 3, 7 |

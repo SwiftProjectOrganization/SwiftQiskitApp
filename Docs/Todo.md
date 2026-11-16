@@ -6,7 +6,7 @@ Project status and roadmap for SwiftQiskitApp.
 
 **SwiftQiskitApp is v1: a working circuit builder, front-end only.**
 
-- All quantum simulation is delegated to the `SwiftQiskit` package (currently 0.9.0,
+- All quantum simulation is delegated to the `SwiftQiskit` package (requires 0.9.0 or later,
   experimental — its API may change under this app).
 - The UI supports placing/removing gates, live state-vector display, and shot-based
   measurement with a histogram.
@@ -15,7 +15,7 @@ Project status and roadmap for SwiftQiskitApp.
 ## What Works (v1)
 
 - Gate palette: `H X Y Z` (Pauli/Hadamard), `S S† T T†` (phase), `P RX RY RZ` (rotations,
-  each with a θ parameter), `CX`/`CY`/`CZ`/`SWAP` (two-qubit), `RZZ RXX RYY` (two-qubit rotations, each
+  each with a θ parameter), `CX`/`CY`/`CZ`/`SWAP` (two-qubit), a `Toffoli` tile (three taps, stored as a two-control CX), `RZZ RXX RYY` (two-qubit rotations, each
   with a θ parameter).
 - Tap-to-arm-then-tap-cell placement; CX/CY/CZ's two-tap control→target flow, SWAP's and RZZ/RXX/RYY's
   two-tap flow on an unordered qubit pair.
@@ -36,7 +36,7 @@ Project status and roadmap for SwiftQiskitApp.
   every qubit's final-state sphere, a column-by-column row for one chosen qubit, a
   tensor-network diagram of the circuit (`TensorNetworkView` from the package), or a rotatable
   3D view (`Bloch3DSphereView`, orbited by dragging).
-- 41 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
+- 43 unit tests (`CircuitBuilderTests`, `CircuitLayoutTests`, `BlochVectorTests`,
   `Bloch3DProjectionTests`) covering the model, geometry, and Bloch-vector math.
 
 ## Roadmap
@@ -73,7 +73,7 @@ Project status and roadmap for SwiftQiskitApp.
 - [ ] Adopt or remove this app's own `BlochSphereView`/`Bloch3DSphereView`, now that
       `SwiftQiskitViews` `0.8.1` ships public `BlochSphereView` and `Bloch3DView` of the same names.
 - [ ] iPad-specific layout polish (currently shares the macOS 3-pane layout as-is).
-- [ ] iPhone Duo-specific layout polish  (currently display width dependent)..
+- [ ] iPhone Duo-specific layout polish (currently display width dependent).
 - [ ] UI tests via XCUIAutomation (current tests only cover the model/geometry, not views).
 - [ ] VoiceOver and Dynamic Type accessibility audit.
 - [x] Performance check at high qubit counts — since package `0.5.0`, gates apply in place to

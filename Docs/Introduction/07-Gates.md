@@ -96,7 +96,7 @@ magnitude, and `|−1|² = |+1|²`.
 The payoff comes from a second `H`: `H; Z; H` on `|0⟩` gives `[0.0, 1.0]` — a deterministic bit
 flip, recovered entirely from a phase that was, a moment ago, unmeasurable. This
 interference — the same construction Chapter 3 used to reveal a hidden sign, and the subject
-Chapter 8 is entirely built around — is `05Gates`'s central lesson, and the app makes it visible
+Chapter 8 is entirely built around — is `07Gates`'s central lesson, and the app makes it visible
 in two independent places at once: the minus sign printed in the State Vector panel's amplitude
 column, and the Display arrow swinging from `+x` to `−x` while the panel's `p=` values don't move
 at all.
@@ -211,7 +211,7 @@ measurement on its own can see.
 ## Build it in the app
 
 ● Every step below starts from **Clear** with **Qubits: 1** unless noted, so each section really
-is one gate at a time, mirroring `05Gates`'s own structure.
+is one gate at a time, mirroring `07Gates`'s own structure.
 
 1. **X** — arm **X** (Pauli / Hadamard section), tap `q0`'s column-0 cell. State Vector panel:
    `|1⟩: 1.0  (p=1.000)` — the `|0⟩` row disappears entirely once its probability is 0. Tap

@@ -92,6 +92,8 @@ SwiftQiskitApp/
 │   └── Bloch3DProjectionTests.swift
 ├── Docs/
 │   ├── Introduction/
+│   ├── Slides/
+│   ├── Q&A/
 │   ├── Tutorial.md
 │   ├── Help.md
 │   ├── Todo.md
@@ -105,7 +107,7 @@ SwiftQiskitApp/
 
 ## Testing
 
-Run via ⌘U or the `RunAllTests` MCP tool under the `SwiftQiskitApp` scheme — 41 tests total,
+Run via ⌘U or the `RunAllTests` MCP tool under the `SwiftQiskitApp` scheme — 43 tests total,
 using the Swift `Testing` framework (not XCTest).
 
 ---
@@ -118,6 +120,11 @@ using the Swift `Testing` framework (not XCTest).
   QFT, Shor, teleportation, error correction, the CHSH inequality, ...) and on to noise,
   tomography, and VQE.
 - [Docs/Introduction/](Docs/Introduction) — contains Chapter 0 and the 27 numbered chapters.
+- [Docs/Slides/](Docs/Slides) — Keynote slide decks that accompany the introduction chapters,
+  numbered to match them (currently chapters 0 to 6; chapter 1 has no deck, and the
+  `01-` deck belongs to Chapter 0).
+- [Docs/Q&A/](<Docs/Q&A>) — more advanced background material, written as answers to questions
+  that come up in the chapters (for example, Clifford and non-Clifford gates).
 - [Docs/Tutorial.md](Docs/Tutorial.md) — how to use the app, step by step.
 - [Docs/Help.md](Docs/Help.md) — implementation reference, extension guide, troubleshooting.
 - [Docs/Todo.md](Docs/Todo.md) — status and roadmap.

@@ -52,16 +52,16 @@ entanglement and a handful of famous algorithms (Deutsch, Grover, Shor, teleport
 
 | # | Title | App | Status | Source |
 |---|---|---|---|---|
-| 0 | [What Quantum Computing Is, and Why Simulate It](Docs/Introduction/00-Introduction.md) | — | v1 | — |
-| 1 | [Setup and Orientation](Docs/Introduction/01-Setup.md) | ● | v1 | — |
-| 2 | [Complex Numbers and Matrices in Swift](Docs/Introduction/02-ComplexAndMatrices.md) | ○ | draft | `Math/Complex.swift`, `Math/Matrix.swift`, `Quantum/Dirac.swift` |
+| 0 | [What Quantum Computing Is, and Why Simulate It](Docs/Introduction/00-Introduction.md) | — | draft | — |
+| 1 | [Setup and Orientation](Docs/Introduction/01-Setup.md) | ● | draft | — |
+| 2 | [Complex Numbers and Matrices in Swift](Docs/Introduction/02-ComplexAndMatrices.md) | ○ | draft | [`01Matrices`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/01Matrices.xcplaygroundpage), [`02ComplexAndMatrices`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/02ComplexAndMatrices.xcplaygroundpage), `Math/Complex.swift`, `Math/Matrix.swift`, `Quantum/Dirac.swift` |
 | 3 | [Qubits: Amplitudes and Probabilities](Docs/Introduction/03-Qubits.md) | ● | draft | [`03Qubits`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/03Qubits.xcplaygroundpage) |
 | 4 | [Dirac Notation and Expectation Values](Docs/Introduction/04-DiracNotation.md) | ◐ | draft | [`03Qubits`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/03Qubits.xcplaygroundpage), [`04Dirac`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/04Dirac.xcplaygroundpage) |
 | 5 | [The Bloch Sphere in 2D, and Its Projections](Docs/Introduction/05-BlochSphere2D.md) | ◐ | draft | [`06BlochSpheres`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/06BlochSpheres.xcplaygroundpage) |
 | 6 | [The Bloch Sphere in 3D: θ and φ](Docs/Introduction/06-BlochSphere3D.md) | ● | draft | [`06BlochSpheres`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/06BlochSpheres.xcplaygroundpage) |
 | 7 | [Gates](Docs/Introduction/07-Gates.md) | ◐ | draft | [`07Gates`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/07Gates.xcplaygroundpage) |
 | 8 | [Phase, Interference, and Why Z Hides](Docs/Introduction/08-Interference.md) | ● | draft | [`07Gates`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/07Gates.xcplaygroundpage) §4, [`03Qubits`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/03Qubits.xcplaygroundpage) |
-| 9 | [Measurement, Shots and Statistics](Docs/Introduction/09-Measurement.md) | ● | draft | `Quantum/SimulationResult.swift` |
+| 9 | [Measurement, Shots and Statistics](Docs/Introduction/09-Measurement.md) | ● | draft | [`09Measurement`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/09Measurement.xcplaygroundpage), `Quantum/SimulationResult.swift` |
 | 10 | [Superposition Across a Register](Docs/Introduction/10-Superposition.md) | ● | draft | [`10Superposition`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/10Superposition.xcplaygroundpage) |
 | 11 | [Tensor Products and Composite Systems](Docs/Introduction/11-TensorProducts.md) | ◐ | draft | [`11TensorProducts`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/11TensorProducts.xcplaygroundpage) |
 | 12 | [Entanglement: Bell and GHZ](Docs/Introduction/12-Entanglement.md) | ● | draft | [`12Entanglement`](../SwiftQiskitPlaygrounds/SwiftQiskitPlaygrounds.playground/Pages/12Entanglement.xcplaygroundpage) |
@@ -99,5 +99,9 @@ per-chapter workflow).
 
 - [README.md](README.md), [Docs/Tutorial.md](Docs/Tutorial.md), [Docs/Help.md](Docs/Help.md) —
   the app itself, not the physics.
+- [Docs/Slides/](Docs/Slides) — Keynote decks that accompany the first chapters (currently
+  chapters 0 to 6).
+- [Docs/Q&A/](<Docs/Q&A>) — more advanced background material that goes beyond the chapters, for
+  example [Clifford and non-Clifford gates](<Docs/Q&A/CliffordGates.md>).
 - [Docs/Introduction/AUTHORING.md](Docs/Introduction/AUTHORING.md) — chapter template, style
   rules, and verification workflow for anyone (human or Claude) writing the next chapter.

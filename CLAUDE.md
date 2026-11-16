@@ -186,6 +186,12 @@ no sales-pitch framing. Applies to prose written for this project: `INTRODUCTION
   `stub`/`draft`/`done` status. Working on a chapter
   starts by reading `Docs/Introduction/AUTHORING.md` (template, style rules, verification
   workflow) before touching the chapter file itself.
+- `Docs/Slides/` — Keynote (`.key`) decks accompanying the introduction chapters; file names
+  carry the chapter number, except that `01-Introduction to Quantum Computing.key` belongs to
+  Chapter 0 (Chapter 1 has no deck); `05-06-BlochSphere.key` covers Chapters 5 and 6. Binary
+  files — edit in Keynote, not as text.
+- `Docs/Q&A/` — more advanced background notes beyond the chapters' scope, one topic per
+  Markdown file (currently `CliffordGates.md`). Same sober style as the chapters.
 - `Docs/Tutorial.md` — how to use the app (build/measure a Bell state, GHZ state, etc.).
 - `Docs/Help.md` — implementation reference, extension guide, troubleshooting.
 - `Docs/Todo.md` — status and roadmap.

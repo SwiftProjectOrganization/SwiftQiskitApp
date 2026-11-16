@@ -58,7 +58,7 @@ uniform distribution, produced with four taps.
 ## 10.3 Reading multi-qubit labels
 
 `StateVector`'s basis index `i` maps to a bit string the same way every chapter since Chapter 4
-has assumed: **qubit 0 is the most-significant, leftmost bit**. `06Superposition`'s own
+has assumed: **qubit 0 is the most-significant, leftmost bit**. `10Superposition`'s own
 `binaryLabel(_:qubits:)` helper (and `ResultsView`'s matching `binaryLabel`, backed by
 `String.leftPadding`) zero-pads that bit string to a fixed width so every label lines up.
 

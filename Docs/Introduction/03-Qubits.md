@@ -119,7 +119,7 @@ does change a probability.
 
 ## 3.4 Two worked circuits
 
-`01Qubits`'s `circuit1` and `circuit2` are both single-qubit circuits that start at `|0⟩` and
+`03Qubits`'s `circuit1` and `circuit2` are both single-qubit circuits that start at `|0⟩` and
 diverge after the first `H`. Stage by stage, printing `.amplitudes` and `.probabilities` after
 each gate:
 
